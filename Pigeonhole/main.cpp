@@ -11,7 +11,7 @@
 using namespace std;
 
 RefGenome *refGenome;
-HashIndexing *hashIndexing;
+map<int, vector<int>> minimizers;
 ReadList *readList;
 
 int main(int argc, char *argv[]) {
@@ -25,13 +25,12 @@ int main(int argc, char *argv[]) {
     filepath.erase(remove(filepath.begin(), filepath.end(), '\''), filepath.end());
 
     refGenome = readGenome(filepath);
-    int readLength = 120;
-    int e = 7;
-
-    int k = ceil((float)readLength / (e + 1));
+    int m = 120;
+    int q = 8;
+    int k = 2;
 
     string fileMinimizers = "min_255.txt";
-    map<int, vector<int>> minimizers = getMinimizersFromFile(fileMinimizers);
+    minimizers = getMinimizersFromFile(fileMinimizers);
 
     cout << "Getting minimizers done!" << endl;
 
@@ -75,8 +74,9 @@ int main(int argc, char *argv[]) {
     //string readsFilename = "testing_reads.fa";
     readList = readReads(readsFilename);
 
+    int j = m / q;
     long start = clock();
-    filterReadsWithMinimizers(readsFilename, readList, minimizers, refGenome, e, k);
+    filterReadsWithMinimizers(readsFilename, readList, minimizers, refGenome, j, q);
     //parallelizeFilterReads(readsFilename, readList, hashIndexing, refGenome, e, k);
     long end = clock();
     cout << "Pigeonhole process done!" << endl;

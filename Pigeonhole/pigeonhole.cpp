@@ -74,10 +74,12 @@ bool isReadAccepted(string read, RefGenome *refGenome, HashIndexing *hashIndexin
     return false;
 }
 
-bool isReadAcceptedWithMinimizers(string read, RefGenome *refGenome, map<int, vector<int>> minimizers, int e, int segmentLength) {
-    vector<int> locationToGenome;
+// e here is the j hehe
+// segmentLength = m
+AlignedReads *isReadAcceptedWithMinimizers(string read, RefGenome *refGenome, map<int, vector<int>> minimizers, int e, int segmentLength) {
+    AlignedReads *reads = NULL;
 
-    for (int i = 0; i < e + 1; i++) {
+    for (int i = 0; i < e; i++) {
         int start = i * segmentLength;
         int end = min(((i + 1) * segmentLength), (int) read.length());
 
@@ -88,17 +90,23 @@ bool isReadAcceptedWithMinimizers(string read, RefGenome *refGenome, map<int, ve
         }
 
         /* USE MINIMIZERRRRR!!! */
-        int rank = generateMinimizerHash(read.substr(start, end), 8, 8);
+        //int rank = generateMinimizerHash(read.substr(start, end), 8, 8);
+        int rank = extractRanking(read.substr(start, segmentLength));
 
         vector<int> location = minimizers[rank];
 
         if (location.size() > 0) {
             for (int j = 0; j < location.size(); j++) {
-                char *temp = (char *)read.substr(start, end).c_str();
+                char *temp = (char *)read.substr(start, segmentLength).c_str();
 
                 if (strcmp(temp, substring(refGenome->genome, location[j], segmentLength)) == 0) {
+                    reads = (AlignedReads *)malloc(sizeof(AlignedReads));
+
+                    reads->read = (char *)read.c_str();
+                    reads->readFromGenome = substring(refGenome->genome, location[j]-start, 120);
                     //locationToGenome.push_back(location[j]);
-                    return true;
+                    cout << "[" + read + "] ";
+                    cout << "[" + string(substring(refGenome->genome, location[j]-start, 120)) + "] " << endl;
                 }
             }
         } else {
@@ -107,7 +115,7 @@ bool isReadAcceptedWithMinimizers(string read, RefGenome *refGenome, map<int, ve
     }
 
     //return locationToGenome;
-    return false;
+    return reads;
 }
 
 void filterReadsWithMinimizers(string filename, ReadList *readList, map<int, vector<int>> minimizers, RefGenome *refGenome, int e, int segmentLength) {
@@ -117,7 +125,9 @@ void filterReadsWithMinimizers(string filename, ReadList *readList, map<int, vec
         string forwardRead(readList->reads[i]);
 
         //vector<int> toAcceptForward = isReadAcceptedWithMinimizers(forwardRead, refGenome, minimizers, e, segmentLength);
-        bool toAcceptForward = isReadAcceptedWithMinimizers(forwardRead, refGenome, minimizers, e, segmentLength);
+        //bool toAcceptForward = isReadAcceptedWithMinimizers(forwardRead, refGenome, minimizers, e, segmentLength);
+
+        AlignedReads *toAcceptForward = toAcceptForward = isReadAcceptedWithMinimizers(forwardRead, refGenome, minimizers, e, segmentLength);
 
 //        if (toAcceptForward.size() > 0) {
 //            stringstream result;
@@ -138,13 +148,17 @@ void filterReadsWithMinimizers(string filename, ReadList *readList, map<int, vec
 //        }
 
         if (toAcceptForward) {
-            filterReads << forwardRead + " (Forward)" << endl;
+            //filterReads << forwardRead + " (Forward)" << endl;
+            filterReads << string(toAcceptForward->read) + " " + string(toAcceptForward->readFromGenome) << endl;
+            free(toAcceptForward);
         } else {
             string reverseRead = reverseComplement(forwardRead);
-            bool toAcceptBackward = isReadAcceptedWithMinimizers(reverseRead, refGenome, minimizers, e, segmentLength);
+            AlignedReads *toAcceptBackward = isReadAcceptedWithMinimizers(reverseRead, refGenome, minimizers, e, segmentLength);
 
             if (toAcceptBackward) {
-                filterReads << reverseRead + " (Reverse)" << endl;
+                //filterReads << reverseRead + " (Reverse)" << endl;
+                filterReads << string(toAcceptBackward->read) + " " + string(toAcceptBackward->readFromGenome) << endl;
+                free(toAcceptBackward);
             }
         }
     }

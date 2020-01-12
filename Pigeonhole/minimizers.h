@@ -16,5 +16,6 @@
 #include <bits/stdc++.h>
 
 int generateMinimizerHash(std::string windowSeed, int q, int w);
+int extractRanking(std::string kMer);
 
 #endif //MP_PIGEONHOLE_MINIMIZERS_H

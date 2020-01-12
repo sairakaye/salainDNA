@@ -16,9 +16,11 @@
 #include "indexing.h"
 
 typedef struct {
-    char *sequence;
-    int size;
-} Segment;
+    char *read;
+    char *readFromGenome;
+    //std::string read;
+    //std::string readFromGenome;
+} AlignedReads;
 
 void filterReadsWithMinimizers(std::string filename, ReadList *readList, std::map<int, std::vector<int>> minimizers, RefGenome *refGenome, int e, int segmentLength);
 void filterReads(std::string filename, ReadList *readList, HashIndexing *hashIndexing, RefGenome *refGenome, int e, int segmentLength);
