@@ -5,17 +5,8 @@
 #ifndef MP_PIGEONHOLE_MINIMIZERS_H
 #define MP_PIGEONHOLE_MINIMIZERS_H
 
-#include <iostream>
-#include <fstream>
-#include <map>
-#include <iterator>
-#include <string>
-#include <utility>
-#include <algorithm>
-#include <vector>
-#include <bits/stdc++.h>
+#include "common.h"
 
-int generateMinimizerHash(std::string windowSeed, int q, int w);
-int extractRanking(std::string kMer);
+int extractRanking(string kmer);
 
 #endif //MP_PIGEONHOLE_MINIMIZERS_H

@@ -5,24 +5,15 @@
 #ifndef MP_PIGEONHOLE_PIGEONHOLE_H
 #define MP_PIGEONHOLE_PIGEONHOLE_H
 
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <cmath>
-#include <vector>
-#include <algorithm>
-#include <sstream>
-
-#include "indexing.h"
+#include "common.h"
 
 typedef struct {
-    char *read;
-    char *readFromGenome;
-    //std::string read;
-    //std::string readFromGenome;
+   string read;
+   string readFromGenome;
 } AlignedReads;
 
-void filterReadsWithMinimizers(std::string filename, ReadList *readList, std::map<int, std::vector<int>> minimizers, RefGenome *refGenome, int e, int segmentLength);
-void filterReads(std::string filename, ReadList *readList, HashIndexing *hashIndexing, RefGenome *refGenome, int e, int segmentLength);
-void parallelizeFilterReads(std::string filename, ReadList *readList, HashIndexing *hashIndexing, RefGenome *refGenome, int e, int segmentLength) ;
+
+void filterReads(string filename, int q, int m, int j, int k);
+void parallelizeFilterReads(string filename, int q, int m, int j, int k);
+
 #endif //MP_PIGEONHOLE_PIGEONHOLE_H

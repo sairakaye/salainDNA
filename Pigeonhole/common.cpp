@@ -2,16 +2,7 @@
 // Created by saimanalili on 28/12/2019.
 //
 
-#include <iostream>
-#include <cmath>
-#include <cstring>
-#include <fstream>
-#include <vector>
-#include <sstream>
-
-#include "file_manager.h"
-
-using namespace std;
+#include "common.h"
 
 string getFileName(string filename) {
     string seperator;
@@ -33,111 +24,51 @@ string getFileName(string filename) {
     return filename;
 }
 
-RefGenome *readGenome(string filename) {
-    RefGenome *refGenome = (RefGenome *)malloc(sizeof(RefGenome));
+string readGenome(string filename) {
+    string genome;
 
     ifstream fileGenome (filename);
     string line;
-
-    int genomeIndex = 0;
-    int size = 0;
-
-    refGenome->genome = (char *)malloc(1 * sizeof(char));
 
     if (fileGenome.is_open()) {
         while (getline (fileGenome,line)) {
             if (line.rfind(">", 0) == 0)
                 continue;
 
-            size += line.length();
-
-            //cout << size << endl;
-            //cout << line << endl;
-
-            refGenome->genome = (char *)realloc(refGenome->genome, sizeof(char) * size);
-
-            if (refGenome->genome == NULL) {
-                cout << "Reallocation failed." << endl;
-                exit(EXIT_FAILURE);
-            }
-
-            if (!line.empty() && (line[line.length()-1] == '\n' || line[line.length()-1] == '\r')) {
-                line.erase(line.length()-1);
-            }
-
-            strcpy(refGenome->genome + genomeIndex, &line[0]);
-            genomeIndex = size;
+            genome.append(line);
         }
-
-        refGenome->genome = (char *)realloc(refGenome->genome, sizeof(char) * size + 1);
-
-        if (refGenome->genome == NULL) {
-            cout << "Reallocation failed." << endl;
-            exit(EXIT_FAILURE);
-        } else {
-            *(refGenome->genome + size) = '\0';
-        }
-
-        refGenome->length = size;
 
         fileGenome.close();
     } else {
         cout << "File does not exist." << endl;
     }
 
-    return refGenome;
+    return genome;
 }
 
-ReadList *readReads(string filename) {
-    ReadList *readList = (ReadList *)malloc(sizeof(ReadList));
-
-    char **reads = (char **)malloc(sizeof(char *));
+vector<string> readReads(string filename) {
+    vector<string> readList;
 
     ifstream fileRead (filename);
     string line;
 
-    int num = 1;
-
     if (fileRead.is_open()) {
-        int size = 0;
-
         while (getline (fileRead,line)) {
             if (line.rfind(">", 0) == 0)
                 continue;
-
-            reads = (char **)realloc(reads, num * sizeof(char *));
-
-            if (reads == NULL) {
-                cout << "Reallocation failed." << endl;
-                exit(EXIT_FAILURE);
-            }
-
-            size = line.length();
-
-            *(reads + (num - 1)) = (char *)malloc((size + 1) * sizeof(char));
-
-            if (*(reads + (num - 1)) == NULL) {
-                cout << "Memory allocation failed." << endl;
-                exit(EXIT_FAILURE);
-            }
 
             if (!line.empty() && (line[line.length()-1] == '\n' || line[line.length()-1] == '\r')) {
                 line.erase(line.length()-1);
             }
 
-            strcpy(*(reads + (num - 1)), &line[0]);
-
-            num++;
+            readList.push_back(line);
         }
 
         fileRead.close();
     } else {
         cout << "File does not exist." << endl;
-        return NULL;
+        exit(EXIT_FAILURE);
     }
-
-    readList->reads = reads;
-    readList->size = num - 1;
 
     return readList;
 }
