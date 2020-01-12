@@ -1,2 +1,5 @@
 .idea
+genome
+minimizers
+reads
 cmake-build-debug/*
