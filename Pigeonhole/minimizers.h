@@ -7,7 +7,7 @@
 
 #include "common.h"
 
-int extractRanking(string kmer);
+unsigned int extractRanking(string kmer);
 //multimap<vector<int>, int> generateMinimizers(string stringDNA, int q, int w, int m);
 
 #endif //MP_PIGEONHOLE_MINIMIZERS_H

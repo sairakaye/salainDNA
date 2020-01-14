@@ -8,8 +8,9 @@
 #include "common.h"
 
 typedef struct {
-   string read;
-   string readFromGenome;
+    int startPos;
+    string read;
+    string readFromGenome;
 } AlignedReads;
 
 

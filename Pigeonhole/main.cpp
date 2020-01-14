@@ -8,7 +8,7 @@ map<int, vector<int>> minimizers;
 int main(int argc, char *argv[]) {
     cout << "Reading the reference genome..." << endl;
 
-    string filepath = "sim_255.fa";
+    string filepath = "/home/saimanalili/multicore-rm/Pigeonhole/genome/ndna_1m.fa";
 
     filepath.erase(remove(filepath.begin(), filepath.end(), '\"'), filepath.end());
     filepath.erase(remove(filepath.begin(), filepath.end(), '\''), filepath.end());
@@ -24,18 +24,18 @@ int main(int argc, char *argv[]) {
      * j - number of partitions in the read.
      */
 
-    int m = 120;
+    int m = 100;
     int q = 8;
     int k = 2;
     int j = m / q;
 
     cout << "Processing minimizers..." << endl;
-    string fileMinimizers = "min_255.txt";
+    string fileMinimizers = "/home/saimanalili/multicore-rm/Pigeonhole/minimizers/min_ndna_1m.txt";
     minimizers = getMinimizersFromFile(fileMinimizers);
     cout << "Done!" << endl;
 
     cout << "Reading the reads..." << endl;
-    string readsFilename = "sim_255_120bp_10r_perf.fa";
+    string readsFilename = "/home/saimanalili/multicore-rm/Pigeonhole/reads/ndna_1m_100bp_1000r_noerr.fa";
     reads = readReads(readsFilename);
     cout << "Done!" << endl;
 

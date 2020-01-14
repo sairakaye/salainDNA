@@ -6,9 +6,9 @@
 
 vector<pair<string, int> > alphabetRef = { {"A", 0}, {"C",1}, {"G",2}, {"T", 3} };
 
-int extractRanking(string kmer) {
+unsigned int extractRanking(string kmer) {
     string binary;
-    int rankValue;
+    unsigned int rankValue;
 
     for (int i = 0; i<kmer.length(); i++){
         for (int j = 0; j< alphabetRef.size(); j++){
@@ -19,7 +19,7 @@ int extractRanking(string kmer) {
         }
     }
 
-    int decimal = stoi (binary, nullptr, 2);
+    unsigned int decimal = stoi (binary, nullptr, 2);
     return decimal;
 }
 
