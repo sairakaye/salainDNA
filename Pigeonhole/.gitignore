@@ -3,4 +3,5 @@ genome
 minimizers
 reads
 filtered
+temp
 cmake-build-debug/*
