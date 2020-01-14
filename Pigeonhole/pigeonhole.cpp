@@ -48,7 +48,7 @@ vector<AlignedReads *> processingRead(string read, int q, int m, int j, int k) {
 
         if (location.size() > 0) {
             for (int i2 = 0; i2 < location.size(); i2++) {
-                if (seed.compare(refGenome.substr(location[i2], q)) == 0 && location[i2] >= startPosition) {
+                if (seed.compare(refGenome.substr(location[i2], q)) == 0 && (location[i2] - startPosition) >= 0) {
                     AlignedReads *alignedRead = new AlignedReads;
 
                     alignedRead->startPos = location[i2] - startPosition;
