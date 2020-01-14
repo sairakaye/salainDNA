@@ -154,30 +154,55 @@ void filterReads(string filename, int q, int m, int j, int k) {
     }
 }
 
-//void parallelizeFilterReads(string filename, int q, int m, int j, int k) {
-//    ofstream filterReads(filename + ".fpg");
-//
-//    #pragma omp parallel for
-//    for (int i = 0; i < reads.size(); i++) {
-//        string forwardRead(reads[i]);
-//
+void parallelizeFilterReads(string filename, int q, int m, int j, int k) {
+    ofstream filterReads(filename + ".fpg");
+
+    #pragma omp parallel for
+    for (int i = 0; i < reads.size(); i++) {
+        string forwardRead(reads[i]);
+
+        vector<AlignedReads *> forward = processingRead(forwardRead, q, m, j, k);
+
+        if (forward.size() > 0) {
+            #pragma omp critical
+            for (AlignedReads *alignedRead : forward) {
+                filterReads << "[" + to_string(alignedRead->startPos) + "]" + alignedRead->read + "(Forward)" << endl;
+                filterReads << to_string(alignedRead->startPos) + " " + alignedRead->read + " " + alignedRead->readFromGenome << endl;
+                delete alignedRead;
+            }
+        } else {
+            string reverseRead = reverseComplement(forwardRead);
+            vector<AlignedReads *> reverse = processingRead(reverseRead, q, m, j, k);
+
+            if (reverse.size() > 0) {
+                #pragma omp critical
+                for (AlignedReads *alignedRead : reverse) {
+                    filterReads << "[" + to_string(alignedRead->startPos) + "]" + alignedRead->read + "(Reverse)" << endl;
+                    filterReads << to_string(alignedRead->startPos) + " " + alignedRead->read + " " + alignedRead->readFromGenome << endl;
+                    delete alignedRead;
+                }
+            } else {
+                cout << "NOT INCLUDED! " + to_string(i) + " " + reads[i] << endl;
+            }
+        }
+
 //        AlignedReads *forward = processingRead(forwardRead, q, m, j, k);
 //
 //        if (forward != NULL) {
-//            #pragma omp critical
-//            filterReads << "[" + to_string(forward->startPos) + "]" + forward->read + "(Forward)" << endl;
-//            filterReads << forward->read + " " + forward->readFromGenome << endl;
+//            //filterReads << "[" + to_string(forward->startPos) + "]" + forward->read + "(Forward)" << endl;
+//            filterReads << to_string(forward->startPos) + " " + forward->read + " " + forward->readFromGenome << endl;
 //            delete forward;
 //        } else {
 //            string reverseRead = reverseComplement(forwardRead);
 //            AlignedReads *reverse = processingRead(reverseRead, q, m, j, k);
 //
 //            if (reverse != NULL) {
-//                #pragma omp critical
-//                filterReads << "[" + to_string(reverse->startPos) + "]" + reverse->read + "(Reverse)" << endl;
-//                filterReads << reverse->read + " " + reverse->readFromGenome << endl;
+//                //filterReads << "[" + to_string(reverse->startPos) + "]" + reverse->read + "(Reverse)" << endl;
+//                filterReads << to_string(reverse->startPos) + " " + reverse->read + " " + reverse->readFromGenome << endl;
 //                delete reverse;
+//            } else {
+//                cout << "NOT INCLUDED! " + to_string(i) + " " + reads[i] << endl;
 //            }
 //        }
-//    }
-//}
+    }
+}
