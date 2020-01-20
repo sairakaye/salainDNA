@@ -7,14 +7,15 @@
 
 #include "common.h"
 
-typedef struct {
-    int startPos;
-    string read;
-    string readFromGenome;
-} AlignedReads;
+//typedef struct {
+//    int startPos;
+//    string read;
+//    string readFromGenome;
+//} AlignedReads;
 
 
 void filterReads(string filename, int q, int m, int j, int k);
 void parallelizeFilterReads(string filename, int q, int m, int j, int k);
+void selectingSeeds(string filename, int windowLength, int q);
 
 #endif //MP_PIGEONHOLE_PIGEONHOLE_H

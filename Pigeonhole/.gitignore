@@ -1,7 +1,8 @@
 .idea
 genome
 minimizers
-reads
+seeds
 filtered
 temp
+reads
 cmake-build-debug/*

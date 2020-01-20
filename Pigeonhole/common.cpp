@@ -4,6 +4,105 @@
 
 #include "common.h"
 
+void getDirectAddressing(string filename, vector<string> qgrams, vector<int> dirTable, vector<int> posTable) {
+    ifstream directAddrFile (filename);
+    string line;
+
+    int i = 0;
+
+    if (directAddrFile.is_open()) {
+        while (getline (directAddrFile,line)) {
+            if (!line.empty() && (line[line.length()-1] == '\n' || line[line.length()-1] == '\r')) {
+                line.erase(line.length()-1);
+            }
+
+            stringstream ss(line);
+            string tok;
+
+            if (i == 0) {
+                while(getline(ss, tok, ' ')) {
+                    if (tok.length() > 0) {
+                        dirTable.push_back(stol(tok));
+                    }
+                }
+            } else if (i == 1) {
+                while(getline(ss, tok, ' ')) {
+                    if (tok.length() > 0) {
+                        posTable.push_back(stol(tok));
+                    }
+                }
+            }
+
+            i++;
+        }
+
+        directAddrFile.close();
+    } else {
+        cout << "File does not exist." << endl;
+    }
+}
+
+
+void getOpenAddressing(string filename, vector<int> codeTable, vector<int> dirTable, vector<int> posTable) {
+    ifstream openAddrFile (filename);
+    string line;
+
+    int i = 0;
+
+    if (openAddrFile.is_open()) {
+        while (getline (openAddrFile,line)) {
+            if (!line.empty() && (line[line.length() - 1] == '\n' || line[line.length() - 1] == '\r')) {
+                line.erase(line.length() - 1);
+            }
+
+            stringstream ss(line);
+            string tok;
+
+            if (i == 0) {
+                while(getline(ss, tok, ' ')) {
+                    if (tok.length() > 0) {
+                        codeTable.push_back(stol(tok));
+                    }
+                }
+            } else if (i == 1) {
+                while(getline(ss, tok, ' ')) {
+                    if (tok.length() > 0) {
+                        dirTable.push_back(stol(tok));
+                    }
+                }
+            } else if (i == 2) {
+                while(getline(ss, tok, ' ')) {
+                    if (tok.length() > 0) {
+                        posTable.push_back(stol(tok));
+                    }
+                }
+            }
+
+            i++;
+        }
+
+        openAddrFile.close();
+    } else {
+        cout << "File does not exist." << endl;
+    }
+}
+
+void generateQGrams(string prefix, vector<string>& qGrams, int k)
+{
+    char charactersDNA[] = {'A', 'C', 'G', 'T'};
+
+    if (k == 0) {
+        qGrams.push_back(prefix);
+        return;
+    }
+
+    for (int i = 0; i < 4; i++) {
+        string newPrefix;
+        newPrefix = prefix + charactersDNA[i];
+        generateQGrams(newPrefix, qGrams, k - 1);
+    }
+}
+
 string getFileName(string filename) {
     string seperator;
 
@@ -73,32 +172,32 @@ vector<string> readReads(string filename) {
     return readList;
 }
 
-vector<int> splitToInt(string str, char delimiter) {
-    vector<int> internal;
+vector<unsigned long long> splitToInt(string str, char delimiter) {
+    vector<unsigned long long> internal;
     stringstream ss(str); // Turn the string into a stream.
     string tok;
 
     while(getline(ss, tok, delimiter)) {
         if (tok.length() > 0) {
-            internal.push_back(stoi(tok));
+            internal.push_back(stol(tok));
         }
     }
 
     return internal;
 }
 
-map<int, vector<int>> getMinimizersFromFile(string filename) {
+map<unsigned long long, vector<unsigned long long>> getMinimizersFromFile(string filename) {
     ifstream fileMinimizer (filename);
     string line;
 
-    map<int, vector<int>>  minimizers;
+    map<unsigned long long, vector<unsigned long long>>  minimizers;
 
     if (fileMinimizer.is_open()) {
         while (getline (fileMinimizer, line)) {
             if (line.rfind(">", 0) == 0)
                 continue;
 
-            int minimizerHashRank = stoi(line.substr(0, line.find(':')));
+            unsigned long long minimizerHashRank = stol(line.substr(0, line.find(':')));
             string locations = line.substr(line.find(':') + 1, line.length() - line.find(":"));
 
             minimizers[minimizerHashRank] = splitToInt(locations, ' ');

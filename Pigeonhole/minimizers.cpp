@@ -6,12 +6,12 @@
 
 vector<pair<string, int> > alphabetRef = { {"A", 0}, {"C",1}, {"G",2}, {"T", 3} };
 
-unsigned int extractRanking(string kmer) {
+unsigned long long extractRanking(string kmer) {
     string binary;
-    unsigned int rankValue;
+    unsigned long long rankValue;
 
-    for (int i = 0; i<kmer.length(); i++){
-        for (int j = 0; j< alphabetRef.size(); j++){
+    for (unsigned long i = 0; i<kmer.length(); i++){
+        for (unsigned long j = 0; j< alphabetRef.size(); j++){
             if (kmer.at(i) + string() == alphabetRef.at(j).first){
                 rankValue = alphabetRef.at(j).second;
                 binary.append(bitset<2>(rankValue).to_string());
@@ -19,8 +19,43 @@ unsigned int extractRanking(string kmer) {
         }
     }
 
-    unsigned int decimal = stoi (binary, nullptr, 2);
+    unsigned long long decimal = stoll (binary, nullptr, 2);
     return decimal;
+}
+
+uint64_t inthash_64(uint64_t key, uint64_t mask)
+{
+    key = (~key + (key << 21)) & mask;
+    key = key ^ key >> 24;
+    key = ((key + (key << 3)) + (key << 8)) & mask;
+    key = key ^ key >> 14;
+    key = ((key + (key << 2)) + (key << 4)) & mask;
+    key = key ^ key >> 28;
+    key = (key + (key << 31)) & mask;
+    return key;
+}
+
+unsigned long long getMinimizerRank(string windowSeed, int q, int windowSize) {
+    string finalMin;
+    double mask = pow(4, q);
+
+    unsigned long long minm1 = 1 << (2 * q + 1);
+
+    for (unsigned int j = 0; j < (windowSize - q + 1); j++){
+        string sMinimizer = windowSeed.substr(j, q);
+        unsigned long long hashValue = extractRanking(sMinimizer);
+        unsigned long long tempMinHash = inthash_64(hashValue, mask - 1);
+
+        if (tempMinHash < minm1) {
+            minm1 = tempMinHash;
+            finalMin = sMinimizer;
+        }
+    }
+
+    unsigned long long rankHashValue = extractRanking(finalMin);
+    unsigned long long finalMinHash = inthash_64(rankHashValue, mask - 1);
+
+    return finalMinHash;
 }
 
 /*

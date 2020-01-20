@@ -17,8 +17,21 @@
 using namespace std;
 
 extern string refGenome;
-extern vector<string> reads;
-extern map<int, std::vector<int>> minimizers;
+extern vector<string> seeds;
+extern map<unsigned long long, vector<unsigned long long>> minimizers;
+
+extern vector<string> qgrams;
+extern vector<int> codeTable;
+extern vector<int> dirTable;
+extern vector<int> posTable;
+
+typedef struct {
+    string kmer;
+    int rank;
+} Code;
+
+//extern Indexing* indexing;
+//extern DirectIndexing *directIndexing;
 
 //typedef struct {
 //    char *genome;
@@ -26,15 +39,18 @@ extern map<int, std::vector<int>> minimizers;
 //} RefGenome;
 //
 //typedef struct {
-//    char **reads;
+//    char **seeds;
 //    int size;
 //} ReadList;
 
-std::string getFilename(std::string filename);
-std::string readGenome(std::string filename);
-std::vector<string> readReads(string filename);
-std::map<int, std::vector<int>> getMinimizersFromFile(std::string filename);
+string getFilename(string filename);
+string readGenome(string filename);
+vector<string> readReads(string filename);
+map<unsigned long long, vector<unsigned long long>> getMinimizersFromFile(string filename);
 //RefGenome *readGenome(std::string filename);
 //ReadList *readReads(std::string filename);
+void generateQGrams(string prefix, vector<string>& qGrams, int k);
+void getDirectAddressing(string filename, vector<string> qgrams, vector<int> dirTable, vector<int> posTable);
+void getOpenAddressing(string filename, vector<int> codeTable, vector<int> dirTable, vector<int> posTable);
 
 #endif //MP_PIGEONHOLE_COMMON_H
