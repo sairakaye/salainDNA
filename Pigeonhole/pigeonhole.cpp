@@ -8,9 +8,6 @@
 
 int numberSeeds = 0;
 int numberAcceptedSeeds = 0;
-unsigned int numberOfFoundSeeds = 0;
-int numberReads = 0;
-int numberAcceptedReads = 0;
 
 string reverseComplement(string read) {
     string reverseRead = read;
@@ -37,7 +34,7 @@ string reverseComplement(string read) {
 }
 
 //vector<AlignedReads *> processingRead(string read, int q, int m, int j, int k) {
-//    vector<AlignedReads *> seeds;
+//    vector<AlignedReads *> reads;
 //
 //    for (int i = 0; i < j; i++) {
 //        int startPosition = i * q;
@@ -62,7 +59,7 @@ string reverseComplement(string read) {
 //                    alignedRead->read = read;
 //                    alignedRead->readFromGenome = refGenome.substr(location[i2] - startPosition, m);
 //
-//                    seeds.push_back(alignedRead);
+//                    reads.push_back(alignedRead);
 //                    //cout << read + " ";
 //                    //cout << refGenome.substr(location[i2] - startPosition, m) << endl;
 //                }
@@ -72,7 +69,7 @@ string reverseComplement(string read) {
 //        }
 //    }
 //
-//    return seeds;
+//    return reads;
 //}
 
 //vector<AlignedReads *> processingReadForOpen(string read, int q, int m, int j, int k) {
@@ -177,10 +174,11 @@ string reverseComplement(string read) {
 //    return seeds;
 //}
 
-vector<string> processingAcceptingSeedUsingMinimizers(string windowSeed, int windowLength, int q, bool isForwardStrand) {
+vector<string> processingAcceptingSeed(string windowSeed, int windowLength, int q) {
     vector<string> acceptedSeeds;
-    vector<unsigned long int> location;
-    unsigned int rank;
+    vector<unsigned long long> location;
+    unsigned long long rank;
+    unsigned long long rankHashValue;
 
     if (windowSeed.length() >= windowLength) {
         rank = getMinimizerRank(windowSeed, q, windowLength);
@@ -190,31 +188,17 @@ vector<string> processingAcceptingSeedUsingMinimizers(string windowSeed, int win
             for (int i2 = 0; i2 < location.size(); i2++) {
                 if (windowSeed.compare(refGenome.substr(location[i2], windowLength)) == 0) {
                     acceptedSeeds.push_back(windowSeed);
-                    //foundLocations.push_back(location[i2]);
-
-                    if (isForwardStrand) {
-                        forwardFound.push_back(location[i2]);
-                    } else {
-                        reverseFound.push_back(location[i2]);
-                    }
                 }
             }
         }
     } else if (windowSeed.length() == q) {
-        unsigned long int rankHashValue  = extractRanking(windowSeed);
+        rankHashValue = extractRanking(windowSeed);
         location = minimizers[rankHashValue];
 
         if (location.size() > 0) {
             for (int i2 = 0; i2 < location.size(); i2++) {
                 if (windowSeed.compare(refGenome.substr(location[i2], q)) == 0) {
                     acceptedSeeds.push_back(windowSeed);
-                    //foundLocations.push_back(location[i2]);
-
-                    if (isForwardStrand) {
-                        forwardFound.push_back(location[i2]);
-                    } else {
-                        reverseFound.push_back(location[i2]);
-                    }
                 }
             }
         }
@@ -223,246 +207,31 @@ vector<string> processingAcceptingSeedUsingMinimizers(string windowSeed, int win
     return acceptedSeeds;
 }
 
-vector<string> processingAcceptingSeedUsingOpenAddr(string windowSeed, int windowLength, int q, bool isForwardStrand) {
-    vector<string> acceptedSeeds;
-    vector<unsigned long int> location;
-    unsigned long int rank;
-
-    if (windowSeed.length() >= windowLength) {
-        rank = extractRanking(windowSeed);
-
-        try {
-            //long long index2 = codeTable[rank];
-            unsigned long int index = dirTable[codeTable[rank]];
-
-            while (windowSeed.compare(refGenome.substr(posTable[index], q)) == 0) {
-                acceptedSeeds.push_back(refGenome.substr(posTable[index], q));
-
-                if (isForwardStrand) {
-                    forwardFound.push_back(posTable[index]);
-                } else {
-                    reverseFound.push_back(posTable[index]);
-                }
-
-                index++;
-            }
-        } catch (exception& e) {
-
-        }
-    }
-
-    return acceptedSeeds;
-}
-
-vector<string> processingAcceptingSeedUsingDirAddr(string windowSeed, int windowLength, int q, bool isForwardStrand) {
-    vector<string> acceptedSeeds;
-    vector<unsigned long int> location;
-    unsigned long int rank;
-
-    if (windowSeed.length() >= windowLength) {
-        rank = extractRanking(windowSeed);
-
-        if (rank >= 0) {
-            unsigned long int index = dirTable[rank];
-
-            if (index < posTable.size()) {
-                while (windowSeed.compare(refGenome.substr(posTable[index], q)) == 0) {
-                    acceptedSeeds.push_back(refGenome.substr(posTable[index], q));
-                    //foundLocations.push_back(posTable[index]);
-
-                    if (isForwardStrand) {
-                        forwardFound.push_back(posTable[index]);
-                    } else {
-                        reverseFound.push_back(posTable[index]);
-                    }
-
-                    index++;
-                }
-            }
-        }
-    }
-
-    return acceptedSeeds;
-}
-
-void partitioningReadsToSeeds(string filename, string mode, int windowLength, int q) {
-    //ofstream filterSeeds(filename + "_" + to_string(q) + ".fpg");
-    numberSeeds = 0;
-    numberAcceptedSeeds = 0;
-    numberOfFoundSeeds = 0;
-    numberReads = 0;
-    numberAcceptedReads = 0;
-
-    bool isForward = false;
-
-    int m = seeds[0].length();
-    int j = m / q;
-
-    for (int i = 0; i < seeds.size(); i++) {
-        string forwardRead(seeds[i]);
-        numberReads++;
-
-        bool isAccepted = false;
-
-        vector<string> forward;
-        vector<string> reverse;
-
-        for (int k = 0; k < j; k++) {
-            numberSeeds++;
-            int startPosition = k * q;
-
-            string seed;
-            if (mode.compare("min") == 0) {
-                seed = forwardRead.substr(startPosition, windowLength);
-            } else {
-                seed = forwardRead.substr(startPosition, q);
-            }
-
-            if (windowLength >= seed.size()) {
-                vector<string> forward;
-                mode = "forward";
-
-                if (mode.compare("min") == 0) {
-                    forward = processingAcceptingSeedUsingMinimizers(seed, windowLength, q, isForward);
-                } else if (mode.compare("dir") == 0) {
-                    forward = processingAcceptingSeedUsingDirAddr(seed, windowLength, q, isForward);
-                } else if (mode.compare("open") == 0) {
-                    forward = processingAcceptingSeedUsingOpenAddr(seed, windowLength, q, isForward);
-                }
-
-                if (forward.size() > 0) {
-                    for (string fs : forward) {
-                        //filterSeeds << fs << endl;
-                        numberOfFoundSeeds++;
-                    }
-
-                    //filterSeeds << forwardSeed << endl;
-                    numberAcceptedSeeds++;
-
-                    if (!isAccepted) {
-                        isAccepted = true;
-                    }
-                } else {
-                    cout << "REJECTED SEED! " + to_string(i + 1) + "-" + to_string(k) + " " + seed << endl;
-                }
-            } else {
-                break;
-            }
-        }
-
-        if (!isAccepted) {
-            string reverseRead = reverseComplement(forwardRead);
-
-            for (int k = 0; k < j; k++) {
-                int startPosition = k * q;
-
-                string seed;
-
-                if (mode.compare("min") == 0) {
-                    seed = reverseRead.substr(startPosition, windowLength);
-                } else {
-                    seed = reverseRead.substr(startPosition, q);
-                }
-
-                if (windowLength >= seed.size()) {
-                    vector<string> reverse;
-
-
-                    if (mode.compare("min") == 0) {
-                        reverse = processingAcceptingSeedUsingMinimizers(seed, windowLength, q, isForward);
-                    } else if (mode.compare("dir") == 0) {
-                        reverse = processingAcceptingSeedUsingDirAddr(seed, windowLength, q, isForward);
-                    } else if (mode.compare("open") == 0) {
-                        reverse = processingAcceptingSeedUsingOpenAddr(seed, windowLength, q, isForward);
-                    }
-
-                    if (reverse.size() > 0) {
-                        for (string fs : reverse) {
-                            //filterSeeds << fs << endl;
-                            numberOfFoundSeeds++;
-                        }
-
-                        //filterSeeds << forwardSeed << endl;
-                        numberAcceptedSeeds++;
-
-                        if (!isAccepted) {
-                            isAccepted = true;
-                        }
-                    } else {
-                        cout << "REJECTED SEED! " + to_string(i + 1) + "-" + to_string(k) + " " + seed << endl;
-                    }
-                } else {
-                    break;
-                }
-            }
-        }
-
-        if (isAccepted) {
-            numberAcceptedReads++;
-        }
-    }
-
-    cout << "Number of partitions per read: " + to_string(j) << endl;
-    cout << "Total reads: " + to_string(numberReads) << endl;
-    cout << "Total accepted reads: " + to_string(numberAcceptedReads) << endl;
-    cout << "Total seeds evaluated: " + to_string(numberSeeds) << endl;
-    cout << "Total accepted seeds: evaluated " + to_string(numberAcceptedSeeds) << endl;
-    cout << "Total found seeds from the genome (non-unique): " + to_string(numberOfFoundSeeds) << endl;
-}
-
-
-void selectingSeeds(string filename, string mode, int windowLength, int q) {
-    //ofstream filterSeeds(filename + "_" + to_string(q) + ".fpg");
-    numberSeeds = 0;
-    numberAcceptedSeeds = 0;
-    numberOfFoundSeeds = 0;
-
-    bool isForward = false;
+void selectingSeeds(string filename, int windowLength, int q) {
+    ofstream filterSeeds(filename + "_" + to_string(q) + ".fpg");
 
     for (int i = 0; i < seeds.size(); i++) {
         string forwardSeed(seeds[i]);
         numberSeeds++;
 
-        vector<string> forward;
-        isForward = true;
-
-        if (mode.compare("min") == 0) {
-            forward = processingAcceptingSeedUsingMinimizers(forwardSeed, windowLength, q, isForward);
-        } else if (mode.compare("dir") == 0) {
-            forward = processingAcceptingSeedUsingDirAddr(forwardSeed, windowLength, q, isForward);
-        } else if (mode.compare("open") == 0) {
-            forward = processingAcceptingSeedUsingOpenAddr(forwardSeed, windowLength, q, isForward);
-        }
+        vector<string> forward = processingAcceptingSeed(forwardSeed, windowLength, q);
 
         if (forward.size() > 0) {
             for (string fs : forward) {
-                //filterSeeds << fs << endl;
-                numberOfFoundSeeds++;
+                filterSeeds << fs << endl;
             }
 
-            //filterSeeds << forwardSeed << endl;
             numberAcceptedSeeds++;
             forward.clear();
         } else {
             string reverseSeed = reverseComplement(forwardSeed);
-            vector<string> reverse;
-            isForward = false;
-
-            if (mode.compare("min") == 0) {
-                reverse = processingAcceptingSeedUsingMinimizers(reverseSeed, windowLength, q, isForward);
-            } else if (mode.compare("dir") == 0) {
-                reverse = processingAcceptingSeedUsingDirAddr(reverseSeed, windowLength, q, isForward);
-            } else if (mode.compare("open") == 0) {
-                reverse = processingAcceptingSeedUsingOpenAddr(reverseSeed, windowLength, q, isForward);
-            }
+            vector<string> reverse = processingAcceptingSeed(reverseSeed, windowLength, q);
 
             if (reverse.size() > 0) {
                 for (string rs : reverse) {
-                    //filterSeeds << rs << endl;
-                    numberOfFoundSeeds++;
+                    filterSeeds << rs << endl;
                 }
 
-                //filterSeeds << reverseSeed << endl;
                 numberAcceptedSeeds++;
                 reverse.clear();
             } else {
@@ -472,9 +241,8 @@ void selectingSeeds(string filename, string mode, int windowLength, int q) {
         }
     }
 
-    cout << "Total seeds evaluated: " + to_string(numberSeeds) << endl;
-    cout << "Total accepted seeds evaluated: " + to_string(numberAcceptedSeeds) << endl;
-    cout << "Total found seeds from the genome (non-unique): " + to_string(numberOfFoundSeeds) << endl;
+    cout << "Total seeds: " + to_string(numberSeeds) << endl;
+    cout << "Total accepted seeds: " + to_string(numberAcceptedSeeds) << endl;
 }
 
 
