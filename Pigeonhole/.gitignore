@@ -6,4 +6,3 @@ cmake-build-debug/filtered
 temp
 cmake-build-debug/seeds
 cmake-build-debug/reads
-cmake-build-debug/*

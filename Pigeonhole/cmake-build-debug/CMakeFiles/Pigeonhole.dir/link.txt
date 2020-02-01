@@ -1,0 +1,1 @@
+/usr/bin/c++   -std=c++11 -fopenmp -g   CMakeFiles/Pigeonhole.dir/main.cpp.o CMakeFiles/Pigeonhole.dir/common.cpp.o CMakeFiles/Pigeonhole.dir/pigeonhole.cpp.o CMakeFiles/Pigeonhole.dir/minimizers.cpp.o CMakeFiles/Pigeonhole.dir/addressing.cpp.o  -o Pigeonhole 
