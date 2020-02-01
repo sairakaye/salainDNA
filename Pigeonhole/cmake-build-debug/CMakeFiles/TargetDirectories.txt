@@ -1,3 +1,0 @@
-/home/saimanalili/multicore-rm/Pigeonhole/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/saimanalili/multicore-rm/Pigeonhole/cmake-build-debug/CMakeFiles/Pigeonhole.dir
-/home/saimanalili/multicore-rm/Pigeonhole/cmake-build-debug/CMakeFiles/edit_cache.dir
