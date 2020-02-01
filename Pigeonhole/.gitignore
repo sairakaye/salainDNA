@@ -6,3 +6,6 @@ cmake-build-debug/filtered
 temp
 cmake-build-debug/seeds
 cmake-build-debug/reads
+cmake-build-debug/dir
+cmake-build-debug/min
+cmake-build-debug/open
