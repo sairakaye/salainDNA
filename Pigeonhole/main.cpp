@@ -1,28 +1,46 @@
 #include "common.h"
 #include "pigeonhole.h"
-#include "addressing.h"
 
 string refGenome;
 vector<string> seeds;
-map<unsigned long long, vector<unsigned long long>> minimizers;
-vector<string> qgrams;
-vector<int> codeTable;
-vector<int> dirTable;
-vector<int> posTable;
+//vector<unsigned long int> foundLocations;
+map<unsigned long int, vector<unsigned long int>> minimizers;
+map<long long, unsigned long int> codeTable;
+vector<unsigned long int> dirTable;
+vector<unsigned long int> posTable;
+vector<unsigned long int> forwardFound;
+vector<unsigned long int> reverseFound;
+
+
+void initializeMinimizersFromFile(string filename, map<unsigned long int, vector<unsigned long int>>& minimizers) {
+    //cout << "Processing minimizers..." << endl;
+    minimizers = getMinimizersFromFile(filename);
+    //cout << "Done!" << endl;
+}
+
+void initializeDirectAddressingFromFile(string filename, vector<unsigned long int>& dirTable,
+        vector<unsigned long int>& posTable) {
+    //cout << "Processing direct addressing..." << endl;
+    getDirectAddressing(filename, dirTable, posTable);
+    //cout << "Done!" << endl;
+}
+
+void initializingOpenAddressingFromFile(string filename,  map<long long, unsigned long int>& codeTable,
+        vector<unsigned long int>& dirTable, vector<unsigned long int>& posTable) {
+    //cout << "Processing open addressing..." << endl;
+    getOpenAddressing(filename, codeTable, dirTable, posTable);
+    //cout << "Done!" << endl;
+}
 
 int main(int argc, char *argv[]) {
-    cout << "Reading the reference genome..." << endl;
+    //int w = 12;
+    //int windowLength = w + q - 1;
+    //int m = 100;
+    //int k = 2;
+    //int j = m / q;
+    //float loadFactor = 0.8;
 
-    string filepath = "/home/saimanalili/multicore-rm/Pigeonhole/genome/sim_1m.fa";
-
-    filepath.erase(remove(filepath.begin(), filepath.end(), '\"'), filepath.end());
-    filepath.erase(remove(filepath.begin(), filepath.end(), '\''), filepath.end());
-
-    refGenome = readGenome(filepath);
-
-    //refGenome = "TTATCTCTTA";
-
-    cout << "Done!" << endl;
+    /****** EDIT THIS SECTION ONLY (REPORT IF THERE ARE BUGS) *******/
 
     /**
      * m - length of the read.
@@ -30,89 +48,156 @@ int main(int argc, char *argv[]) {
      * k - errors
      * j - number of partitions in the read.
      */
-
-    int m = 100;
-    int q = 14;
-    int w = 14;
-    int k = 2;
-    int j = m / q;
-    int windowLength = w + q - 1;
-    //float loadFactor = 0.8;
+    int q = 16;
+    int windowLength = q + q - 1;
 
     /**
-     * For Minimizers.
+     * Genome (1MB, 2MB, 4MB, 8MB)
+     * - Take note that this is CASE SENSITIVE
      */
-    cout << "Processing minimizers..." << endl;
-    string fileMinimizers = "/home/saimanalili/multicore-rm/Pigeonhole/minimizers/min_sim_1m_14_inthash.txt";
-    minimizers = getMinimizersFromFile(fileMinimizers);
-    cout << "Done!" << endl;
-
+     string genomeType = "chr04_NoN";
 
     /**
-     * For Direct Addressing
+     * isRead - make it true to enable the reading of the reads with 100bp in length;
      */
-//    generateQGrams("", qgrams, q);
-//    getDirectAddressing("mama", qgrams, dirTable, posTable);
+    bool isRead = false;
 
+    /**
+     * Indexing modes:
+     * min - minimizer
+     * dir - direct addressing
+     * open - open addressing
+     */
+    string mode = "open";
 
-    cout << "Reading the seeds..." << endl;
-    string readsFilename = "/home/saimanalili/multicore-rm/Pigeonhole/reads/random_27bp_1000r.fa";
+    /**
+     * Type of reads (only input these)
+     * - perfect (can be found in the reference)
+     * - random (cannot be found in the reference)
+     * - mixed (50% perfect, 50% random)
+     *
+     */
+    string readType = "perfect";
+
+    /**
+     * Number of reads or seeds. Only 1 and 100000.
+     */
+     int numR = 100;
+
+    /*******               END OF SECTION                *******/
+
+    //    filepath.erase(remove(filepath.begin(), filepath.end(), '\"'), filepath.end());
+    //    filepath.erase(remove(filepath.begin(), filepath.end(), '\''), filepath.end());
+
+    //string filepath = "./genome/ndna_" + genomeType + ".fa";
+    string filepath = "./genome/" + genomeType + ".fa";
+    cout << "Reading the reference genome... " << endl << filepath << endl;
+    refGenome = readGenome(filepath);
+    //refGenome = "TTATCTCTTA";
+    cout << "Done!" << endl << endl;
+
+    string readsFilename;
+
+    if (isRead) {
+        readsFilename = "./reads/" + readType + "/" + readType + "_" + to_string(numR) + "r_" + "100bp.fa";
+    } else {
+        if (mode.compare("dir") == 0 || mode.compare("open") == 0) {
+            //readsFilename = "./seeds/for_direct_n_open/" + readType + "/" + readType + "_" + to_string(numR) + "r_" + to_string(q) + "bp.fa";
+            readsFilename = "./seeds/for_direct_n_open/" + readType + "/" + readType + "_" + "chr04_" + to_string(numR) + "r_" + to_string(q) + "bp.fa";
+        } else if (mode.compare("min") == 0) {
+            //readsFilename = "./seeds/for_minimizers/" + readType + "/" + readType + "_" + to_string(numR) + "r_" + to_string(windowLength) + "bp.fa";
+            readsFilename = "./seeds/for_minimizers/" + readType + "/" + readType + "_" + "chr04_" + to_string(numR) + "r_" + to_string(windowLength) + "bp.fa";
+        } else {
+            cout << "INVALID!" << endl;
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    cout << "Reading the reads/seeds... " << endl << readsFilename << endl;
     seeds = readReads(readsFilename);
-    cout << "Done!" << endl;
+    cout << "Done!" << endl << endl;
 
-    long start = clock();
-    cout << "Doing pigeonhole process..." << endl;
-    //filterReads(readsFilename, q, m, j, k);
-    //parallelizeFilterReads(readsFilename, q, m, j, k);
-    //selectingSeeds(readsFilename, q, m, j, k);
-    selectingSeeds(readsFilename, windowLength, q);
-    long end = clock();
-    cout << "Done!" << endl;
+//    string fileMinimizers = "./min/min_" + genomeType + "_" + to_string(q) + ".txt";
+//    string fileOpenAddr = "./open/open_" + genomeType + "_" + to_string(q) + ".txt";
+//    string fileDirAddr = "./dir/dir_" + genomeType + "_" + to_string(q) + ".txt";
+    string fileMinimizers = "./min/min_chr04_" + to_string(q) + ".txt";
+    string fileOpenAddr = "./open/open_chr04_" + to_string(q) + ".txt";
+    string fileDirAddr = "./dir/dir_chr04_" + to_string(q) + ".txt";
 
-    double time_taken = double(end - start) / double(CLOCKS_PER_SEC);
-    cout << "Time taken by the pigeonhole process is : " << fixed
-         << time_taken << " sec" << endl;
+    if (mode.compare("min") == 0) {
+        cout << "Initializing minimizers... " << endl << fileMinimizers << endl;
+        initializeMinimizersFromFile(fileMinimizers, minimizers);
+        cout << "Done!" << endl << endl;
+
+        cout << "Doing pigeonhole process... " << endl;
+        long start = clock();
+        if (isRead) {
+            partitioningReadsToSeeds(readsFilename, mode, windowLength, q);
+        } else {
+            selectingSeeds(readsFilename, mode, windowLength, q);
+        }
+        long end = clock();
+        double time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+        cout << "Time taken by the pigeonhole process is : " << fixed
+             << time_taken << " sec" << endl;
+        cout << "Done!" << endl << endl;
+    } else if (mode.compare("dir") == 0) {
+        cout << "Initializing direct addressing... " << endl << fileDirAddr << endl;
+        initializeDirectAddressingFromFile(fileDirAddr, dirTable, posTable);
+        cout << "Done!" << endl << endl;
+
+        cout << "Doing pigeonhole process..." << endl;
+        long start = clock();
+        if (isRead) {
+            partitioningReadsToSeeds(readsFilename, mode, q, q);
+        } else {
+            selectingSeeds(readsFilename, mode, q, q);
+        }
+        long end = clock();
+        double time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+        cout << "Time taken by the pigeonhole process is : " << fixed
+             << time_taken << " sec" << endl;
+        cout << "Done!" << endl << endl;
+    } else if (mode.compare("open") == 0) {
+        cout << "Initializing open addressing... " << endl << fileOpenAddr << endl;
+        initializingOpenAddressingFromFile(fileOpenAddr, codeTable, dirTable, posTable);
+        cout << "Done!" << endl << endl;
+
+        cout << "Doing pigeonhole process..." << endl;
+        long start = clock();
+        if (isRead) {
+            partitioningReadsToSeeds(readsFilename, mode, q, q);
+        } else {
+            selectingSeeds(readsFilename, mode, q, q);
+        }
+        long end = clock();
+
+        double time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+        cout << "Time taken by the pigeonhole process is : " << fixed
+             << time_taken << " sec" << endl;
+        cout << "Done!" << endl << endl;
+    } else {
+        cout << "INVALID!" << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    cout << "Removing duplicate locations of the read/seeds mapped..." << endl;
+    sort(forwardFound.begin(), forwardFound.end());
+    forwardFound.erase(unique(forwardFound.begin(), forwardFound.end()), forwardFound.end());
+
+    sort(reverseFound.begin(), reverseFound.end());
+    reverseFound.erase(unique(reverseFound.begin(), reverseFound.end()), reverseFound.end());
+
+    cout << "Number of seeds found from forward (unique locations): " + to_string(forwardFound.size()) << endl;
+    cout << "Number of seeds found from backward (unique locations): " + to_string(reverseFound.size()) << endl;
+
+    vector<unsigned long int> combined(forwardFound);
+    combined.insert(combined.end(), reverseFound.begin(), reverseFound.end());
+    sort(combined.begin(), combined.end());
+    combined.erase(unique(combined.begin(), combined.end()), combined.end());
+
+    cout << "Number of seed locations from forward and backward (including intersection): " + to_string(forwardFound.size() + reverseFound.size()) << endl;
+    cout << "Number of seed locations accepted (from both): " + to_string(combined.size()) << endl;
 
     return 0;
 }
-
-
-//    /**
-//     * Direct Addressing
-//     */
-//    double dirTableSize = pow(4, q) + 1;
-//    double posTableSize = refGenome.size() - q + 1;
-//
-//    for (int i = 0; i < dirTableSize; i++) {
-//        dirTable.push_back(0);
-//    }
-//
-//    for (int i = 0; i < posTableSize; i++) {
-//        posTable.push_back(0);
-//    }
-//
-//    buildTablesDirect(refGenome, q, dirTableSize, posTableSize, dirTable, posTable);
-//
-//
-//    /**
-//     * Open Addressing
-//     */
-//    double loadFactor = 0.8;
-//    double codeTableSize = floor(( pow(loadFactor, -1)) * refGenome.size());
-//    double dirTableSize = codeTableSize + 1;
-//    double posTableSize = refGenome.size() - q + 1;
-//    unsigned long int shiftedValue = ((unsigned long int)1 << (q * 2));
-//
-//    for (int i = 0; i < codeTableSize; i++) {
-//        codeTable.push_back(-1);
-//    }
-//
-//    for (int i = 0; i < dirTableSize; i++) {
-//        dirTable.push_back(0);
-//    }
-//
-//    for (int i = 0; i < posTableSize; i++) {
-//        posTable.push_back(0);
-//    }
-//
-//    buildTablesOpen(refGenome, q, shiftedValue, codeTableSize, dirTableSize, posTableSize, codeTable, dirTable, posTable);

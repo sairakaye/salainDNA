@@ -4,11 +4,12 @@
 
 #include "common.h"
 
-void getDirectAddressing(string filename, vector<string> qgrams, vector<int> dirTable, vector<int> posTable) {
+void getDirectAddressing(string filename, vector<unsigned long int>& dirTable, vector<unsigned long int>& posTable) {
     ifstream directAddrFile (filename);
     string line;
 
-    int i = 0;
+    int isGettingDir = 0;
+    int isGettingPos = 0;
 
     if (directAddrFile.is_open()) {
         while (getline (directAddrFile,line)) {
@@ -19,21 +20,29 @@ void getDirectAddressing(string filename, vector<string> qgrams, vector<int> dir
             stringstream ss(line);
             string tok;
 
-            if (i == 0) {
-                while(getline(ss, tok, ' ')) {
-                    if (tok.length() > 0) {
-                        dirTable.push_back(stol(tok));
+            if (line.compare("dir") == 0) {
+                isGettingDir = 1;
+                isGettingPos = 0;
+                continue;
+            } else if (line.compare("pos") == 0) {
+                isGettingDir = 0;
+                isGettingPos = 1;
+                continue;
+            } else {
+                if (isGettingDir == 1) {
+                    while(getline(ss, tok, ' ')) {
+                        if (tok.length() > 0) {
+                            dirTable.push_back(stol(tok));
+                        }
                     }
-                }
-            } else if (i == 1) {
-                while(getline(ss, tok, ' ')) {
-                    if (tok.length() > 0) {
-                        posTable.push_back(stol(tok));
+                } else if (isGettingPos == 1) {
+                    while(getline(ss, tok, ' ')) {
+                        if (tok.length() > 0) {
+                            posTable.push_back(stol(tok));
+                        }
                     }
                 }
             }
-
-            i++;
         }
 
         directAddrFile.close();
@@ -43,11 +52,13 @@ void getDirectAddressing(string filename, vector<string> qgrams, vector<int> dir
 }
 
 
-void getOpenAddressing(string filename, vector<int> codeTable, vector<int> dirTable, vector<int> posTable) {
+void getOpenAddressing(string filename, map<long long, unsigned long int>& codeTable, vector<unsigned long int>& dirTable, vector<unsigned long int>& posTable) {
     ifstream openAddrFile (filename);
     string line;
 
-    int i = 0;
+    bool isGettingCode = false;
+    bool isGettingDir = false;
+    bool isGettingPos = false;
 
     if (openAddrFile.is_open()) {
         while (getline (openAddrFile,line)) {
@@ -57,28 +68,60 @@ void getOpenAddressing(string filename, vector<int> codeTable, vector<int> dirTa
 
             stringstream ss(line);
             string tok;
+            if (line.compare("code") == 0) {
+                isGettingCode = true;
+                isGettingDir = false;
+                isGettingPos = false;
+                continue;
+            } else if (line.compare("dir") == 0) {
+                isGettingCode = false;
+                isGettingDir = true;
+                isGettingPos = false;
+                continue;
+            } else if (line.compare("pos") == 0) {
+                isGettingCode = false;
+                isGettingDir = false;
+                isGettingPos = true;
+                continue;
+            } else {
+                if (isGettingCode) {
+                    long long getThis;
+                    unsigned long int num;
+                    int i = 0;
 
-            if (i == 0) {
-                while(getline(ss, tok, ' ')) {
-                    if (tok.length() > 0) {
-                        codeTable.push_back(stol(tok));
+                    while(getline(ss, tok, ' ')) {
+                        if (tok.length() > 0 && tok.compare("") != 0) {
+                            if (i == 0) {
+                                getThis = stoll(tok);
+
+                                if (getThis == -1) {
+                                    break;
+                                }
+                            } else if (i == 1) {
+                                num = stoll(tok);
+                            }
+                        }
+
+                        i++;
                     }
-                }
-            } else if (i == 1) {
-                while(getline(ss, tok, ' ')) {
-                    if (tok.length() > 0) {
-                        dirTable.push_back(stol(tok));
+
+                    if (getThis != -1) {
+                        codeTable.insert(pair<long long, unsigned long int>(getThis, num));
                     }
-                }
-            } else if (i == 2) {
-                while(getline(ss, tok, ' ')) {
-                    if (tok.length() > 0) {
-                        posTable.push_back(stol(tok));
+                } else if (isGettingDir) {
+                    while(getline(ss, tok, ' ')) {
+                        if (tok.length() > 0) {
+                            dirTable.push_back(stol(tok));
+                        }
+                    }
+                } else if (isGettingPos) {
+                    while(getline(ss, tok, ' ')) {
+                        if (tok.length() > 0) {
+                            posTable.push_back(stol(tok));
+                        }
                     }
                 }
             }
-
-            i++;
         }
 
         openAddrFile.close();
@@ -140,6 +183,7 @@ string readGenome(string filename) {
         fileGenome.close();
     } else {
         cout << "File does not exist." << endl;
+        exit(EXIT_FAILURE);
     }
 
     return genome;
@@ -172,8 +216,8 @@ vector<string> readReads(string filename) {
     return readList;
 }
 
-vector<unsigned long long> splitToInt(string str, char delimiter) {
-    vector<unsigned long long> internal;
+vector<unsigned long int> splitToInt(string str, char delimiter) {
+    vector<unsigned long int> internal;
     stringstream ss(str); // Turn the string into a stream.
     string tok;
 
@@ -186,18 +230,18 @@ vector<unsigned long long> splitToInt(string str, char delimiter) {
     return internal;
 }
 
-map<unsigned long long, vector<unsigned long long>> getMinimizersFromFile(string filename) {
+map<unsigned long int, vector<unsigned long int>> getMinimizersFromFile(string filename) {
     ifstream fileMinimizer (filename);
     string line;
 
-    map<unsigned long long, vector<unsigned long long>>  minimizers;
+    map<unsigned long int, vector<unsigned long int>> minimizers;
 
     if (fileMinimizer.is_open()) {
         while (getline (fileMinimizer, line)) {
             if (line.rfind(">", 0) == 0)
                 continue;
 
-            unsigned long long minimizerHashRank = stol(line.substr(0, line.find(':')));
+            unsigned long int minimizerHashRank = stol(line.substr(0, line.find(':')));
             string locations = line.substr(line.find(':') + 1, line.length() - line.find(":"));
 
             minimizers[minimizerHashRank] = splitToInt(locations, ' ');
