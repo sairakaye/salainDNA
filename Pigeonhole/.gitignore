@@ -1,9 +1,2 @@
 .idea
-cmake-build-debug/genome
-cmake-build-debug/minimizers
-cmake-build-debug/seeds
-cmake-build-debug/filtered
-temp
-cmake-build-debug/seeds
-cmake-build-debug/reads
 cmake-build-debug/*
