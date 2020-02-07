@@ -100,7 +100,7 @@ int main(int argc, char *argv[]) {
 
     if (isRead) {
         //readsFilename = "./reads/" + readType + "/" + readType + "_" + to_string(numR) + "r_" + "100bp.fa";
-        readsFilename = "/home/saimanalili/multicore-rm/Pigeonhole/Reads - real data set/chr04_120bp_1r_noerr.fa";
+        readsFilename = "/home/saimanalili/multicore-rm/Pigeonhole/Reads - real data set/chr04_NoN_1_150R.fa";
     } else {
         if (mode.compare("dir") == 0 || mode.compare("open") == 0) {
             //readsFilename = "./seeds/for_direct_n_open/" + readType + "/" + readType + "_" + to_string(numR) + "r_" + to_string(q) + "bp.fa";
@@ -206,5 +206,8 @@ int main(int argc, char *argv[]) {
 
     cout << "Number of locations found the exact reads: " + to_string(exactFound.size()) << endl;
 
+    for (unsigned long int pos : exactFound) {
+        cout << to_string(pos) << endl;
+    }
     return 0;
 }

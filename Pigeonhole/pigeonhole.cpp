@@ -500,7 +500,7 @@ void partitioningReadsToSeeds(string filename, string mode, int windowLength, in
 
                             if (result.status == EDLIB_STATUS_OK) {
                                 if (result.editDistance == 0) {
-
+                                    exactFound.push_back(pos);
                                 }
                             }
 
