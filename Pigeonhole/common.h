@@ -27,6 +27,8 @@ extern vector<unsigned long int> posTable;
 extern vector<unsigned long int> forwardFound;
 extern vector<unsigned long int> reverseFound;
 
+extern vector<unsigned long int> exactFound;
+
 typedef struct {
     string kmer;
     int rank;

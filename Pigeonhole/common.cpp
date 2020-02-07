@@ -111,13 +111,13 @@ void getOpenAddressing(string filename, map<long long, unsigned long int>& codeT
                 } else if (isGettingDir) {
                     while(getline(ss, tok, ' ')) {
                         if (tok.length() > 0) {
-                            dirTable.push_back(stol(tok));
+                            dirTable.push_back(stoll(tok));
                         }
                     }
                 } else if (isGettingPos) {
                     while(getline(ss, tok, ' ')) {
                         if (tok.length() > 0) {
-                            posTable.push_back(stol(tok));
+                            posTable.push_back(stoll(tok));
                         }
                     }
                 }
@@ -254,4 +254,3 @@ map<unsigned long int, vector<unsigned long int>> getMinimizersFromFile(string f
 
     return minimizers;
 }
-

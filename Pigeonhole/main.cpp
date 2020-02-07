@@ -10,7 +10,7 @@ vector<unsigned long int> dirTable;
 vector<unsigned long int> posTable;
 vector<unsigned long int> forwardFound;
 vector<unsigned long int> reverseFound;
-
+vector<unsigned long int> exactFound;
 
 void initializeMinimizersFromFile(string filename, map<unsigned long int, vector<unsigned long int>>& minimizers) {
     //cout << "Processing minimizers..." << endl;
@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
      * k - errors
      * j - number of partitions in the read.
      */
-    int q = 16;
+    int q = 8;
     int windowLength = q + q - 1;
 
     /**
@@ -60,7 +60,7 @@ int main(int argc, char *argv[]) {
     /**
      * isRead - make it true to enable the reading of the reads with 100bp in length;
      */
-    bool isRead = false;
+    bool isRead = true;
 
     /**
      * Indexing modes:
@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
      * dir - direct addressing
      * open - open addressing
      */
-    string mode = "open";
+    string mode = "dir";
 
     /**
      * Type of reads (only input these)
@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
     /**
      * Number of reads or seeds. Only 1 and 100000.
      */
-     int numR = 100;
+     int numR = 1;
 
     /*******               END OF SECTION                *******/
 
@@ -99,7 +99,8 @@ int main(int argc, char *argv[]) {
     string readsFilename;
 
     if (isRead) {
-        readsFilename = "./reads/" + readType + "/" + readType + "_" + to_string(numR) + "r_" + "100bp.fa";
+        //readsFilename = "./reads/" + readType + "/" + readType + "_" + to_string(numR) + "r_" + "100bp.fa";
+        readsFilename = "/home/saimanalili/multicore-rm/Pigeonhole/Reads - real data set/chr04_120bp_1r_noerr.fa";
     } else {
         if (mode.compare("dir") == 0 || mode.compare("open") == 0) {
             //readsFilename = "./seeds/for_direct_n_open/" + readType + "/" + readType + "_" + to_string(numR) + "r_" + to_string(q) + "bp.fa";
@@ -198,6 +199,12 @@ int main(int argc, char *argv[]) {
 
     cout << "Number of seed locations from forward and backward (including intersection): " + to_string(forwardFound.size() + reverseFound.size()) << endl;
     cout << "Number of seed locations accepted (from both): " + to_string(combined.size()) << endl;
+
+
+    sort(exactFound.begin(), exactFound.end());
+    exactFound.erase(unique(exactFound.begin(), exactFound.end()), exactFound.end());
+
+    cout << "Number of locations found the exact reads: " + to_string(exactFound.size()) << endl;
 
     return 0;
 }
