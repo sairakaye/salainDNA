@@ -298,12 +298,14 @@ vector<unsigned long int> findingPositionUsingMinimizers(string windowSeed, int 
 
         if (location.size() > 0) {
             for (int i2 = 0; i2 < location.size(); i2++) {
-                foundLocations.push_back(location[i2] - (q * k));
+                if (windowSeed.compare(refGenome.substr(location[i2], q)) == 0) {
+                    foundLocations.push_back(location[i2] - (q * k));
 
-                if (isForwardStrand) {
-                    forwardFound.push_back(location[i2] - (q * k));
-                } else {
-                    reverseFound.push_back(location[i2] - (q * k));
+                    if (isForwardStrand) {
+                        forwardFound.push_back(location[i2] - (q * k));
+                    } else {
+                        reverseFound.push_back(location[i2] - (q * k));
+                    }
                 }
             }
         }

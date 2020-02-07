@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
      * j - number of partitions in the read.
      */
     int q = 8;
-    int windowLength = q + q - 1;
+    int windowLength = q + q;
 
     /**
      * Genome (1MB, 2MB, 4MB, 8MB)
@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
      * dir - direct addressing
      * open - open addressing
      */
-    string mode = "dir";
+    string mode = "min";
 
     /**
      * Type of reads (only input these)
