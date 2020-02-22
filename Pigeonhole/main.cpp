@@ -1,5 +1,7 @@
 #include "common.h"
-#include "pigeonhole.h"
+#include "phreads.h"
+#include "phseeds.h"
+#include "edlib.h"
 
 string refGenome;
 vector<string> seeds;
@@ -11,6 +13,7 @@ vector<unsigned long int> posTable;
 vector<unsigned long int> forwardFound;
 vector<unsigned long int> reverseFound;
 vector<unsigned long int> exactFound;
+map<string, vector<unsigned long int>> readsMap;
 
 void initializeMinimizersFromFile(string filename, map<unsigned long int, vector<unsigned long int>>& minimizers) {
     //cout << "Processing minimizers..." << endl;
@@ -151,6 +154,7 @@ int main(int argc, char *argv[]) {
         long start = clock();
         if (isRead) {
             partitioningReadsToSeeds(readsFilename, mode, q, q);
+            //partitioningReadsToSeedsExit(readsFilename, mode, q, q);
         } else {
             selectingSeeds(readsFilename, mode, q, q);
         }
@@ -177,37 +181,27 @@ int main(int argc, char *argv[]) {
         cout << "Time taken by the pigeonhole process is : " << fixed
              << time_taken << " sec" << endl;
         cout << "Done!" << endl << endl;
+
     } else {
         cout << "INVALID!" << endl;
         exit(EXIT_FAILURE);
     }
 
-    cout << "Removing duplicate locations of the read/seeds mapped..." << endl;
-    sort(forwardFound.begin(), forwardFound.end());
-    forwardFound.erase(unique(forwardFound.begin(), forwardFound.end()), forwardFound.end());
+    for (pair<string, vector<unsigned long int>> readPair : readsMap) {
+        for (unsigned long int location : readPair.second) {
+            EdlibAlignResult result = edlibAlign(refGenome.substr(location, readPair.first.length()).c_str(), readPair.first.length(), readPair.first.c_str(), readPair.first.length(), edlibDefaultAlignConfig());
 
-    sort(reverseFound.begin(), reverseFound.end());
-    reverseFound.erase(unique(reverseFound.begin(), reverseFound.end()), reverseFound.end());
+            if (result.status == EDLIB_STATUS_OK) {
+                if (result.editDistance == 0) {
+                    exactFound.push_back(location);
+                }
 
-    cout << "Number of seeds found from forward (unique locations): " + to_string(forwardFound.size()) << endl;
-    cout << "Number of seeds found from backward (unique locations): " + to_string(reverseFound.size()) << endl;
-
-    vector<unsigned long int> combined(forwardFound);
-    combined.insert(combined.end(), reverseFound.begin(), reverseFound.end());
-    sort(combined.begin(), combined.end());
-    combined.erase(unique(combined.begin(), combined.end()), combined.end());
-
-    cout << "Number of seed locations from forward and backward (including intersection): " + to_string(forwardFound.size() + reverseFound.size()) << endl;
-    cout << "Number of seed locations accepted (from both): " + to_string(combined.size()) << endl;
-
-
-    sort(exactFound.begin(), exactFound.end());
-    exactFound.erase(unique(exactFound.begin(), exactFound.end()), exactFound.end());
-
-    cout << "Number of locations found the exact reads: " + to_string(exactFound.size()) << endl;
-
-    for (unsigned long int pos : exactFound) {
-        cout << to_string(pos) << endl;
+                edlibFreeAlignResult(result);
+            }
+        }
     }
+
+    verification(forwardFound, reverseFound, exactFound);
+
     return 0;
 }

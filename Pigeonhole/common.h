@@ -29,6 +29,8 @@ extern vector<unsigned long int> reverseFound;
 
 extern vector<unsigned long int> exactFound;
 
+extern map<string, vector<unsigned long int>> readsMap;
+
 typedef struct {
     string kmer;
     int rank;

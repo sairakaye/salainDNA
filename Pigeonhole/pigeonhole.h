@@ -13,10 +13,13 @@
 //    string readFromGenome;
 //} AlignedReads;
 
+extern int numberSeeds;
+extern int numberAcceptedSeeds;
+extern unsigned int numberOfFoundSeeds;
+extern int numberReads;
+extern int numberAcceptedReads;
 
-void filterReads(string filename, int q, int m, int j, int k);
-void parallelizeFilterReads(string filename, int q, int m, int j, int k);
-void selectingSeeds(string filename, string mode, int windowLength, int q);
-void partitioningReadsToSeeds(string filename, string mode, int windowLength, int q);
+string reverseComplement(string read);
+void verification(vector<unsigned long int>& forwardFound, vector<unsigned long int>& reverseFound, vector<unsigned long int>& exactFound);
 
 #endif //MP_PIGEONHOLE_PIGEONHOLE_H
