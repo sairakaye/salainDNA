@@ -6,19 +6,19 @@
 
 
 /** DIFFERENT FUNCTIONS **/
-vector<unsigned long int> findingPositionUsingMinimizers(string windowSeed, string read, int windowLength, int q, int k, bool isForwardStrand) {
-    vector<unsigned long int> foundLocations;
-    vector<unsigned long int> location;
+vector<unsigned long long int> findingPositionUsingMinimizers(string windowSeed, string read, int windowLength, int q, int k, bool isForwardStrand) {
+    vector<unsigned long long int> foundLocations;
+    vector<unsigned long long int> location;
     unsigned int rank;
 
-    if (windowSeed.length() >= windowLength) {
+    if (windowSeed.length() == windowLength) {
         rank = getMinimizerRank(windowSeed, q, windowLength);
         location = minimizers[rank];
 
         if (location.size() > 0) {
             for (int i2 = 0; i2 < location.size(); i2++) {
-                if (windowSeed.substr(0, 8).compare(refGenome.substr(location[i2], q)) == 0) {
-                    //foundLocations.push_back(location[i2] - (windowLength * k));
+                if (windowSeed.substr(0, q).compare(refGenome.substr(location[i2], q)) == 0) {
+                    foundLocations.push_back(location[i2] - (windowLength * k));
                     readsMap[read].push_back(location[i2] - (q * k));
 
                     if (isForwardStrand) {
@@ -30,14 +30,14 @@ vector<unsigned long int> findingPositionUsingMinimizers(string windowSeed, stri
             }
         }
     } else if (windowSeed.length() == q) {
-        unsigned long int rankHashValue  = extractRanking(windowSeed);
+        unsigned long long int rankHashValue  = extractRanking(windowSeed);
         location = minimizers[rankHashValue];
 
         if (location.size() > 0) {
             for (int i2 = 0; i2 < location.size(); i2++) {
                 if (windowSeed.compare(refGenome.substr(location[i2], q)) == 0) {
-                    //foundLocations.push_back(location[i2] - (q * k));
-                    readsMap.at(read).push_back(location[i2] - (q * k));
+                    foundLocations.push_back(location[i2] - (q * k));
+                    readsMap[read].push_back(location[i2] - (q * k));
 
                     if (isForwardStrand) {
                         forwardFound.push_back(location[i2] - (q * k));
@@ -52,21 +52,21 @@ vector<unsigned long int> findingPositionUsingMinimizers(string windowSeed, stri
     return foundLocations;
 }
 
-vector<unsigned long int> findingPositionUsingOpenAddr(string windowSeed, string read, int windowLength, int q, int k, bool isForwardStrand) {
-    vector<unsigned long int> foundLocations;
-    vector<unsigned long int> location;
-    unsigned long int rank;
+vector<unsigned long long int> findingPositionUsingOpenAddr(string windowSeed, string read, int windowLength, int q, int k, bool isForwardStrand) {
+    vector<unsigned long long int> foundLocations;
+    vector<unsigned long long int> location;
+    unsigned long long int rank;
 
     if (windowSeed.length() >= windowLength) {
         rank = extractRanking(windowSeed);
 
         try {
             //long long index2 = codeTable[rank];
-            unsigned long int index = dirTable[codeTable[rank]];
+            unsigned long long int index = dirTable[codeTable[rank]];
 
             while (windowSeed.compare(refGenome.substr(posTable[index], q)) == 0) {
-                //foundLocations.push_back(posTable[index] -  (q * k));
-                readsMap.at(read).push_back(posTable[index] - (q * k));
+                foundLocations.push_back(posTable[index] -  (q * k));
+                readsMap[read].push_back(posTable[index] - (q * k));
 
                 if (isForwardStrand) {
                     forwardFound.push_back(posTable[index] - (q * k));
@@ -84,16 +84,16 @@ vector<unsigned long int> findingPositionUsingOpenAddr(string windowSeed, string
     return foundLocations;
 }
 
-vector<unsigned long int> findingPositionUsingDirAddr(string windowSeed, string read, int windowLength, int q, int k, bool isForwardStrand) {
-    vector<unsigned long int> foundLocations;
-    vector<unsigned long int> location;
-    unsigned long int rank;
+vector<unsigned long long int> findingPositionUsingDirAddr(string windowSeed, string read, int windowLength, int q, int k, bool isForwardStrand) {
+    vector<unsigned long long int> foundLocations;
+    vector<unsigned long long int> location;
+    unsigned long long int rank;
 
     if (windowSeed.length() >= windowLength) {
         rank = extractRanking(windowSeed);
 
         if (rank >= 0) {
-            unsigned long int index = dirTable[rank];
+            unsigned long long int index = dirTable[rank];
 
             if (index < posTable.size()) {
                 while (windowSeed.compare(refGenome.substr(posTable[index], q)) == 0) {
@@ -153,7 +153,7 @@ void partitioningReadsToSeeds(string filename, string mode, int windowLength, in
             }
 
             if (windowLength >= seed.size()) {
-                vector<unsigned long int> forward;
+                vector<unsigned long long int> forward;
                 isForward = true;
 
                 if (mode.compare("min") == 0) {
@@ -165,7 +165,7 @@ void partitioningReadsToSeeds(string filename, string mode, int windowLength, in
                 }
 
                 if (forward.size() > 0) {
-//                    for (unsigned long int pos : forward) {
+//                    for (unsigned long long int pos : forward) {
 //                        //filterSeeds << fs << endl;
 //                        EdlibAlignResult result = edlibAlign(refGenome.substr(pos, m).c_str(), m, seeds[i].c_str(), m, edlibDefaultAlignConfig());
 //
@@ -209,7 +209,7 @@ void partitioningReadsToSeeds(string filename, string mode, int windowLength, in
                 }
 
                 if (windowLength >= seed.size()) {
-                    vector<unsigned long int> reverse;
+                    vector<unsigned long long int> reverse;
                     isForward = false;
 
                     if (mode.compare("min") == 0) {
@@ -221,7 +221,7 @@ void partitioningReadsToSeeds(string filename, string mode, int windowLength, in
                     }
 
                     if (reverse.size() > 0) {
-//                        for (unsigned long int pos : reverse) {
+//                        for (unsigned long long int pos : reverse) {
 //                            EdlibAlignResult result = edlibAlign(refGenome.substr(pos, m).c_str(), m, seeds[i].c_str(), m, edlibDefaultAlignConfig());
 //
 //                            if (result.status == EDLIB_STATUS_OK) {
@@ -302,7 +302,7 @@ void partitioningReadsToSeedsExit(string filename, string mode, int windowLength
             }
 
             if (windowLength >= seed.size()) {
-                vector<unsigned long int> forward;
+                vector<unsigned long long int> forward;
 
                 if (mode.compare("min") == 0) {
                     forward = findingPositionUsingMinimizers(seed, seeds[i],  windowLength, q, k, isForward);
@@ -313,7 +313,7 @@ void partitioningReadsToSeedsExit(string filename, string mode, int windowLength
                 }
 
                 if (forward.size() > 0) {
-//                    for (unsigned long int pos : forward) {
+//                    for (unsigned long long int pos : forward) {
 //                        //filterSeeds << fs << endl;
 //                        EdlibAlignResult result = edlibAlign(refGenome.substr(pos, m).c_str(), m, seeds[i].c_str(), m, edlibDefaultAlignConfig());
 //
@@ -357,7 +357,7 @@ void partitioningReadsToSeedsExit(string filename, string mode, int windowLength
                 }
 
                 if (windowLength >= seed.size()) {
-                    vector<unsigned long int> reverse;
+                    vector<unsigned long long int> reverse;
 
 
                     if (mode.compare("min") == 0) {
@@ -369,7 +369,7 @@ void partitioningReadsToSeedsExit(string filename, string mode, int windowLength
                     }
 
                     if (reverse.size() > 0) {
-//                        for (unsigned long int pos : reverse) {
+//                        for (unsigned long long int pos : reverse) {
 //                            EdlibAlignResult result = edlibAlign(refGenome.substr(pos, m).c_str(), m, seeds[i].c_str(), m, edlibDefaultAlignConfig());
 //
 //                            if (result.status == EDLIB_STATUS_OK) {

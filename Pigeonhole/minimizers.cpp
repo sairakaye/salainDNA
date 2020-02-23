@@ -6,7 +6,7 @@
 
 vector<pair<string, int> > alphabetRef = { {"A", 0}, {"C",1}, {"G",2}, {"T", 3} };
 
-unsigned long int extractRanking(string kMer)
+unsigned long long int extractRanking(string kMer)
 {
     string binary;
     int rankValue;
@@ -20,7 +20,7 @@ unsigned long int extractRanking(string kMer)
         }
     }
 
-    unsigned long int decimal = std::strtoul (binary.c_str(), nullptr, 2);
+    unsigned long long int decimal = std::strtoul (binary.c_str(), nullptr, 2);
     return decimal;
 }
 
@@ -44,7 +44,7 @@ unsigned int getMinimizerRank(string windowSeed, int q, int windowSize) {
 
     for (unsigned int j = 0; j < (windowSize - q + 1); j++){
         string sMinimizer = windowSeed.substr(j, q);
-        unsigned long int hashValue = extractRanking(sMinimizer);
+        unsigned long long int hashValue = extractRanking(sMinimizer);
         int tempMinHash = inthash_64(hashValue, mask - 1);
 
         if (tempMinHash < minm1) {
@@ -53,7 +53,7 @@ unsigned int getMinimizerRank(string windowSeed, int q, int windowSize) {
         }
     }
 
-    unsigned long int rankHashValue = extractRanking(finalMin);
+    unsigned long long int rankHashValue = extractRanking(finalMin);
     unsigned int finalMinHash = inthash_64(rankHashValue, mask - 1);
 
     return finalMinHash;
@@ -74,8 +74,8 @@ uint64_t inthash_64(uint64_t key, uint64_t mask)
 multimap<vector<int>, int> generateMinimizers(string stringDNA, int q, int w, int m) {
 //	ofstream outfile;
 //	outfile.open("min_1m.txt", ios::out);
-    unsigned long int noOfKmers = m - q + 1;
-    unsigned long int windowSize = w + q - 1;
+    unsigned long long int noOfKmers = m - q + 1;
+    unsigned long long int windowSize = w + q - 1;
     cout << "\n\nFormat: \n[seed, seed index]  [minimizer, minimizer index, int hash key] \n\n";
     map<int, vector<int>> minimizers; // <hash key of minimizer, positions in ref>
     double mask = pow(4, q);

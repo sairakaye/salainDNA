@@ -5,31 +5,31 @@
 
 string refGenome;
 vector<string> seeds;
-//vector<unsigned long int> foundLocations;
-map<unsigned long int, vector<unsigned long int>> minimizers;
-map<long long, unsigned long int> codeTable;
-vector<unsigned long int> dirTable;
-vector<unsigned long int> posTable;
-vector<unsigned long int> forwardFound;
-vector<unsigned long int> reverseFound;
-vector<unsigned long int> exactFound;
-map<string, vector<unsigned long int>> readsMap;
+//vector<unsigned long long int> foundLocations;
+map<unsigned long long int, vector<unsigned long long int>> minimizers;
+map<long long, unsigned long long int> codeTable;
+vector<unsigned long long int> dirTable;
+vector<unsigned long long int> posTable;
+vector<unsigned long long int> forwardFound;
+vector<unsigned long long int> reverseFound;
+vector<unsigned long long int> exactFound;
+map<string, vector<unsigned long long int>> readsMap;
 
-void initializeMinimizersFromFile(string filename, map<unsigned long int, vector<unsigned long int>>& minimizers) {
+void initializeMinimizersFromFile(string filename, map<unsigned long long int, vector<unsigned long long int>>& minimizers) {
     //cout << "Processing minimizers..." << endl;
     minimizers = getMinimizersFromFile(filename);
     //cout << "Done!" << endl;
 }
 
-void initializeDirectAddressingFromFile(string filename, vector<unsigned long int>& dirTable,
-        vector<unsigned long int>& posTable) {
+void initializeDirectAddressingFromFile(string filename, vector<unsigned long long int>& dirTable,
+        vector<unsigned long long int>& posTable) {
     //cout << "Processing direct addressing..." << endl;
     getDirectAddressing(filename, dirTable, posTable);
     //cout << "Done!" << endl;
 }
 
-void initializingOpenAddressingFromFile(string filename,  map<long long, unsigned long int>& codeTable,
-        vector<unsigned long int>& dirTable, vector<unsigned long int>& posTable) {
+void initializingOpenAddressingFromFile(string filename,  map<long long, unsigned long long int>& codeTable,
+        vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable) {
     //cout << "Processing open addressing..." << endl;
     getOpenAddressing(filename, codeTable, dirTable, posTable);
     //cout << "Done!" << endl;
@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
      * j - number of partitions in the read.
      */
     int q = 8;
-    int windowLength = q + q;
+    int windowLength = q + q - 1;
 
     /**
      * Genome (1MB, 2MB, 4MB, 8MB)
@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
     /**
      * Number of reads or seeds. Only 1 and 100000.
      */
-     int numR = 1;
+     int numR = 100;
 
     /*******               END OF SECTION                *******/
 
@@ -187,8 +187,8 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    for (pair<string, vector<unsigned long int>> readPair : readsMap) {
-        for (unsigned long int location : readPair.second) {
+    for (pair<string, vector<unsigned long long int>> readPair : readsMap) {
+        for (unsigned long long int location : readPair.second) {
             EdlibAlignResult result = edlibAlign(refGenome.substr(location, readPair.first.length()).c_str(), readPair.first.length(), readPair.first.c_str(), readPair.first.length(), edlibDefaultAlignConfig());
 
             if (result.status == EDLIB_STATUS_OK) {

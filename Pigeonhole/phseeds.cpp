@@ -8,7 +8,7 @@
 
 vector<string> processingAcceptingSeedUsingMinimizers(string windowSeed, int windowLength, int q, bool isForwardStrand) {
     vector<string> acceptedSeeds;
-    vector<unsigned long int> location;
+    vector<unsigned long long int> location;
     unsigned int rank;
 
     if (windowSeed.length() >= windowLength) {
@@ -30,7 +30,7 @@ vector<string> processingAcceptingSeedUsingMinimizers(string windowSeed, int win
             }
         }
     } else if (windowSeed.length() == q) {
-        unsigned long int rankHashValue  = extractRanking(windowSeed);
+        unsigned long long int rankHashValue  = extractRanking(windowSeed);
         location = minimizers[rankHashValue];
 
         if (location.size() > 0) {
@@ -54,15 +54,15 @@ vector<string> processingAcceptingSeedUsingMinimizers(string windowSeed, int win
 
 vector<string> processingAcceptingSeedUsingOpenAddr(string windowSeed, int windowLength, int q, bool isForwardStrand) {
     vector<string> acceptedSeeds;
-    vector<unsigned long int> location;
-    unsigned long int rank;
+    vector<unsigned long long int> location;
+    unsigned long long int rank;
 
     if (windowSeed.length() >= windowLength) {
         rank = extractRanking(windowSeed);
 
         try {
             //long long index2 = codeTable[rank];
-            unsigned long int index = dirTable[codeTable[rank]];
+            unsigned long long int index = dirTable[codeTable[rank]];
 
             while (windowSeed.compare(refGenome.substr(posTable[index], q)) == 0) {
                 acceptedSeeds.push_back(refGenome.substr(posTable[index], q));
@@ -85,14 +85,14 @@ vector<string> processingAcceptingSeedUsingOpenAddr(string windowSeed, int windo
 
 vector<string> processingAcceptingSeedUsingDirAddr(string windowSeed, int windowLength, int q, bool isForwardStrand) {
     vector<string> acceptedSeeds;
-    vector<unsigned long int> location;
-    unsigned long int rank;
+    vector<unsigned long long int> location;
+    unsigned long long int rank;
 
     if (windowSeed.length() >= windowLength) {
         rank = extractRanking(windowSeed);
 
         if (rank >= 0) {
-            unsigned long int index = dirTable[rank];
+            unsigned long long int index = dirTable[rank];
 
             if (index < posTable.size()) {
                 while (windowSeed.compare(refGenome.substr(posTable[index], q)) == 0) {

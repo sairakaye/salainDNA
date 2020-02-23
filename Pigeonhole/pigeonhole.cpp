@@ -36,7 +36,7 @@ string reverseComplement(string read) {
     return reverseRead;
 }
 
-void verification(vector<unsigned long int>& forwardFound, vector<unsigned long int>& reverseFound, vector<unsigned long int>& exactFound) {
+void verification(vector<unsigned long long int>& forwardFound, vector<unsigned long long int>& reverseFound, vector<unsigned long long int>& exactFound) {
     cout << "Removing duplicate locations of the read/seeds mapped..." << endl;
     sort(forwardFound.begin(), forwardFound.end());
     forwardFound.erase(unique(forwardFound.begin(), forwardFound.end()), forwardFound.end());
@@ -47,7 +47,7 @@ void verification(vector<unsigned long int>& forwardFound, vector<unsigned long 
     cout << "Number of seeds found from forward (unique locations): " + to_string(forwardFound.size()) << endl;
     cout << "Number of seeds found from backward (unique locations): " + to_string(reverseFound.size()) << endl;
 
-    vector<unsigned long int> combined(forwardFound);
+    vector<unsigned long long int> combined(forwardFound);
     combined.insert(combined.end(), reverseFound.begin(), reverseFound.end());
     sort(combined.begin(), combined.end());
     combined.erase(unique(combined.begin(), combined.end()), combined.end());
@@ -61,7 +61,7 @@ void verification(vector<unsigned long int>& forwardFound, vector<unsigned long 
 
     cout << "Number of locations found the exact reads: " + to_string(exactFound.size()) << endl;
 
-    for (unsigned long int pos : exactFound) {
+    for (unsigned long long int pos : exactFound) {
         cout << to_string(pos) << endl;
     }
 }

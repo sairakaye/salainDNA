@@ -90,13 +90,13 @@ void buildTablesDirect(string stringDNA, int q, double dirTableSize, double posT
 /*int main(int argc, char **argv) {
     vector<string> genomeStrings;
     genomeStrings = initGenomeFile(genomeStrings);
-    unsigned long int q = 12;
+    unsigned long long int q = 12;
     if (genomeStrings[0].at(0) == '>') {
         string stringDNA;
         for (int i = 1; i < genomeStrings.size(); i++)
             stringDNA.append(genomeStrings[i]);
-        unsigned long int shiftedValue = ((unsigned long int)1 << (q * 2));
-//		unsigned long int shiftedValue = pow((unsigned long int)4, q);
+        unsigned long long int shiftedValue = ((unsigned long long int)1 << (q * 2));
+//		unsigned long long int shiftedValue = pow((unsigned long long int)4, q);
         cout << "Number of possible q-grams to be generated: " << shiftedValue << "\n";
         double dirTableSize = pow(4, q) + 1;
         double posTableSize = stringDNA.size() - q + 1;
@@ -182,14 +182,14 @@ void buildTablesOpen(string stringDNA, int q, int shiftedValue, double codeTable
 int main(int argc, char **argv) {
     vector<string> genomeStrings;
     genomeStrings = initGenomeFile(genomeStrings);
-    unsigned long int q = 8;
+    unsigned long long int q = 8;
     double loadFactor = 0.8;
     if (genomeStrings[0].at(0) == '>') {
         string stringDNA;
         for (int i = 1; i < genomeStrings.size(); i++)
             stringDNA.append(genomeStrings[i]);
-        unsigned long int shiftedValue = ((unsigned long int)1 << (q * 2));
-//		unsigned long int shiftedValue = pow((unsigned long int)4, q);
+        unsigned long long int shiftedValue = ((unsigned long long int)1 << (q * 2));
+//		unsigned long long int shiftedValue = pow((unsigned long long int)4, q);
         cout << "Number of possible q-grams to be generated: " << shiftedValue << "\n";
         double codeTableSize = floor(( pow(loadFactor, -1)) * stringDNA.size());
 //		double codeTableSize =  stringDNA.size()+1;

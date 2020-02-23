@@ -18,18 +18,18 @@ using namespace std;
 
 extern string refGenome;
 extern vector<string> seeds;
-extern map<unsigned long int, vector<unsigned long int>> minimizers;
+extern map<unsigned long long int, vector<unsigned long long int>> minimizers;
 
-extern map<long long, unsigned long int> codeTable;
-extern vector<unsigned long int> dirTable;
-extern vector<unsigned long int> posTable;
+extern map<long long, unsigned long long int> codeTable;
+extern vector<unsigned long long int> dirTable;
+extern vector<unsigned long long int> posTable;
 
-extern vector<unsigned long int> forwardFound;
-extern vector<unsigned long int> reverseFound;
+extern vector<unsigned long long int> forwardFound;
+extern vector<unsigned long long int> reverseFound;
 
-extern vector<unsigned long int> exactFound;
+extern vector<unsigned long long int> exactFound;
 
-extern map<string, vector<unsigned long int>> readsMap;
+extern map<string, vector<unsigned long long int>> readsMap;
 
 typedef struct {
     string kmer;
@@ -52,11 +52,11 @@ typedef struct {
 string getFilename(string filename);
 string readGenome(string filename);
 vector<string> readReads(string filename);
-map<unsigned long int, vector<unsigned long int>> getMinimizersFromFile(string filename);
+map<unsigned long long int, vector<unsigned long long int>> getMinimizersFromFile(string filename);
 //RefGenome *readGenome(std::string filename);
 //ReadList *readReads(std::string filename);
 void generateQGrams(string prefix, vector<string>& qGrams, int k);
-void getDirectAddressing(string filename, vector<unsigned long int>& dirTable, vector<unsigned long int>& posTable);
-void getOpenAddressing(string filename, map<long long, unsigned long int>& codeTable, vector<unsigned long int>& dirTable, vector<unsigned long int>& posTable);
+void getDirectAddressing(string filename, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable);
+void getOpenAddressing(string filename, map<long long, unsigned long long int>& codeTable, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable);
 
 #endif //MP_PIGEONHOLE_COMMON_H

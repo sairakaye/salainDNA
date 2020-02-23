@@ -4,7 +4,7 @@
 
 #include "common.h"
 
-void getDirectAddressing(string filename, vector<unsigned long int>& dirTable, vector<unsigned long int>& posTable) {
+void getDirectAddressing(string filename, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable) {
     ifstream directAddrFile (filename);
     string line;
 
@@ -52,7 +52,7 @@ void getDirectAddressing(string filename, vector<unsigned long int>& dirTable, v
 }
 
 
-void getOpenAddressing(string filename, map<long long, unsigned long int>& codeTable, vector<unsigned long int>& dirTable, vector<unsigned long int>& posTable) {
+void getOpenAddressing(string filename, map<long long, unsigned long long int>& codeTable, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable) {
     ifstream openAddrFile (filename);
     string line;
 
@@ -86,7 +86,7 @@ void getOpenAddressing(string filename, map<long long, unsigned long int>& codeT
             } else {
                 if (isGettingCode) {
                     long long getThis;
-                    unsigned long int num;
+                    unsigned long long int num;
                     int i = 0;
 
                     while(getline(ss, tok, ' ')) {
@@ -106,7 +106,7 @@ void getOpenAddressing(string filename, map<long long, unsigned long int>& codeT
                     }
 
                     if (getThis != -1) {
-                        codeTable.insert(pair<long long, unsigned long int>(getThis, num));
+                        codeTable.insert(pair<long long, unsigned long long int>(getThis, num));
                     }
                 } else if (isGettingDir) {
                     while(getline(ss, tok, ' ')) {
@@ -216,8 +216,8 @@ vector<string> readReads(string filename) {
     return readList;
 }
 
-vector<unsigned long int> splitToInt(string str, char delimiter) {
-    vector<unsigned long int> internal;
+vector<unsigned long long int> splitToInt(string str, char delimiter) {
+    vector<unsigned long long int> internal;
     stringstream ss(str); // Turn the string into a stream.
     string tok;
 
@@ -230,18 +230,18 @@ vector<unsigned long int> splitToInt(string str, char delimiter) {
     return internal;
 }
 
-map<unsigned long int, vector<unsigned long int>> getMinimizersFromFile(string filename) {
+map<unsigned long long int, vector<unsigned long long int>> getMinimizersFromFile(string filename) {
     ifstream fileMinimizer (filename);
     string line;
 
-    map<unsigned long int, vector<unsigned long int>> minimizers;
+    map<unsigned long long int, vector<unsigned long long int>> minimizers;
 
     if (fileMinimizer.is_open()) {
         while (getline (fileMinimizer, line)) {
             if (line.rfind(">", 0) == 0)
                 continue;
 
-            unsigned long int minimizerHashRank = stol(line.substr(0, line.find(':')));
+            unsigned long long int minimizerHashRank = stol(line.substr(0, line.find(':')));
             string locations = line.substr(line.find(':') + 1, line.length() - line.find(":"));
 
             minimizers[minimizerHashRank] = splitToInt(locations, ' ');
