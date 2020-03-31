@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/multicore_rm.dir/main.cpp.o  -o multicore_rm 
