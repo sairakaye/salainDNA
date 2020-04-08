@@ -1,6 +1,14 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/multicore_rm.dir/main.cpp.o"
-  "multicore_rm"
+  "CMakeFiles/multicore_rm.dir/bitmatrix.cpp.obj"
+  "CMakeFiles/multicore_rm.dir/common.cpp.obj"
+  "CMakeFiles/multicore_rm.dir/edlib.cpp.obj"
+  "CMakeFiles/multicore_rm.dir/main.cpp.obj"
+  "CMakeFiles/multicore_rm.dir/minimizer.cpp.obj"
+  "CMakeFiles/multicore_rm.dir/pigeonhole.cpp.obj"
+  "CMakeFiles/multicore_rm.dir/searching.cpp.obj"
+  "libmulticore_rm.dll.a"
+  "multicore_rm.exe"
+  "multicore_rm.exe.manifest"
   "multicore_rm.pdb"
 )
 

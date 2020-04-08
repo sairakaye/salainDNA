@@ -4,7 +4,13 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/saimanalili/CLionProjects/multicore-rm/main.cpp" "/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug/CMakeFiles/multicore_rm.dir/main.cpp.o"
+  "D:/- THESIS -/multicore-rm/bitmatrix.cpp" "D:/- THESIS -/multicore-rm/cmake-build-debug/CMakeFiles/multicore_rm.dir/bitmatrix.cpp.obj"
+  "D:/- THESIS -/multicore-rm/common.cpp" "D:/- THESIS -/multicore-rm/cmake-build-debug/CMakeFiles/multicore_rm.dir/common.cpp.obj"
+  "D:/- THESIS -/multicore-rm/edlib.cpp" "D:/- THESIS -/multicore-rm/cmake-build-debug/CMakeFiles/multicore_rm.dir/edlib.cpp.obj"
+  "D:/- THESIS -/multicore-rm/main.cpp" "D:/- THESIS -/multicore-rm/cmake-build-debug/CMakeFiles/multicore_rm.dir/main.cpp.obj"
+  "D:/- THESIS -/multicore-rm/minimizer.cpp" "D:/- THESIS -/multicore-rm/cmake-build-debug/CMakeFiles/multicore_rm.dir/minimizer.cpp.obj"
+  "D:/- THESIS -/multicore-rm/pigeonhole.cpp" "D:/- THESIS -/multicore-rm/cmake-build-debug/CMakeFiles/multicore_rm.dir/pigeonhole.cpp.obj"
+  "D:/- THESIS -/multicore-rm/searching.cpp" "D:/- THESIS -/multicore-rm/cmake-build-debug/CMakeFiles/multicore_rm.dir/searching.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
