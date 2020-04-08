@@ -275,6 +275,7 @@ void multiThreadedMain() {
     }
 }
 
+/*
 void checkResultswithEdlib(){
 
 
@@ -331,7 +332,7 @@ void checkResultswithEdlib(){
              cout << "\n" << "NUMBER OF ONES: ";
              cout << countOnes(shouji);
              cout << "\n" << "Size: ";
-             cout << shouji.size();*/
+             cout << shouji.size();
 
             if (countOnes(shouji) <= E) {
                 ShoujiAccept = true;
@@ -377,6 +378,8 @@ void checkResultswithEdlib(){
         cout << finalTime << "\t" <<E<<"\t"<<TruePos<<"\t"<<TrueNeg<<"\t"<<FalsePos<<"\t"<<FalseNeg;
     }
 }
+*/
+
 /*
 
 int main(void){

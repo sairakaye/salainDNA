@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "D:/- THESIS -/multicore-rm/bitmatrix.cpp" "D:/- THESIS -/multicore-rm/cmake-build-debug/CMakeFiles/multicore_rm.dir/bitmatrix.cpp.obj"
+  "D:/- THESIS -/multicore-rm/command.cpp" "D:/- THESIS -/multicore-rm/cmake-build-debug/CMakeFiles/multicore_rm.dir/command.cpp.obj"
   "D:/- THESIS -/multicore-rm/common.cpp" "D:/- THESIS -/multicore-rm/cmake-build-debug/CMakeFiles/multicore_rm.dir/common.cpp.obj"
   "D:/- THESIS -/multicore-rm/edlib.cpp" "D:/- THESIS -/multicore-rm/cmake-build-debug/CMakeFiles/multicore_rm.dir/edlib.cpp.obj"
   "D:/- THESIS -/multicore-rm/main.cpp" "D:/- THESIS -/multicore-rm/cmake-build-debug/CMakeFiles/multicore_rm.dir/main.cpp.obj"

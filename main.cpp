@@ -1,9 +1,6 @@
-#include <omp.h>
-#include "common.h"
+#include "command.h"
 #include "pigeonhole.h"
-
 #include "bitmatrix.h"
-#include <chrono>
 
 using namespace std::chrono;
 
@@ -25,6 +22,7 @@ ofstream infoFile;
 Counters *counter;
 
 string mode;
+string searchMode;
 unsigned int q;
 unsigned int w;
 unsigned int m;
@@ -34,15 +32,15 @@ int main(int argc, char *argv[]) {
     string genomeFileName;
     string readsFileName;
     string indexFileName;
+    string mainName;
 
     q = 8;
     e = 0;
     mode = "min";
-    string searchMode = "all";
-    /**
-     * TO DO: Argument checking... (if missing arguments etc.)
-     * ALSO TO DO: accept paths with spaces.
-     */
+    searchMode = "exit";
+
+    processingArguments(argc, argv, genomeFileName, readsFileName, readsFileName, mainName);
+    /*
     for (int i = 1; i < argc; ++i) {
         if (string(argv[i]) == "-q") {
             q = atoi(argv[i + 1]);
@@ -62,6 +60,7 @@ int main(int argc, char *argv[]) {
             searchMode = string(argv[i + 1]);
         }
     }
+    */
 
     cout << "Reading the reference genome... " << endl << genomeFileName << endl << endl;
     refGenome = readGenomeFile(genomeFileName);

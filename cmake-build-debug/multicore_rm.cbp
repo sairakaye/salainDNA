@@ -88,6 +88,12 @@
 		<Unit filename="D:/- THESIS -/multicore-rm/bitmatrix.h">
 			<Option target="multicore_rm"/>
 		</Unit>
+		<Unit filename="D:/- THESIS -/multicore-rm/command.cpp">
+			<Option target="multicore_rm"/>
+		</Unit>
+		<Unit filename="D:/- THESIS -/multicore-rm/command.h">
+			<Option target="multicore_rm"/>
+		</Unit>
 		<Unit filename="D:/- THESIS -/multicore-rm/common.cpp">
 			<Option target="multicore_rm"/>
 		</Unit>

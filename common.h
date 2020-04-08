@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <vector>
 #include <bits/stdc++.h>
+#include <omp.h>
 
 using namespace std;
 
@@ -21,6 +22,7 @@ extern string refGenome;
 extern vector<string> reads;
 
 extern string mode;
+extern string searchMode;
 extern unsigned int q;
 extern unsigned int w;
 extern unsigned int m;

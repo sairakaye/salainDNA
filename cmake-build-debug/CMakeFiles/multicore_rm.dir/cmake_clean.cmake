@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/multicore_rm.dir/bitmatrix.cpp.obj"
+  "CMakeFiles/multicore_rm.dir/command.cpp.obj"
   "CMakeFiles/multicore_rm.dir/common.cpp.obj"
   "CMakeFiles/multicore_rm.dir/edlib.cpp.obj"
   "CMakeFiles/multicore_rm.dir/main.cpp.obj"

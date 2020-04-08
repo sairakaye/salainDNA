@@ -149,6 +149,33 @@ bitmatrix.cpp.s:
 	$(MAKE) -f CMakeFiles\multicore_rm.dir\build.make CMakeFiles/multicore_rm.dir/bitmatrix.cpp.s
 .PHONY : bitmatrix.cpp.s
 
+command.obj: command.cpp.obj
+
+.PHONY : command.obj
+
+# target to build an object file
+command.cpp.obj:
+	$(MAKE) -f CMakeFiles\multicore_rm.dir\build.make CMakeFiles/multicore_rm.dir/command.cpp.obj
+.PHONY : command.cpp.obj
+
+command.i: command.cpp.i
+
+.PHONY : command.i
+
+# target to preprocess a source file
+command.cpp.i:
+	$(MAKE) -f CMakeFiles\multicore_rm.dir\build.make CMakeFiles/multicore_rm.dir/command.cpp.i
+.PHONY : command.cpp.i
+
+command.s: command.cpp.s
+
+.PHONY : command.s
+
+# target to generate assembly for a file
+command.cpp.s:
+	$(MAKE) -f CMakeFiles\multicore_rm.dir\build.make CMakeFiles/multicore_rm.dir/command.cpp.s
+.PHONY : command.cpp.s
+
 common.obj: common.cpp.obj
 
 .PHONY : common.obj
@@ -323,6 +350,9 @@ help:
 	@echo ... bitmatrix.obj
 	@echo ... bitmatrix.i
 	@echo ... bitmatrix.s
+	@echo ... command.obj
+	@echo ... command.i
+	@echo ... command.s
 	@echo ... common.obj
 	@echo ... common.i
 	@echo ... common.s
