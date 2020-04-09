@@ -6,6 +6,6 @@
 #define MULTICORE_RM_COMMAND_H
 
 #include "common.h"
-void processingArguments(int argc, char *argv[], string &genomeFileName, string &readsFilename, string &indexFilename, string &mainName);
+void processingArguments(int argc, char *argv[], string &genomeFilePath, string &readsFilePath, string &indexFilePath, string &mainName);
 
 #endif //MULTICORE_RM_COMMAND_H

@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/saimanalili/CLionProjects/multicore-rm/command.cpp
+command.h
+/home/saimanalili/CLionProjects/multicore-rm/command.h
+
+/home/saimanalili/CLionProjects/multicore-rm/command.h
+common.h
+/home/saimanalili/CLionProjects/multicore-rm/common.h
+
+/home/saimanalili/CLionProjects/multicore-rm/common.h
+iostream
+-
+fstream
+-
+map
+-
+iterator
+-
+string
+-
+utility
+-
+algorithm
+-
+vector
+-
+bits/stdc++.h
+-
+omp.h
+-
+

@@ -4,8 +4,24 @@
 
 #include "command.h"
 
-// Tamang try catch lang hehe mamaya.
-void processingArguments(int argc, char *argv[], string &genomeFileName, string &readsFilename, string &indexFilename, string &mainName) {
+string getFileName(string filePath) {
+
+    char sep = '/';
+
+#ifdef _WIN32
+    sep = '\\';
+#endif
+
+    unsigned int i = filePath.rfind(sep, filePath.length());
+
+    if (i != string::npos) {
+        return (filePath.substr(i+1, filePath.length() - i));
+    }
+
+    return ("");
+}
+
+void processingArguments(int argc, char *argv[], string &genomeFilePath, string &readsFilePath, string &indexFilePath, string &mainName) {
     if (argc == 1) {
         cout << "Print the deets." << endl;
         exit(EXIT_SUCCESS);
@@ -25,11 +41,13 @@ void processingArguments(int argc, char *argv[], string &genomeFileName, string 
                     exit(EXIT_FAILURE);
                 }
             } else if (string(argv[i]) == "-g") {
-                genomeFileName = string(argv[i + 1]);
+                genomeFilePath = string(argv[i + 1]);
+                mainName = getFileName(genomeFilePath);
+                mainName = mainName.substr(0, mainName.find_last_of("."));
             } else if (string(argv[i]) == "-ir") {
-                readsFilename = string(argv[i + 1]);
+                readsFilePath = string(argv[i + 1]);
             } else if (string(argv[i]) == "-i") {
-                indexFilename = string(argv[i + 1]);
+                indexFilePath = string(argv[i + 1]);
             } else if (string(argv[i]) == "-m") {
                 mode = string(argv[i + 1]);
             } else if (string(argv[i]) == "-temp") {

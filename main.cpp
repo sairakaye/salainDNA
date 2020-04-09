@@ -14,7 +14,6 @@ map<long long, unsigned long long int> codeTable;
 vector<unsigned long long int> dirTable;
 vector<unsigned long long int> posTable;
 
-string temp_comp;
 ofstream outputPossibleReadsFile;
 ofstream outputLocationsFile;
 ofstream infoFile;
@@ -29,9 +28,9 @@ unsigned int m;
 unsigned int e;
 
 int main(int argc, char *argv[]) {
-    string genomeFileName;
-    string readsFileName;
-    string indexFileName;
+    string genomeFilePath;
+    string readsFilePath;
+    string indexFilePath;
     string mainName;
 
     q = 8;
@@ -39,17 +38,18 @@ int main(int argc, char *argv[]) {
     mode = "min";
     searchMode = "exit";
 
-    processingArguments(argc, argv, genomeFileName, readsFileName, readsFileName, mainName);
+    processingArguments(argc, argv, genomeFilePath, readsFilePath, readsFilePath, mainName);
+
     /*
     for (int i = 1; i < argc; ++i) {
         if (string(argv[i]) == "-q") {
             q = atoi(argv[i + 1]);
         } else if (string(argv[i]) == "-g") {
-            genomeFileName = string(argv[i + 1]);
+            genomeFilePath = string(argv[i + 1]);
         } else if (string(argv[i]) == "-ir") {
-            readsFileName = string(argv[i + 1]);
+            readsFilePath = string(argv[i + 1]);
         } else if (string(argv[i]) == "-i") {
-            indexFileName = string(argv[i + 1]);
+            indexFilePath = string(argv[i + 1]);
         } else if (string(argv[i]) == "-m") {
             mode = string(argv[i + 1]);
         } else if (string(argv[i]) == "-temp") {
@@ -62,29 +62,29 @@ int main(int argc, char *argv[]) {
     }
     */
 
-    cout << "Reading the reference genome... " << endl << genomeFileName << endl << endl;
-    refGenome = readGenomeFile(genomeFileName);
-    cout << "Reading the reads... " << endl << readsFileName << endl << endl;
-    reads = readReadsFile(readsFileName);
+    cout << "Reading the reference genome... " << endl << genomeFilePath << endl << endl;
+    refGenome = readGenomeFile(genomeFilePath);
+    cout << "Reading the reads... " << endl << readsFilePath << endl << endl;
+    reads = readReadsFile(readsFilePath);
 
     w = q + q - 1;
     m = reads[0].size();
 
-    cout << "Reading the indexing... " << endl << indexFileName << endl << endl;
+    cout << "Reading the indexing... " << endl << indexFilePath << endl << endl;
     if (mode.compare("min") == 0) {
-        minimizers = getMinimizers(indexFileName);
+        minimizers = getMinimizers(indexFilePath);
     } else if (mode.compare("dir") == 0) {
-        getDirectAddressing(indexFileName, dirTable, posTable);
+        getDirectAddressing(indexFilePath, dirTable, posTable);
     } else if (mode.compare("open") == 0) {
-        getOpenAddressing(indexFileName, codeTable, dirTable, posTable);
+        getOpenAddressing(indexFilePath, codeTable, dirTable, posTable);
     } else {
         cout << "Mode not valid...";
         exit(EXIT_FAILURE);
     }
 
-    string locationsFileName(mode + "_locations_" + temp_comp + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + searchMode + ".txt");
+    string locationsFileName(mode + "_locations_" + mainName + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + searchMode + ".txt");
     outputLocationsFile.open(locationsFileName.c_str(), ios::out);
-    string infoFileName(mode + "_info_" + temp_comp + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + searchMode + ".txt");
+    string infoFileName(mode + "_info_" + mainName + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + searchMode + ".txt");
     infoFile.open(infoFileName.c_str(), ios::out);
 
     counter = (Counters *)malloc(sizeof(Counters));
