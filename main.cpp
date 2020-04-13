@@ -1,23 +1,24 @@
-#include <omp.h>
-#include "common.h"
+#include "command.h"
 #include "pigeonhole.h"
-
 #include "bitmatrix.h"
-#include <chrono>
+#include "indexing.h"
+#include "verification.h"
 
 using namespace std::chrono;
 
 string refGenome;
 vector<string> reads;
+map<string, vector<string>> readsLabelMap;
+
 map<string, vector<unsigned long long int>> forwardReadsMap;
 map<string, vector<unsigned long long int>> reverseReadsMap;
+map<string, vector<unsigned long long int>> filteredReadsMap;
 
 map<unsigned long long int, vector<unsigned long long int>> minimizers;
 map<long long, unsigned long long int> codeTable;
 vector<unsigned long long int> dirTable;
 vector<unsigned long long int> posTable;
 
-string temp_comp;
 ofstream outputPossibleReadsFile;
 ofstream outputLocationsFile;
 ofstream infoFile;
@@ -25,67 +26,91 @@ ofstream infoFile;
 Counters *counter;
 
 string mode;
+string searchMode;
 unsigned int q;
 unsigned int w;
 unsigned int m;
 unsigned int e;
 
 int main(int argc, char *argv[]) {
-    string genomeFileName;
-    string readsFileName;
-    string indexFileName;
+    string genomeFilePath;
+    string readsFilePath;
+    string indexFilePath;
+    string mainName;
 
     q = 8;
     e = 0;
     mode = "min";
-    string searchMode = "all";
-    /**
-     * TO DO: Argument checking... (if missing arguments etc.)
-     * ALSO TO DO: accept paths with spaces.
-     */
-    for (int i = 1; i < argc; ++i) {
-        if (string(argv[i]) == "-q") {
-            q = atoi(argv[i + 1]);
-        } else if (string(argv[i]) == "-g") {
-            genomeFileName = string(argv[i + 1]);
-        } else if (string(argv[i]) == "-ir") {
-            readsFileName = string(argv[i + 1]);
-        } else if (string(argv[i]) == "-i") {
-            indexFileName = string(argv[i + 1]);
-        } else if (string(argv[i]) == "-m") {
-            mode = string(argv[i + 1]);
-        } else if (string(argv[i]) == "-temp") {
-            temp_comp = string(argv[i + 1]);
-        } else if (string(argv[i]) == "-e") {
-            e = atoi(argv[i + 1]);
-        } else if (string(argv[i]) == "-s") {
-            searchMode = string(argv[i + 1]);
-        }
-    }
+    searchMode = "exit";
 
-    cout << "Reading the reference genome... " << endl << genomeFileName << endl << endl;
-    refGenome = readGenomeFile(genomeFileName);
-    cout << "Reading the reads... " << endl << readsFileName << endl << endl;
-    reads = readReadsFile(readsFileName);
+    processingArguments(argc, argv, genomeFilePath, readsFilePath, indexFilePath, mainName);
+
+    cout << "Reading the reference genome... " << endl << genomeFilePath << endl << endl;
+    refGenome = readGenomeFile(genomeFilePath);
+    cout << "Reading the reads... " << endl << readsFilePath << endl << endl;
+    reads = readReadsFile(readsFilePath);
 
     w = q + q - 1;
     m = reads[0].size();
 
-    cout << "Reading the indexing... " << endl << indexFileName << endl << endl;
-    if (mode.compare("min") == 0) {
-        minimizers = getMinimizers(indexFileName);
-    } else if (mode.compare("dir") == 0) {
-        getDirectAddressing(indexFileName, dirTable, posTable);
-    } else if (mode.compare("open") == 0) {
-        getOpenAddressing(indexFileName, codeTable, dirTable, posTable);
+    if (indexFilePath.length() == 0) {
+        string indexDefaultFile = mode + "_" + mainName + "_" + to_string(q) + ".txt";
+
+        ifstream indexFile(indexDefaultFile);
+
+        if (indexFile) {
+            cout << "Reading the indexing... " << endl << indexDefaultFile << endl << endl;
+            if (mode.compare("min") == 0) {
+                minimizers = getMinimizers(indexDefaultFile);
+            } else if (mode.compare("dir") == 0) {
+                getDirectAddressing(indexDefaultFile, dirTable, posTable);
+            } else if (mode.compare("open") == 0) {
+                getOpenAddressing(indexDefaultFile, codeTable, dirTable, posTable);
+            } else {
+                cout << "Mode not valid...";
+                exit(EXIT_FAILURE);
+            }
+        } else {
+            cout << "Starting the indexing... " << endl << indexDefaultFile << endl << endl;
+            if (mode.compare("min") == 0) {
+                buildMinimizersIndexing(refGenome, mainName);
+            } else if (mode.compare("dir") == 0) {
+                buildDirectAddressingIndexing(refGenome, mainName);
+            } else if (mode.compare("open") == 0) {
+                buildOpenAddressingIndexing(refGenome, mainName);
+            } else {
+                cout << "Mode not valid...";
+                exit(EXIT_FAILURE);
+            }
+        }
+
+        if (mode.compare("min") == 0) {
+            minimizers = getMinimizers(indexFilePath);
+        } else if (mode.compare("dir") == 0) {
+            getDirectAddressing(indexFilePath, dirTable, posTable);
+        } else if (mode.compare("open") == 0) {
+            getOpenAddressing(indexFilePath, codeTable, dirTable, posTable);
+        } else {
+            cout << "Mode not valid...";
+            exit(EXIT_FAILURE);
+        }
     } else {
-        cout << "Mode not valid...";
-        exit(EXIT_FAILURE);
+        cout << "Reading the indexing... " << endl << indexFilePath << endl << endl;
+        if (mode.compare("min") == 0) {
+            minimizers = getMinimizers(indexFilePath);
+        } else if (mode.compare("dir") == 0) {
+            getDirectAddressing(indexFilePath, dirTable, posTable);
+        } else if (mode.compare("open") == 0) {
+            getOpenAddressing(indexFilePath, codeTable, dirTable, posTable);
+        } else {
+            cout << "Mode not valid...";
+            exit(EXIT_FAILURE);
+        }
     }
 
-    string locationsFileName(mode + "_locations_" + temp_comp + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + searchMode + ".txt");
+    string locationsFileName(mode + "_locations_" + mainName + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + searchMode + ".txt");
     outputLocationsFile.open(locationsFileName.c_str(), ios::out);
-    string infoFileName(mode + "_info_" + temp_comp + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + searchMode + ".txt");
+    string infoFileName(mode + "_info_" + mainName + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + searchMode + ".txt");
     infoFile.open(infoFileName.c_str(), ios::out);
 
     counter = (Counters *)malloc(sizeof(Counters));

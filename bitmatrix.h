@@ -7,7 +7,7 @@
 
 #include "common.h"
 
-#include <zconf.h>
+//#include <zconf.h>
 
 extern int TruePos;
 extern int TrueNeg;

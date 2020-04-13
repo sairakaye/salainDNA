@@ -7,7 +7,6 @@
 
 #include "common.h"
 #include "minimizer.h"
-#include "edlib.h"
 
 void searchingPosition(string seed, string read, string mode, int q, int k, bool isForwardStrand, bool isCheckApproximate, vector<unsigned long long int>& foundLocations);
 

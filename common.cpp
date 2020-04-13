@@ -33,17 +33,22 @@ vector<string> readReadsFile(string filename) {
 
     ifstream fileRead(filename);
     string line;
+    string readName;
 
     if (fileRead.is_open()) {
         while (getline (fileRead,line)) {
-            if (line.rfind(">", 0) == 0)
+            if (line.rfind(">", 0) == 0) {
+                readName = line.substr(1, line.find(' '));
                 continue;
+            }
 
             if (!line.empty() && (line[line.length()-1] == '\n' || line[line.length()-1] == '\r')) {
                 line.erase(line.length()-1);
             }
 
             readList.push_back(line);
+            readsLabelMap[readName].push_back(line);
+            readsLabelMap[readName].push_back(reverseComplement(line));
         }
 
         fileRead.close();
@@ -54,6 +59,30 @@ vector<string> readReadsFile(string filename) {
     }
 
     return readList;
+}
+
+string reverseComplement(string read) {
+    string reverseRead = read;
+    reverse(reverseRead.begin(), reverseRead.end());
+
+    for (int i = 0; i < reverseRead.length(); i++) {
+        switch (reverseRead[i]) {
+            case 'A':
+                reverseRead[i] = 'T';
+                break;
+            case 'C':
+                reverseRead[i] = 'G';
+                break;
+            case 'G':
+                reverseRead[i] = 'C';
+                break;
+            case 'T':
+                reverseRead[i] = 'A';
+                break;
+        }
+    }
+
+    return reverseRead;
 }
 
 void getDirectAddressing(string filename, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable) {
