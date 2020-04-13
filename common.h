@@ -14,9 +14,12 @@
 #include <algorithm>
 #include <vector>
 #include <bits/stdc++.h>
+#include <chrono>
 #include <omp.h>
+#include "edlib.h"
 
 using namespace std;
+using namespace std::chrono;
 
 extern string refGenome;
 extern vector<string> reads;
@@ -33,8 +36,10 @@ extern map<long long, unsigned long long int> codeTable;
 extern vector<unsigned long long int> dirTable;
 extern vector<unsigned long long int> posTable;
 
+extern map<string, vector<string>> readsLabelMap;
 extern map<string, vector<unsigned long long int>> forwardReadsMap;
 extern map<string, vector<unsigned long long int>> reverseReadsMap;
+extern map<string, vector<unsigned long long int>> filteredReadsMap;
 
 typedef struct {
     unsigned int numSeeds;
@@ -52,6 +57,7 @@ extern ofstream infoFile;
 
 string readGenomeFile(string filename);
 vector<string> readReadsFile(string filename);
+string reverseComplement(string read);
 void getDirectAddressing(string filename, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable);
 void getOpenAddressing(string filename, map<long long, unsigned long long int>& codeTable, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable);
 map<unsigned long long int, vector<unsigned long long int>> getMinimizers(string filename);

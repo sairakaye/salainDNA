@@ -7,30 +7,6 @@
 int j;
 int allowableE;
 
-string reverseComplement(string read) {
-    string reverseRead = read;
-    reverse(reverseRead.begin(), reverseRead.end());
-
-    for (int i = 0; i < reverseRead.length(); i++) {
-        switch (reverseRead[i]) {
-            case 'A':
-                reverseRead[i] = 'T';
-                break;
-            case 'C':
-                reverseRead[i] = 'G';
-                break;
-            case 'G':
-                reverseRead[i] = 'C';
-                break;
-            case 'T':
-                reverseRead[i] = 'A';
-                break;
-        }
-    }
-
-    return reverseRead;
-}
-
 void searchingReadProcess() {
     j = m / q;
     allowableE = floor(e / j);

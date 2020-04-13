@@ -1,13 +1,18 @@
 #include "command.h"
 #include "pigeonhole.h"
 #include "bitmatrix.h"
+#include "indexing.h"
+#include "verification.h"
 
 using namespace std::chrono;
 
 string refGenome;
 vector<string> reads;
+map<string, vector<string>> readsLabelMap;
+
 map<string, vector<unsigned long long int>> forwardReadsMap;
 map<string, vector<unsigned long long int>> reverseReadsMap;
+map<string, vector<unsigned long long int>> filteredReadsMap;
 
 map<unsigned long long int, vector<unsigned long long int>> minimizers;
 map<long long, unsigned long long int> codeTable;
@@ -38,29 +43,7 @@ int main(int argc, char *argv[]) {
     mode = "min";
     searchMode = "exit";
 
-    processingArguments(argc, argv, genomeFilePath, readsFilePath, readsFilePath, mainName);
-
-    /*
-    for (int i = 1; i < argc; ++i) {
-        if (string(argv[i]) == "-q") {
-            q = atoi(argv[i + 1]);
-        } else if (string(argv[i]) == "-g") {
-            genomeFilePath = string(argv[i + 1]);
-        } else if (string(argv[i]) == "-ir") {
-            readsFilePath = string(argv[i + 1]);
-        } else if (string(argv[i]) == "-i") {
-            indexFilePath = string(argv[i + 1]);
-        } else if (string(argv[i]) == "-m") {
-            mode = string(argv[i + 1]);
-        } else if (string(argv[i]) == "-temp") {
-            temp_comp = string(argv[i + 1]);
-        } else if (string(argv[i]) == "-e") {
-            e = atoi(argv[i + 1]);
-        } else if (string(argv[i]) == "-s") {
-            searchMode = string(argv[i + 1]);
-        }
-    }
-    */
+    processingArguments(argc, argv, genomeFilePath, readsFilePath, indexFilePath, mainName);
 
     cout << "Reading the reference genome... " << endl << genomeFilePath << endl << endl;
     refGenome = readGenomeFile(genomeFilePath);
@@ -70,16 +53,59 @@ int main(int argc, char *argv[]) {
     w = q + q - 1;
     m = reads[0].size();
 
-    cout << "Reading the indexing... " << endl << indexFilePath << endl << endl;
-    if (mode.compare("min") == 0) {
-        minimizers = getMinimizers(indexFilePath);
-    } else if (mode.compare("dir") == 0) {
-        getDirectAddressing(indexFilePath, dirTable, posTable);
-    } else if (mode.compare("open") == 0) {
-        getOpenAddressing(indexFilePath, codeTable, dirTable, posTable);
+    if (indexFilePath.length() == 0) {
+        string indexDefaultFile = mode + "_" + mainName + "_" + to_string(q) + ".txt";
+
+        ifstream indexFile(indexDefaultFile);
+
+        if (indexFile) {
+            cout << "Reading the indexing... " << endl << indexDefaultFile << endl << endl;
+            if (mode.compare("min") == 0) {
+                minimizers = getMinimizers(indexDefaultFile);
+            } else if (mode.compare("dir") == 0) {
+                getDirectAddressing(indexDefaultFile, dirTable, posTable);
+            } else if (mode.compare("open") == 0) {
+                getOpenAddressing(indexDefaultFile, codeTable, dirTable, posTable);
+            } else {
+                cout << "Mode not valid...";
+                exit(EXIT_FAILURE);
+            }
+        } else {
+            cout << "Starting the indexing... " << endl << indexDefaultFile << endl << endl;
+            if (mode.compare("min") == 0) {
+                buildMinimizersIndexing(refGenome, mainName);
+            } else if (mode.compare("dir") == 0) {
+                buildDirectAddressingIndexing(refGenome, mainName);
+            } else if (mode.compare("open") == 0) {
+                buildOpenAddressingIndexing(refGenome, mainName);
+            } else {
+                cout << "Mode not valid...";
+                exit(EXIT_FAILURE);
+            }
+        }
+
+        if (mode.compare("min") == 0) {
+            minimizers = getMinimizers(indexFilePath);
+        } else if (mode.compare("dir") == 0) {
+            getDirectAddressing(indexFilePath, dirTable, posTable);
+        } else if (mode.compare("open") == 0) {
+            getOpenAddressing(indexFilePath, codeTable, dirTable, posTable);
+        } else {
+            cout << "Mode not valid...";
+            exit(EXIT_FAILURE);
+        }
     } else {
-        cout << "Mode not valid...";
-        exit(EXIT_FAILURE);
+        cout << "Reading the indexing... " << endl << indexFilePath << endl << endl;
+        if (mode.compare("min") == 0) {
+            minimizers = getMinimizers(indexFilePath);
+        } else if (mode.compare("dir") == 0) {
+            getDirectAddressing(indexFilePath, dirTable, posTable);
+        } else if (mode.compare("open") == 0) {
+            getOpenAddressing(indexFilePath, codeTable, dirTable, posTable);
+        } else {
+            cout << "Mode not valid...";
+            exit(EXIT_FAILURE);
+        }
     }
 
     string locationsFileName(mode + "_locations_" + mainName + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + searchMode + ".txt");

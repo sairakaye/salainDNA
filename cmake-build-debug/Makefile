@@ -231,6 +231,33 @@ edlib.cpp.s:
 	$(MAKE) -f CMakeFiles/multicore_rm.dir/build.make CMakeFiles/multicore_rm.dir/edlib.cpp.s
 .PHONY : edlib.cpp.s
 
+indexing.o: indexing.cpp.o
+
+.PHONY : indexing.o
+
+# target to build an object file
+indexing.cpp.o:
+	$(MAKE) -f CMakeFiles/multicore_rm.dir/build.make CMakeFiles/multicore_rm.dir/indexing.cpp.o
+.PHONY : indexing.cpp.o
+
+indexing.i: indexing.cpp.i
+
+.PHONY : indexing.i
+
+# target to preprocess a source file
+indexing.cpp.i:
+	$(MAKE) -f CMakeFiles/multicore_rm.dir/build.make CMakeFiles/multicore_rm.dir/indexing.cpp.i
+.PHONY : indexing.cpp.i
+
+indexing.s: indexing.cpp.s
+
+.PHONY : indexing.s
+
+# target to generate assembly for a file
+indexing.cpp.s:
+	$(MAKE) -f CMakeFiles/multicore_rm.dir/build.make CMakeFiles/multicore_rm.dir/indexing.cpp.s
+.PHONY : indexing.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -339,6 +366,33 @@ searching.cpp.s:
 	$(MAKE) -f CMakeFiles/multicore_rm.dir/build.make CMakeFiles/multicore_rm.dir/searching.cpp.s
 .PHONY : searching.cpp.s
 
+verification.o: verification.cpp.o
+
+.PHONY : verification.o
+
+# target to build an object file
+verification.cpp.o:
+	$(MAKE) -f CMakeFiles/multicore_rm.dir/build.make CMakeFiles/multicore_rm.dir/verification.cpp.o
+.PHONY : verification.cpp.o
+
+verification.i: verification.cpp.i
+
+.PHONY : verification.i
+
+# target to preprocess a source file
+verification.cpp.i:
+	$(MAKE) -f CMakeFiles/multicore_rm.dir/build.make CMakeFiles/multicore_rm.dir/verification.cpp.i
+.PHONY : verification.cpp.i
+
+verification.s: verification.cpp.s
+
+.PHONY : verification.s
+
+# target to generate assembly for a file
+verification.cpp.s:
+	$(MAKE) -f CMakeFiles/multicore_rm.dir/build.make CMakeFiles/multicore_rm.dir/verification.cpp.s
+.PHONY : verification.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -360,6 +414,9 @@ help:
 	@echo "... edlib.o"
 	@echo "... edlib.i"
 	@echo "... edlib.s"
+	@echo "... indexing.o"
+	@echo "... indexing.i"
+	@echo "... indexing.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
@@ -372,6 +429,9 @@ help:
 	@echo "... searching.o"
 	@echo "... searching.i"
 	@echo "... searching.s"
+	@echo "... verification.o"
+	@echo "... verification.i"
+	@echo "... verification.s"
 .PHONY : help
 
 

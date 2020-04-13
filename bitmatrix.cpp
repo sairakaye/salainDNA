@@ -1,4 +1,5 @@
 #include "bitmatrix.h"
+#include "edlib.h"
 
 //#pragma clang diagnostic push
 //#pragma ide diagnostic ignored "openmp-use-default-none"
@@ -187,19 +188,22 @@ vector<int> slidingWindow(vector<vector<int>> NMap, int m, int E) {
     return finalVector;
 }
 
-void threadFunc(int E , string read, string reference){
+vector<int> threadFunc(int E , string read, string reference){
 
     int m = reference.length();
+    int n = read.length();
+
 
     vector<int> shouji(m);
     //vector<vector<int>> nmap;
     shouji = slidingWindow(createMap(read, reference, E),m, E);
 
-    if (countOnes(shouji) <= E) {
+    return shouji;
+    /*if (countOnes(shouji) <= E) {
         alignmentNeeded++;
     } else {
         notNeeded++;
-    }
+    }*/
 
 }
 
@@ -226,56 +230,72 @@ void multiThreadedMain() {
     }
     */
 
+    vector<string> reads;
+    vector<string> refs;
 
+    int refcount = refs.size();
+    int readcount = reads.size();
 
+    int E = e;
 
-    for (int E = 0; E < 11; E++) {
-        alignmentNeeded = 0;
-        notNeeded = 0;
+    alignmentNeeded = 0;
+    notNeeded = 0;
 
-        TruePos = 0;
-        TrueNeg = 0;
-        FalsePos = 0;
-        FalseNeg = 0;
+    TruePos = 0;
+    TrueNeg = 0;
+    FalsePos = 0;
+    FalseNeg = 0;
 
+    auto start = std::chrono::high_resolution_clock::now();
 
+    int i;
+    #pragma omp parallel for reduction(+:notNeeded, alignmentNeeded)
+    for(i = 0; i < forwardReadsMap.size(); i++) {
+        auto iteratorMap = forwardReadsMap.begin();
+        advance(iteratorMap, i);
 
+        vector<unsigned long long int>& locations = (*iteratorMap).second;
 
-        auto start = std::chrono::high_resolution_clock::now();;
-
-//        #pragma omp parallel for
-//        for(int i = 0; i < reference.size(); i++) {
-//            threadFunc(E, read[i],reference[i]);
-//        }
-
-        for (pair<string, vector<unsigned long long int>> readPair : forwardReadsMap) {
-            vector<unsigned long long int>& locations = readPair.second;
-
-            int i;
-            #pragma omp parallel for
-            for (i = 0; i < locations.size(); i++) {
-                threadFunc(E, readPair.first, refGenome.substr(locations[i], m));
+        int j;
+        for (j = 0; j < locations.size(); j++) {
+            if (countOnes(threadFunc(E, (*iteratorMap).first, refGenome.substr(locations[j], m))) <= E) {
+                #pragma omp critical
+                filteredReadsMap[(*iteratorMap).first].push_back(locations[j]);
+                alignmentNeeded++;
+            } else {
+                notNeeded++;
             }
+
         }
-
-        for (pair<string, vector<unsigned long long int>> readPair : reverseReadsMap) {
-            vector<unsigned long long int>& locations = readPair.second;
-            int i;
-            #pragma omp parallel for
-            for (i = 0; i < locations.size(); i++) {
-                threadFunc(E, readPair.first, refGenome.substr(locations[i], m));
-            }
-        }
-
-        auto end = std::chrono::high_resolution_clock::now();
-
-        chrono::duration<double> diff = end-start;
-
-        cout << diff.count() << "\t" <<E<<"\t"<<alignmentNeeded<<"\t"<<notNeeded << endl;
     }
+
+    #pragma omp parallel for reduction(+:notNeeded, alignmentNeeded)
+    for(i = 0; i < reverseReadsMap.size(); i++) {
+        auto iteratorMap = reverseReadsMap.begin();
+        advance(iteratorMap, i);
+
+        vector<unsigned long long int>& locations = (*iteratorMap).second;
+
+        int j;
+        for (j = 0; j < locations.size(); j++) {
+            if (countOnes(threadFunc(E, (*iteratorMap).first, refGenome.substr(locations[j], m))) <= E) {
+                #pragma omp critical
+                filteredReadsMap[(*iteratorMap).first].push_back(locations[j]);
+                alignmentNeeded++;
+            } else {
+                notNeeded++;
+            }
+
+        }
+    }
+
+    auto end = std::chrono::high_resolution_clock::now();
+
+    chrono::duration<double> diff = end-start;
+
+    cout << diff.count() << "\t" <<E<<"\t"<<alignmentNeeded<<"\t"<<notNeeded << endl;
 }
 
-/*
 void checkResultswithEdlib(){
 
 
@@ -332,7 +352,7 @@ void checkResultswithEdlib(){
              cout << "\n" << "NUMBER OF ONES: ";
              cout << countOnes(shouji);
              cout << "\n" << "Size: ";
-             cout << shouji.size();
+             cout << shouji.size();*/
 
             if (countOnes(shouji) <= E) {
                 ShoujiAccept = true;
@@ -378,8 +398,6 @@ void checkResultswithEdlib(){
         cout << finalTime << "\t" <<E<<"\t"<<TruePos<<"\t"<<TrueNeg<<"\t"<<FalsePos<<"\t"<<FalseNeg;
     }
 }
-*/
-
 /*
 
 int main(void){

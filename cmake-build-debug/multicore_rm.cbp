@@ -108,6 +108,12 @@
 		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/edlib.h">
 			<Option target="multicore_rm"/>
 		</Unit>
+		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/indexing.cpp">
+			<Option target="multicore_rm"/>
+		</Unit>
+		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/indexing.h">
+			<Option target="multicore_rm"/>
+		</Unit>
 		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/main.cpp">
 			<Option target="multicore_rm"/>
 		</Unit>
@@ -127,6 +133,12 @@
 			<Option target="multicore_rm"/>
 		</Unit>
 		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/searching.h">
+			<Option target="multicore_rm"/>
+		</Unit>
+		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/verification.cpp">
+			<Option target="multicore_rm"/>
+		</Unit>
+		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/verification.h">
 			<Option target="multicore_rm"/>
 		</Unit>
 		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/CMakeLists.txt">

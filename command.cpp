@@ -23,15 +23,15 @@ string getFileName(string filePath) {
 
 void processingArguments(int argc, char *argv[], string &genomeFilePath, string &readsFilePath, string &indexFilePath, string &mainName) {
     if (argc == 1) {
-        cout << "Print the deets." << endl;
+        cout << "Print the details of the program." << endl;
         exit(EXIT_SUCCESS);
     } else {
         for (int i = 1; i < argc; ++i) {
             if (string(argv[i]) == "-h") {
-                cout << "Help deets" << endl;
+                cout << "Help commands" << endl;
                 exit(EXIT_SUCCESS);
             } else if (string(argv[i]) == "-v") {
-                cout << "Version deets" << endl;
+                cout << "Version 1.0.0" << endl;
                 exit(EXIT_SUCCESS);
             } else if (string(argv[i]) == "-q") {
                 try {
@@ -50,8 +50,6 @@ void processingArguments(int argc, char *argv[], string &genomeFilePath, string 
                 indexFilePath = string(argv[i + 1]);
             } else if (string(argv[i]) == "-m") {
                 mode = string(argv[i + 1]);
-            } else if (string(argv[i]) == "-temp") {
-                temp_comp = string(argv[i + 1]);
             } else if (string(argv[i]) == "-e") {
                 try {
                     e = stoi(argv[i + 1]);
