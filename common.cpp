@@ -316,3 +316,34 @@ void results(map<string, vector<unsigned long long int>>& forwardReadsMap, map<s
         }
     }
 }
+
+uint64_t inthash_64(uint64_t key, uint64_t mask)
+{
+    key = (~key + (key << 21)) & mask;
+    key = key ^ key >> 24;
+    key = ((key + (key << 3)) + (key << 8)) & mask;
+    key = key ^ key >> 14;
+    key = ((key + (key << 2)) + (key << 4)) & mask;
+    key = key ^ key >> 28;
+    key = (key + (key << 31)) & mask;
+    return key;
+}
+
+unsigned long long int extractRanking(string kMer) {
+    vector<pair<string, int> > alphabetRef = { {"A", 0}, {"C",1}, {"G",2}, {"T", 3} };
+
+    string binary;
+    int rankValue;
+
+    for (int i = 0; i<kMer.length(); i++){
+        for (int j = 0; j< alphabetRef.size(); j++){
+            if (kMer.at(i) + string() == alphabetRef.at(j).first){
+                rankValue = alphabetRef.at(j).second;
+                binary.append(bitset<2>(rankValue).to_string());
+            }
+        }
+    }
+
+    unsigned long long int decimal = strtoull(binary.c_str(), nullptr, 2);
+    return decimal;
+}

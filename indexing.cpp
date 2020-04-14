@@ -8,7 +8,6 @@ int occupiedSpaces = 0;
 int collisions = 0;
 
 vector<string> qGrams;
-vector<pair<string, int> > alphabetRef = { {"A", 0}, {"C",1}, {"G",2}, {"T", 3} };
 
 void generateQGrams(string prefix, int k)
 {
@@ -24,36 +23,6 @@ void generateQGrams(string prefix, int k)
         newPrefix = prefix + charactersDNA[i];
         generateQGrams(newPrefix, k - 1);
     }
-}
-
-uint64_t inthash_64(uint64_t key, uint64_t mask)
-{
-    key = (~key + (key << 21)) & mask;
-    key = key ^ key >> 24;
-    key = ((key + (key << 3)) + (key << 8)) & mask;
-    key = key ^ key >> 14;
-    key = ((key + (key << 2)) + (key << 4)) & mask;
-    key = key ^ key >> 28;
-    key = (key + (key << 31)) & mask;
-    return key;
-}
-
-int extractRanking(string kMer) {
-    string binary;
-    int rankValue;
-
-    for (int i = 0; i<kMer.length(); i++){
-        for (int j = 0; j< alphabetRef.size(); j++){
-            if (kMer.at(i) + string() == alphabetRef.at(j).first){
-                rankValue = alphabetRef.at(j).second;
-                binary.append(bitset<2>(rankValue).to_string());
-            }
-        }
-    }
-
-    unsigned long int decimal = std::strtoul (binary.c_str(), nullptr, 2);
-    cout << kMer <<' ' << binary << ' ' << decimal << endl;
-    return decimal;
 }
 
 void buildDirectAddressingTables(string stringDNA, string mainName, int m, int q, unsigned long long int dirTableSize, unsigned long long int posTableSize)
