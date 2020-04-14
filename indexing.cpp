@@ -355,6 +355,7 @@ void buildOpenAddressingIndexing(string& genome, string& mainName) {
 void buildMinimizersIndexing(string& genome, string& mainName) {
     unsigned long long int q2 = q;
     unsigned long long int w = q2;
+    unsigned long long int m = genome.length();
 
     cout << "Minimizers for q = " << q << " \n\n";
     multimap<vector<unsigned long long int>, unsigned long long int> minimizers = generateMinimizers(genome, mainName, q, w, m);
