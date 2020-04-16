@@ -1,7 +1,9 @@
 #include "command.h"
 #include "pigeonhole.h"
 #include "bitmatrix.h"
-#include "indexing.h"
+#include "directaddressing.h"
+#include "openaddressing.h"
+#include "minimizers.h"
 #include "verification.h"
 
 using namespace std::chrono;

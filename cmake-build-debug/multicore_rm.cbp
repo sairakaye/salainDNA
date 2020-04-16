@@ -17,6 +17,16 @@
 					<DistClean command="/usr/bin/make -j8 -f &quot;/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
 			<Target title="rebuild_cache">
 				<Option working_dir="/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug"/>
 				<Option type="4"/>
@@ -73,16 +83,6 @@
 					<DistClean command="/usr/bin/make -j8 -f &quot;/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="edit_cache">
-				<Option working_dir="/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
 		</Build>
 		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/bitmatrix.cpp">
 			<Option target="multicore_rm"/>
@@ -100,6 +100,12 @@
 			<Option target="multicore_rm"/>
 		</Unit>
 		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/common.h">
+			<Option target="multicore_rm"/>
+		</Unit>
+		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/directaddressing.cpp">
+			<Option target="multicore_rm"/>
+		</Unit>
+		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/directaddressing.h">
 			<Option target="multicore_rm"/>
 		</Unit>
 		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/edlib.cpp">
@@ -121,6 +127,12 @@
 			<Option target="multicore_rm"/>
 		</Unit>
 		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/minimizer.h">
+			<Option target="multicore_rm"/>
+		</Unit>
+		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/openaddressing.cpp">
+			<Option target="multicore_rm"/>
+		</Unit>
+		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/openaddressing.h">
 			<Option target="multicore_rm"/>
 		</Unit>
 		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/pigeonhole.cpp">

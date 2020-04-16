@@ -33,12 +33,30 @@ vector
 -
 bits/stdc++.h
 -
+chrono
+-
 omp.h
 -
 edlib.h
 /home/saimanalili/CLionProjects/multicore-rm/edlib.h
 
+/home/saimanalili/CLionProjects/multicore-rm/directaddressing.cpp
+directaddressing.h
+/home/saimanalili/CLionProjects/multicore-rm/directaddressing.h
+
+/home/saimanalili/CLionProjects/multicore-rm/directaddressing.h
+common.h
+/home/saimanalili/CLionProjects/multicore-rm/common.h
+
 /home/saimanalili/CLionProjects/multicore-rm/edlib.h
+
+/home/saimanalili/CLionProjects/multicore-rm/indexing.cpp
+indexing.h
+/home/saimanalili/CLionProjects/multicore-rm/indexing.h
+
+/home/saimanalili/CLionProjects/multicore-rm/indexing.h
+common.h
+/home/saimanalili/CLionProjects/multicore-rm/common.h
 
 /home/saimanalili/CLionProjects/multicore-rm/main.cpp
 command.h
@@ -47,10 +65,34 @@ pigeonhole.h
 /home/saimanalili/CLionProjects/multicore-rm/pigeonhole.h
 bitmatrix.h
 /home/saimanalili/CLionProjects/multicore-rm/bitmatrix.h
+directaddressing.h
+/home/saimanalili/CLionProjects/multicore-rm/directaddressing.h
+openaddressing.h
+/home/saimanalili/CLionProjects/multicore-rm/openaddressing.h
+minimizer.h
+/home/saimanalili/CLionProjects/multicore-rm/minimizer.h
+verification.h
+/home/saimanalili/CLionProjects/multicore-rm/verification.h
+
+/home/saimanalili/CLionProjects/multicore-rm/minimizer.cpp
+minimizer.h
+/home/saimanalili/CLionProjects/multicore-rm/minimizer.h
 
 /home/saimanalili/CLionProjects/multicore-rm/minimizer.h
 common.h
 /home/saimanalili/CLionProjects/multicore-rm/common.h
+
+/home/saimanalili/CLionProjects/multicore-rm/openaddressing.cpp
+openaddressing.h
+/home/saimanalili/CLionProjects/multicore-rm/openaddressing.h
+
+/home/saimanalili/CLionProjects/multicore-rm/openaddressing.h
+common.h
+/home/saimanalili/CLionProjects/multicore-rm/common.h
+
+/home/saimanalili/CLionProjects/multicore-rm/pigeonhole.cpp
+pigeonhole.h
+/home/saimanalili/CLionProjects/multicore-rm/pigeonhole.h
 
 /home/saimanalili/CLionProjects/multicore-rm/pigeonhole.h
 common.h
@@ -58,9 +100,19 @@ common.h
 searching.h
 /home/saimanalili/CLionProjects/multicore-rm/searching.h
 
+/home/saimanalili/CLionProjects/multicore-rm/searching.cpp
+searching.h
+/home/saimanalili/CLionProjects/multicore-rm/searching.h
+pigeonhole.h
+/home/saimanalili/CLionProjects/multicore-rm/pigeonhole.h
+
 /home/saimanalili/CLionProjects/multicore-rm/searching.h
 common.h
 /home/saimanalili/CLionProjects/multicore-rm/common.h
 minimizer.h
 /home/saimanalili/CLionProjects/multicore-rm/minimizer.h
+
+/home/saimanalili/CLionProjects/multicore-rm/verification.h
+common.h
+/home/saimanalili/CLionProjects/multicore-rm/common.h
 

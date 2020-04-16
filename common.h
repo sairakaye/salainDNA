@@ -31,6 +31,8 @@ extern unsigned int w;
 extern unsigned int m;
 extern unsigned int e;
 
+extern vector<pair<string, int> > alphabetRef;
+
 extern map<unsigned long long int, vector<unsigned long long int>> minimizers;
 extern map<long long, unsigned long long int> codeTable;
 extern vector<unsigned long long int> dirTable;
@@ -55,6 +57,8 @@ extern ofstream outputPossibleReadsFile;
 extern ofstream outputLocationsFile;
 extern ofstream infoFile;
 
+unsigned long long int extractRanking(string kMer);
+uint64_t inthash_64(uint64_t key, uint64_t mask);
 string readGenomeFile(string filename);
 vector<string> readReadsFile(string filename);
 string reverseComplement(string read);

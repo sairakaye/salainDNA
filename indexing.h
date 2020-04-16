@@ -7,8 +7,6 @@
 
 #include "common.h"
 
-void buildDirectAddressingIndexing(string& genome, string& mainName);
-void buildOpenAddressingIndexing(string& genome, string& mainName);
-void buildMinimizersIndexing(string& genome, string& mainName);
+
 
 #endif //MULTICORE_RM_INDEXING_H
