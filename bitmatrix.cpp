@@ -24,6 +24,7 @@ vector<vector<int>> createMap (string P, string T, int E){
     int n = P.size();
     char t[m];
     char p[n];
+    int count;
 
 
     vector<vector<int>> NMap;
@@ -43,6 +44,7 @@ vector<vector<int>> createMap (string P, string T, int E){
                 } else if (T[j] != NULL && P[i] != T[j]) {
                     NMap[jE].push_back(1);
                     jE++;
+                    count++;
                 }
                 else{
                     jE++;
@@ -51,6 +53,10 @@ vector<vector<int>> createMap (string P, string T, int E){
 
 
         }
+    }
+
+    if(count <= E){
+        return vector<vector<int>>();
     }
 
     int E1 = E;
@@ -91,12 +97,20 @@ int countZeroes(vector<int> toCount){
 }
 
 
-int countOnes(vector<int> toCount){
+int countOnes(vector<int> toCount, int E){
     int ctr = 0;
 
-    for(int i = 0; i < toCount.size(); i++){
-        if (toCount[i] == 1){
-            ctr++;
+    if(toCount.empty()){
+        return E + 1;
+    }
+    else {
+        for (int i = 0; i < toCount.size(); i++) {
+            if (toCount[i] == 1 && toCount[i] == 1) {
+                ctr++;
+                i++;
+            } else if (toCount[i] == 1) {
+                ctr++;
+            }
         }
     }
     return ctr;
@@ -134,25 +148,33 @@ vector<int> slidingWindow(vector<vector<int>> NMap, int m, int E) {
     mainDiagonal = NMap[E];
     finalVector = mainDiagonal;
 
-    for (int w = 0; w < m; w++) {
-        if (w + windowSize > m) {
-            windowSize = m - w;
-        }
+    if(NMap.empty()){
+        return vector<int>();
+    }
+    else {
+        for (int w = 0; w < m; w++) {
+            if (w + windowSize > m) {
+                windowSize = m - w;
+            }
 
-        vector<int> bestDiagonalinVector = checkDiagonals(m, NMap, E, w, windowSize);
+            vector<int> bestDiagonalinVector = checkDiagonals(m, NMap, E, w, windowSize);
 
-        vector<int> tempDiag;
+            int l = 0;
+            for (int i = w; i < windowSize + w; i++) {
+                if (i < m) {
+                    finalVector[i] = bestDiagonalinVector[l];
+                    l++;
+                }
+            }
+
+
+
+/*
+ *      vector<int> tempDiag;
         vector<int> seedVector;
-
-
         for (int i = w; i < windowSize + w; i++) {
             if (i < m) {
                 seedVector.push_back(finalVector[i]);
-            }
-        }
-
-        for (int i = w; i < windowSize + w; i++) {
-            if (i < m) {
                 tempDiag.push_back(mainDiagonal[i]);
             }
         }
@@ -183,9 +205,11 @@ vector<int> slidingWindow(vector<vector<int>> NMap, int m, int E) {
                 }
 
             }
+        }*/
         }
     }
     return finalVector;
+
 }
 
 vector<int> threadFunc(int E , string read, string reference){
@@ -236,7 +260,7 @@ void multiThreadedMain() {
     int refcount = refs.size();
     int readcount = reads.size();
 
-    int E = e;
+    int E = 3;
 
     alignmentNeeded = 0;
     notNeeded = 0;
@@ -258,7 +282,7 @@ void multiThreadedMain() {
 
         int j;
         for (j = 0; j < locations.size(); j++) {
-            if (countOnes(threadFunc(E, (*iteratorMap).first, refGenome.substr(locations[j], m))) <= E) {
+            if (countOnes(threadFunc(E, (*iteratorMap).first, refGenome.substr(locations[j], m)), E) <= E) {
                 #pragma omp critical
                 filteredReadsMap[(*iteratorMap).first].push_back(locations[j]);
                 alignmentNeeded++;
@@ -278,7 +302,7 @@ void multiThreadedMain() {
 
         int j;
         for (j = 0; j < locations.size(); j++) {
-            if (countOnes(threadFunc(E, (*iteratorMap).first, refGenome.substr(locations[j], m))) <= E) {
+            if (countOnes(threadFunc(E, (*iteratorMap).first, refGenome.substr(locations[j], m)), E) <= E) {
                 #pragma omp critical
                 filteredReadsMap[(*iteratorMap).first].push_back(locations[j]);
                 alignmentNeeded++;
@@ -354,7 +378,7 @@ void checkResultswithEdlib(){
              cout << "\n" << "Size: ";
              cout << shouji.size();*/
 
-            if (countOnes(shouji) <= E) {
+            if (countOnes(shouji, E) <= E) {
                 ShoujiAccept = true;
             } else {
                 ShoujiAccept = false;
