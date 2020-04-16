@@ -260,7 +260,7 @@ void multiThreadedMain() {
     int refcount = refs.size();
     int readcount = reads.size();
 
-    int E = 3;
+    int E = e;
 
     alignmentNeeded = 0;
     notNeeded = 0;

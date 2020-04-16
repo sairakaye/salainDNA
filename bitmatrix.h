@@ -2,8 +2,8 @@
 // Created by saimanalili on 29/03/2020.
 //
 
-#ifndef PIGEONHOLE_BITMATRIX_BITMATRIX_H
-#define PIGEONHOLE_BITMATRIX_BITMATRIX_H
+#ifndef MULTICORE_RM_BITMATRIX_H
+#define MULTICORE_RM_BITMATRIX_H
 
 #include "common.h"
 
@@ -20,4 +20,4 @@ extern int notNeeded;
 //void multiThreadedMain(map<string, vector<unsigned long long int>>& forwardReadsMap, map<string, vector<unsigned long long int>>& reverseReadsMap);
 void multiThreadedMain();
 
-#endif //PIGEONHOLE_BITMATRIX_BITMATRIX_H
+#endif //MULTICORE_RM_BITMATRIX_H

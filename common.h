@@ -2,8 +2,8 @@
 // Created by saimanalili on 25/02/2020.
 //
 
-#ifndef PH_INTEGRATION_COMMON_H
-#define PH_INTEGRATION_COMMON_H
+#ifndef MULTICORE_RM_COMMON_H
+#define MULTICORE_RM_COMMON_H
 
 #include <iostream>
 #include <fstream>
@@ -16,6 +16,7 @@
 #include <bits/stdc++.h>
 #include <chrono>
 #include <omp.h>
+
 #include "edlib.h"
 
 using namespace std;
@@ -47,6 +48,8 @@ extern unsigned int numSeeds;
 extern unsigned int numReads;
 extern unsigned int numAcceptedSeeds;
 extern unsigned int numAcceptedReads;
+extern unsigned int numLocationsForward;
+extern unsigned int numLocationsReverse;
 
 extern ofstream infoFile;
 
@@ -63,4 +66,4 @@ void outputPossibleReads(string& mainName);
 void outputPossibleLocations(string& mainName);
 void results();
 
-#endif //PH_INTEGRATION_COMMON_H
+#endif //MULTICORE_RM_COMMON_H

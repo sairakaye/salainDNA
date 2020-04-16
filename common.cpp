@@ -290,11 +290,14 @@ void removingDuplicateLocationsInEachRead() {
         vector<unsigned long long int>& temp = readPair.second;
 
         unordered_set<unsigned long long int> locationSet;
-        for (unsigned long long int location : readPair.second)
+        for (unsigned long long int location : readPair.second) {
             locationSet.insert(location);
+        }
 
         temp.assign(locationSet.begin(), locationSet.end());
         forwardReadsMap[readPair.first] = temp;
+
+        numLocationsForward += temp.size();
     }
 
     for (pair<string, vector<unsigned long long int>> readPair : reverseReadsMap) {
@@ -306,6 +309,8 @@ void removingDuplicateLocationsInEachRead() {
 
         temp.assign(locationSet.begin(), locationSet.end());
         reverseReadsMap[readPair.first] = temp;
+
+        numLocationsReverse += temp.size();
     }
 }
 
@@ -386,51 +391,55 @@ void results() {
     infoFile << "Number of accepted seeds: " << to_string(numAcceptedSeeds) << endl;
     infoFile << "Number of accepted reads: " << to_string(numAcceptedReads) << endl << endl;
 
-    vector<unsigned long long int> forwardFound;
-    vector<unsigned long long int> reverseFound;
+//    vector<unsigned long long int> forwardFound;
+//    vector<unsigned long long int> reverseFound;
+//
+//    cout << "Putting forward and reverse locations for counting..." << endl;
+//    for (pair<string, vector<unsigned long long int>> readPair : forwardReadsMap) {
+//        for (unsigned long long int location : readPair.second) {
+//            forwardFound.push_back(location);
+//        }
+//    }
+//
+//    for (pair<string, vector<unsigned long long int>> readPair : reverseReadsMap) {
+//        for (unsigned long long int location : readPair.second) {
+//            reverseFound.push_back(location);
+//        }
+//    }
+//
+//    cout << "Removing duplicate locations mapped..." << endl;
+//    unordered_set<unsigned long long int> duplicateRemoverSet;
+//
+//    for (unsigned long long int location : forwardFound) {
+//        duplicateRemoverSet.insert(location);
+//    }
+//
+//    forwardFound.assign(duplicateRemoverSet.begin(), duplicateRemoverSet.end());
+//    duplicateRemoverSet.clear();
+//
+//    for (unsigned long long int location : reverseFound) {
+//        duplicateRemoverSet.insert(location);
+//    }
+//
+//    reverseFound.assign(duplicateRemoverSet.begin(), duplicateRemoverSet.end());
+//    duplicateRemoverSet.clear();
+//
+//    vector<unsigned long long int> combined(forwardFound);
+//    combined.insert(combined.end(), reverseFound.begin(), reverseFound.end());
+//    sort(combined.begin(), combined.end());
+//    combined.erase(unique(combined.begin(), combined.end()), combined.end());
 
-    cout << "Putting forward and reverse locations for counting..." << endl;
-    for (pair<string, vector<unsigned long long int>> readPair : forwardReadsMap) {
-        for (unsigned long long int location : readPair.second) {
-            forwardFound.push_back(location);
-        }
-    }
+    cout << "Number of possible read locations found from forward (with duplicates): " + to_string(numLocationsForward) << endl;
+//    cout << "Number of possible read locations found from forward (no duplicates): " + to_string(forwardFound.size()) << endl;
+    cout << "Number of possible read locations found from reverse (with duplicates): " + to_string(numLocationsReverse) << endl;
+//    cout << "Number of possible read locations found from reverse (no duplicates): " + to_string(reverseFound.size()) << endl;
+    infoFile << "Number of possible read locations found from forward (with duplicates): " + to_string(numLocationsForward) << endl;
+//    infoFile << "Number of possible read locations found from forward (no duplicates): " + to_string(forwardFound.size()) << endl;
+    infoFile << "Number of possible read locations found from reverse (with duplicates): " + to_string(numLocationsReverse) << endl;
+//    infoFile << "Number of possible read locations found from reverse (no duplicates): " + to_string(reverseFound.size()) << endl;
 
-    for (pair<string, vector<unsigned long long int>> readPair : reverseReadsMap) {
-        for (unsigned long long int location : readPair.second) {
-            reverseFound.push_back(location);
-        }
-    }
-
-    cout << "Removing duplicate locations mapped..." << endl;
-    unordered_set<unsigned long long int> duplicateRemoverSet;
-
-    for (unsigned long long int location : forwardFound) {
-        duplicateRemoverSet.insert(location);
-    }
-
-    forwardFound.assign(duplicateRemoverSet.begin(), duplicateRemoverSet.end());
-    duplicateRemoverSet.clear();
-
-    for (unsigned long long int location : reverseFound) {
-        duplicateRemoverSet.insert(location);
-    }
-
-    reverseFound.assign(duplicateRemoverSet.begin(), duplicateRemoverSet.end());
-    duplicateRemoverSet.clear();
-
-    cout << "Number of possible read locations found from forward (unique/non-duplicate): " + to_string(forwardFound.size()) << endl;
-    cout << "Number of possible read locations found from reverse (unique/non-duplicate): " + to_string(reverseFound.size()) << endl;
-    infoFile << "Number of possible read locations found from forward (unique/non-duplicate): " + to_string(forwardFound.size()) << endl;
-    infoFile << "Number of possible read locations found from reverse (unique/non-duplicate): " + to_string(reverseFound.size()) << endl;
-
-    vector<unsigned long long int> combined(forwardFound);
-    combined.insert(combined.end(), reverseFound.begin(), reverseFound.end());
-    sort(combined.begin(), combined.end());
-    combined.erase(unique(combined.begin(), combined.end()), combined.end());
-
-    cout << "Number of possible read locations from forward and reverse (with duplicates): " + to_string(forwardFound.size() + reverseFound.size()) << endl;
-    cout << "Number of possible read locations from forward and reverse (without duplicates): " + to_string(combined.size()) << endl << endl;
-    infoFile << "Number of possible read locations from forward and reverse (with duplicates): " + to_string(forwardFound.size() + reverseFound.size()) << endl;
-    infoFile << "Number of possible read locations from forward and reverse (without duplicates): " + to_string(combined.size()) << endl;
+    cout << "Number of possible read locations from forward and reverse (with duplicates): " + to_string(numLocationsForward + numLocationsReverse) << endl;
+//    cout << "Number of possible read locations from forward and reverse (without duplicates): " + to_string(combined.size()) << endl;
+    infoFile << "Number of possible read locations from forward and reverse (with duplicates): " + to_string(numLocationsForward + numLocationsReverse) << endl;
+//    infoFile << "Number of possible read locations from forward and reverse (without duplicates): " + to_string(combined.size()) << endl;
 }

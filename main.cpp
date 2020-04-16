@@ -21,6 +21,8 @@ unsigned int numSeeds = 0;
 unsigned int numReads = 0;
 unsigned int numAcceptedSeeds = 0;
 unsigned int numAcceptedReads = 0;
+unsigned int numLocationsForward = 0;
+unsigned int numLocationsReverse = 0;
 
 ofstream infoFile;
 
@@ -85,10 +87,9 @@ int main(int argc, char *argv[]) {
 
     cout << "Time taken by the pigeonhole process is : " << to_string(timeTaken) << " sec" << endl << endl;
     infoFile << "Time taken by the pigeonhole process is : " << to_string(timeTaken) << " sec" << endl << endl;
+    removingDuplicateLocationsInEachRead();
 
     numAcceptedReads = forwardReadsMap.size() + reverseReadsMap.size();
-
-    removingDuplicateLocationsInEachRead();
     results();
 
     //outputPossibleReads(mainName);
