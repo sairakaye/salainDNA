@@ -122,18 +122,18 @@ CMakeFiles/multicore_rm.dir/searching.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/multicore_rm.dir/searching.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/saimanalili/CLionProjects/multicore-rm/searching.cpp -o CMakeFiles/multicore_rm.dir/searching.cpp.s
 
-CMakeFiles/multicore_rm.dir/minimizer.cpp.o: CMakeFiles/multicore_rm.dir/flags.make
-CMakeFiles/multicore_rm.dir/minimizer.cpp.o: ../minimizer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/multicore_rm.dir/minimizer.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/multicore_rm.dir/minimizer.cpp.o -c /home/saimanalili/CLionProjects/multicore-rm/minimizer.cpp
+CMakeFiles/multicore_rm.dir/minimizers.cpp.o: CMakeFiles/multicore_rm.dir/flags.make
+CMakeFiles/multicore_rm.dir/minimizers.cpp.o: ../minimizers.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/multicore_rm.dir/minimizers.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/multicore_rm.dir/minimizers.cpp.o -c /home/saimanalili/CLionProjects/multicore-rm/minimizers.cpp
 
-CMakeFiles/multicore_rm.dir/minimizer.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/multicore_rm.dir/minimizer.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/saimanalili/CLionProjects/multicore-rm/minimizer.cpp > CMakeFiles/multicore_rm.dir/minimizer.cpp.i
+CMakeFiles/multicore_rm.dir/minimizers.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/multicore_rm.dir/minimizers.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/saimanalili/CLionProjects/multicore-rm/minimizers.cpp > CMakeFiles/multicore_rm.dir/minimizers.cpp.i
 
-CMakeFiles/multicore_rm.dir/minimizer.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/multicore_rm.dir/minimizer.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/saimanalili/CLionProjects/multicore-rm/minimizer.cpp -o CMakeFiles/multicore_rm.dir/minimizer.cpp.s
+CMakeFiles/multicore_rm.dir/minimizers.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/multicore_rm.dir/minimizers.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/saimanalili/CLionProjects/multicore-rm/minimizers.cpp -o CMakeFiles/multicore_rm.dir/minimizers.cpp.s
 
 CMakeFiles/multicore_rm.dir/bitmatrix.cpp.o: CMakeFiles/multicore_rm.dir/flags.make
 CMakeFiles/multicore_rm.dir/bitmatrix.cpp.o: ../bitmatrix.cpp
@@ -220,7 +220,7 @@ multicore_rm_OBJECTS = \
 "CMakeFiles/multicore_rm.dir/pigeonhole.cpp.o" \
 "CMakeFiles/multicore_rm.dir/edlib.cpp.o" \
 "CMakeFiles/multicore_rm.dir/searching.cpp.o" \
-"CMakeFiles/multicore_rm.dir/minimizer.cpp.o" \
+"CMakeFiles/multicore_rm.dir/minimizers.cpp.o" \
 "CMakeFiles/multicore_rm.dir/bitmatrix.cpp.o" \
 "CMakeFiles/multicore_rm.dir/command.cpp.o" \
 "CMakeFiles/multicore_rm.dir/indexing.cpp.o" \
@@ -236,7 +236,7 @@ multicore_rm: CMakeFiles/multicore_rm.dir/common.cpp.o
 multicore_rm: CMakeFiles/multicore_rm.dir/pigeonhole.cpp.o
 multicore_rm: CMakeFiles/multicore_rm.dir/edlib.cpp.o
 multicore_rm: CMakeFiles/multicore_rm.dir/searching.cpp.o
-multicore_rm: CMakeFiles/multicore_rm.dir/minimizer.cpp.o
+multicore_rm: CMakeFiles/multicore_rm.dir/minimizers.cpp.o
 multicore_rm: CMakeFiles/multicore_rm.dir/bitmatrix.cpp.o
 multicore_rm: CMakeFiles/multicore_rm.dir/command.cpp.o
 multicore_rm: CMakeFiles/multicore_rm.dir/indexing.cpp.o

@@ -6,7 +6,20 @@
 #define MULTICORE_RM_INDEXING_H
 
 #include "common.h"
+#include "directaddressing.h"
+#include "openaddressing.h"
+#include "minimizers.h"
 
+void readIndexFile(string mode, string indexFile,
+                   map<unsigned long long int, vector<unsigned long long int>>& minimizers,
+                   map<long long, unsigned long long int>& codeTable,
+                   vector<unsigned long long int>& dirTable,
+                   vector<unsigned long long int>& posTable);
 
+void buildIndex(string mode, string mainName, string indexFile,
+                map<unsigned long long int, vector<unsigned long long int>>& minimizers,
+                map<long long, unsigned long long int>& codeTable,
+                vector<unsigned long long int>& dirTable,
+                vector<unsigned long long int>& posTable);
 
 #endif //MULTICORE_RM_INDEXING_H

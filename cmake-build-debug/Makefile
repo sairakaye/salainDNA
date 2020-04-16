@@ -312,32 +312,32 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/multicore_rm.dir/build.make CMakeFiles/multicore_rm.dir/main.cpp.s
 .PHONY : main.cpp.s
 
-minimizer.o: minimizer.cpp.o
+minimizers.o: minimizers.cpp.o
 
-.PHONY : minimizer.o
+.PHONY : minimizers.o
 
 # target to build an object file
-minimizer.cpp.o:
-	$(MAKE) -f CMakeFiles/multicore_rm.dir/build.make CMakeFiles/multicore_rm.dir/minimizer.cpp.o
-.PHONY : minimizer.cpp.o
+minimizers.cpp.o:
+	$(MAKE) -f CMakeFiles/multicore_rm.dir/build.make CMakeFiles/multicore_rm.dir/minimizers.cpp.o
+.PHONY : minimizers.cpp.o
 
-minimizer.i: minimizer.cpp.i
+minimizers.i: minimizers.cpp.i
 
-.PHONY : minimizer.i
+.PHONY : minimizers.i
 
 # target to preprocess a source file
-minimizer.cpp.i:
-	$(MAKE) -f CMakeFiles/multicore_rm.dir/build.make CMakeFiles/multicore_rm.dir/minimizer.cpp.i
-.PHONY : minimizer.cpp.i
+minimizers.cpp.i:
+	$(MAKE) -f CMakeFiles/multicore_rm.dir/build.make CMakeFiles/multicore_rm.dir/minimizers.cpp.i
+.PHONY : minimizers.cpp.i
 
-minimizer.s: minimizer.cpp.s
+minimizers.s: minimizers.cpp.s
 
-.PHONY : minimizer.s
+.PHONY : minimizers.s
 
 # target to generate assembly for a file
-minimizer.cpp.s:
-	$(MAKE) -f CMakeFiles/multicore_rm.dir/build.make CMakeFiles/multicore_rm.dir/minimizer.cpp.s
-.PHONY : minimizer.cpp.s
+minimizers.cpp.s:
+	$(MAKE) -f CMakeFiles/multicore_rm.dir/build.make CMakeFiles/multicore_rm.dir/minimizers.cpp.s
+.PHONY : minimizers.cpp.s
 
 openaddressing.o: openaddressing.cpp.o
 
@@ -477,9 +477,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
-	@echo "... minimizer.o"
-	@echo "... minimizer.i"
-	@echo "... minimizer.s"
+	@echo "... minimizers.o"
+	@echo "... minimizers.i"
+	@echo "... minimizers.s"
 	@echo "... openaddressing.o"
 	@echo "... openaddressing.i"
 	@echo "... openaddressing.s"

@@ -123,10 +123,10 @@
 		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/main.cpp">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/minimizer.cpp">
+		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/minimizers.cpp">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/minimizer.h">
+		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/minimizers.h">
 			<Option target="multicore_rm"/>
 		</Unit>
 		<Unit filename="/home/saimanalili/CLionProjects/multicore-rm/openaddressing.cpp">

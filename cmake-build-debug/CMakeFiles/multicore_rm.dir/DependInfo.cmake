@@ -11,7 +11,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/saimanalili/CLionProjects/multicore-rm/edlib.cpp" "/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug/CMakeFiles/multicore_rm.dir/edlib.cpp.o"
   "/home/saimanalili/CLionProjects/multicore-rm/indexing.cpp" "/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug/CMakeFiles/multicore_rm.dir/indexing.cpp.o"
   "/home/saimanalili/CLionProjects/multicore-rm/main.cpp" "/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug/CMakeFiles/multicore_rm.dir/main.cpp.o"
-  "/home/saimanalili/CLionProjects/multicore-rm/minimizer.cpp" "/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug/CMakeFiles/multicore_rm.dir/minimizer.cpp.o"
+  "/home/saimanalili/CLionProjects/multicore-rm/minimizers.cpp" "/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug/CMakeFiles/multicore_rm.dir/minimizers.cpp.o"
   "/home/saimanalili/CLionProjects/multicore-rm/openaddressing.cpp" "/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug/CMakeFiles/multicore_rm.dir/openaddressing.cpp.o"
   "/home/saimanalili/CLionProjects/multicore-rm/pigeonhole.cpp" "/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug/CMakeFiles/multicore_rm.dir/pigeonhole.cpp.o"
   "/home/saimanalili/CLionProjects/multicore-rm/searching.cpp" "/home/saimanalili/CLionProjects/multicore-rm/cmake-build-debug/CMakeFiles/multicore_rm.dir/searching.cpp.o"

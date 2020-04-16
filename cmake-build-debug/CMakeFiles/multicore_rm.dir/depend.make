@@ -24,26 +24,30 @@ CMakeFiles/multicore_rm.dir/edlib.cpp.o: ../edlib.cpp
 CMakeFiles/multicore_rm.dir/edlib.cpp.o: ../edlib.h
 
 CMakeFiles/multicore_rm.dir/indexing.cpp.o: ../common.h
+CMakeFiles/multicore_rm.dir/indexing.cpp.o: ../directaddressing.h
 CMakeFiles/multicore_rm.dir/indexing.cpp.o: ../edlib.h
 CMakeFiles/multicore_rm.dir/indexing.cpp.o: ../indexing.cpp
 CMakeFiles/multicore_rm.dir/indexing.cpp.o: ../indexing.h
+CMakeFiles/multicore_rm.dir/indexing.cpp.o: ../minimizers.h
+CMakeFiles/multicore_rm.dir/indexing.cpp.o: ../openaddressing.h
 
 CMakeFiles/multicore_rm.dir/main.cpp.o: ../bitmatrix.h
 CMakeFiles/multicore_rm.dir/main.cpp.o: ../command.h
 CMakeFiles/multicore_rm.dir/main.cpp.o: ../common.h
 CMakeFiles/multicore_rm.dir/main.cpp.o: ../directaddressing.h
 CMakeFiles/multicore_rm.dir/main.cpp.o: ../edlib.h
+CMakeFiles/multicore_rm.dir/main.cpp.o: ../indexing.h
 CMakeFiles/multicore_rm.dir/main.cpp.o: ../main.cpp
-CMakeFiles/multicore_rm.dir/main.cpp.o: ../minimizer.h
+CMakeFiles/multicore_rm.dir/main.cpp.o: ../minimizers.h
 CMakeFiles/multicore_rm.dir/main.cpp.o: ../openaddressing.h
 CMakeFiles/multicore_rm.dir/main.cpp.o: ../pigeonhole.h
 CMakeFiles/multicore_rm.dir/main.cpp.o: ../searching.h
 CMakeFiles/multicore_rm.dir/main.cpp.o: ../verification.h
 
-CMakeFiles/multicore_rm.dir/minimizer.cpp.o: ../common.h
-CMakeFiles/multicore_rm.dir/minimizer.cpp.o: ../edlib.h
-CMakeFiles/multicore_rm.dir/minimizer.cpp.o: ../minimizer.cpp
-CMakeFiles/multicore_rm.dir/minimizer.cpp.o: ../minimizer.h
+CMakeFiles/multicore_rm.dir/minimizers.cpp.o: ../common.h
+CMakeFiles/multicore_rm.dir/minimizers.cpp.o: ../edlib.h
+CMakeFiles/multicore_rm.dir/minimizers.cpp.o: ../minimizers.cpp
+CMakeFiles/multicore_rm.dir/minimizers.cpp.o: ../minimizers.h
 
 CMakeFiles/multicore_rm.dir/openaddressing.cpp.o: ../common.h
 CMakeFiles/multicore_rm.dir/openaddressing.cpp.o: ../edlib.h
@@ -52,14 +56,14 @@ CMakeFiles/multicore_rm.dir/openaddressing.cpp.o: ../openaddressing.h
 
 CMakeFiles/multicore_rm.dir/pigeonhole.cpp.o: ../common.h
 CMakeFiles/multicore_rm.dir/pigeonhole.cpp.o: ../edlib.h
-CMakeFiles/multicore_rm.dir/pigeonhole.cpp.o: ../minimizer.h
+CMakeFiles/multicore_rm.dir/pigeonhole.cpp.o: ../minimizers.h
 CMakeFiles/multicore_rm.dir/pigeonhole.cpp.o: ../pigeonhole.cpp
 CMakeFiles/multicore_rm.dir/pigeonhole.cpp.o: ../pigeonhole.h
 CMakeFiles/multicore_rm.dir/pigeonhole.cpp.o: ../searching.h
 
 CMakeFiles/multicore_rm.dir/searching.cpp.o: ../common.h
 CMakeFiles/multicore_rm.dir/searching.cpp.o: ../edlib.h
-CMakeFiles/multicore_rm.dir/searching.cpp.o: ../minimizer.h
+CMakeFiles/multicore_rm.dir/searching.cpp.o: ../minimizers.h
 CMakeFiles/multicore_rm.dir/searching.cpp.o: ../pigeonhole.h
 CMakeFiles/multicore_rm.dir/searching.cpp.o: ../searching.cpp
 CMakeFiles/multicore_rm.dir/searching.cpp.o: ../searching.h

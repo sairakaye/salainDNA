@@ -25,26 +25,30 @@ CMakeFiles/multicore_rm.dir/edlib.cpp.o
  /home/saimanalili/CLionProjects/multicore-rm/edlib.h
 CMakeFiles/multicore_rm.dir/indexing.cpp.o
  /home/saimanalili/CLionProjects/multicore-rm/common.h
+ /home/saimanalili/CLionProjects/multicore-rm/directaddressing.h
  /home/saimanalili/CLionProjects/multicore-rm/edlib.h
  /home/saimanalili/CLionProjects/multicore-rm/indexing.cpp
  /home/saimanalili/CLionProjects/multicore-rm/indexing.h
+ /home/saimanalili/CLionProjects/multicore-rm/minimizers.h
+ /home/saimanalili/CLionProjects/multicore-rm/openaddressing.h
 CMakeFiles/multicore_rm.dir/main.cpp.o
  /home/saimanalili/CLionProjects/multicore-rm/bitmatrix.h
  /home/saimanalili/CLionProjects/multicore-rm/command.h
  /home/saimanalili/CLionProjects/multicore-rm/common.h
  /home/saimanalili/CLionProjects/multicore-rm/directaddressing.h
  /home/saimanalili/CLionProjects/multicore-rm/edlib.h
+ /home/saimanalili/CLionProjects/multicore-rm/indexing.h
  /home/saimanalili/CLionProjects/multicore-rm/main.cpp
- /home/saimanalili/CLionProjects/multicore-rm/minimizer.h
+ /home/saimanalili/CLionProjects/multicore-rm/minimizers.h
  /home/saimanalili/CLionProjects/multicore-rm/openaddressing.h
  /home/saimanalili/CLionProjects/multicore-rm/pigeonhole.h
  /home/saimanalili/CLionProjects/multicore-rm/searching.h
  /home/saimanalili/CLionProjects/multicore-rm/verification.h
-CMakeFiles/multicore_rm.dir/minimizer.cpp.o
+CMakeFiles/multicore_rm.dir/minimizers.cpp.o
  /home/saimanalili/CLionProjects/multicore-rm/common.h
  /home/saimanalili/CLionProjects/multicore-rm/edlib.h
- /home/saimanalili/CLionProjects/multicore-rm/minimizer.cpp
- /home/saimanalili/CLionProjects/multicore-rm/minimizer.h
+ /home/saimanalili/CLionProjects/multicore-rm/minimizers.cpp
+ /home/saimanalili/CLionProjects/multicore-rm/minimizers.h
 CMakeFiles/multicore_rm.dir/openaddressing.cpp.o
  /home/saimanalili/CLionProjects/multicore-rm/common.h
  /home/saimanalili/CLionProjects/multicore-rm/edlib.h
@@ -53,14 +57,14 @@ CMakeFiles/multicore_rm.dir/openaddressing.cpp.o
 CMakeFiles/multicore_rm.dir/pigeonhole.cpp.o
  /home/saimanalili/CLionProjects/multicore-rm/common.h
  /home/saimanalili/CLionProjects/multicore-rm/edlib.h
- /home/saimanalili/CLionProjects/multicore-rm/minimizer.h
+ /home/saimanalili/CLionProjects/multicore-rm/minimizers.h
  /home/saimanalili/CLionProjects/multicore-rm/pigeonhole.cpp
  /home/saimanalili/CLionProjects/multicore-rm/pigeonhole.h
  /home/saimanalili/CLionProjects/multicore-rm/searching.h
 CMakeFiles/multicore_rm.dir/searching.cpp.o
  /home/saimanalili/CLionProjects/multicore-rm/common.h
  /home/saimanalili/CLionProjects/multicore-rm/edlib.h
- /home/saimanalili/CLionProjects/multicore-rm/minimizer.h
+ /home/saimanalili/CLionProjects/multicore-rm/minimizers.h
  /home/saimanalili/CLionProjects/multicore-rm/pigeonhole.h
  /home/saimanalili/CLionProjects/multicore-rm/searching.cpp
  /home/saimanalili/CLionProjects/multicore-rm/searching.h

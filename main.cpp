@@ -1,9 +1,7 @@
 #include "command.h"
 #include "pigeonhole.h"
 #include "bitmatrix.h"
-#include "directaddressing.h"
-#include "openaddressing.h"
-#include "minimizers.h"
+#include "indexing.h"
 #include "verification.h"
 
 using namespace std::chrono;
@@ -25,6 +23,7 @@ ofstream outputPossibleReadsFile;
 ofstream outputLocationsFile;
 ofstream infoFile;
 
+// Change. Kawawa memory haha.
 Counters *counter;
 
 string mode;
@@ -61,53 +60,12 @@ int main(int argc, char *argv[]) {
         ifstream indexFile(indexDefaultFile);
 
         if (indexFile) {
-            cout << "Reading the indexing... " << endl << indexDefaultFile << endl << endl;
-            if (mode.compare("min") == 0) {
-                minimizers = getMinimizers(indexDefaultFile);
-            } else if (mode.compare("dir") == 0) {
-                getDirectAddressing(indexDefaultFile, dirTable, posTable);
-            } else if (mode.compare("open") == 0) {
-                getOpenAddressing(indexDefaultFile, codeTable, dirTable, posTable);
-            } else {
-                cout << "Mode not valid...";
-                exit(EXIT_FAILURE);
-            }
+            readIndexFile(mode, indexDefaultFile, minimizers, codeTable, dirTable, posTable);
         } else {
-            cout << "Starting the indexing... " << endl << indexDefaultFile << endl << endl;
-            if (mode.compare("min") == 0) {
-                buildMinimizersIndexing(refGenome, mainName);
-            } else if (mode.compare("dir") == 0) {
-                buildDirectAddressingIndexing(refGenome, mainName);
-            } else if (mode.compare("open") == 0) {
-                buildOpenAddressingIndexing(refGenome, mainName);
-            } else {
-                cout << "Mode not valid...";
-                exit(EXIT_FAILURE);
-            }
-        }
-
-        if (mode.compare("min") == 0) {
-            minimizers = getMinimizers(indexFilePath);
-        } else if (mode.compare("dir") == 0) {
-            getDirectAddressing(indexFilePath, dirTable, posTable);
-        } else if (mode.compare("open") == 0) {
-            getOpenAddressing(indexFilePath, codeTable, dirTable, posTable);
-        } else {
-            cout << "Mode not valid...";
-            exit(EXIT_FAILURE);
+            buildIndex(mode, mainName, indexDefaultFile, minimizers, codeTable, dirTable, posTable);
         }
     } else {
-        cout << "Reading the indexing... " << endl << indexFilePath << endl << endl;
-        if (mode.compare("min") == 0) {
-            minimizers = getMinimizers(indexFilePath);
-        } else if (mode.compare("dir") == 0) {
-            getDirectAddressing(indexFilePath, dirTable, posTable);
-        } else if (mode.compare("open") == 0) {
-            getOpenAddressing(indexFilePath, codeTable, dirTable, posTable);
-        } else {
-            cout << "Mode not valid...";
-            exit(EXIT_FAILURE);
-        }
+        readIndexFile(mode, indexFilePath, minimizers, codeTable, dirTable, posTable);
     }
 
     string locationsFileName(mode + "_locations_" + mainName + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + searchMode + ".txt");
@@ -159,6 +117,8 @@ int main(int argc, char *argv[]) {
         temp.assign(locationSet.begin(), locationSet.end());
         reverseReadsMap[readPair.first] = temp;
     }
+
+    results(forwardReadsMap, reverseReadsMap);
 
 //    string outFilename = "output_" + mode + "_" + temp_comp + "_" + to_string(q) + ".txt";
 //    outputPossibleReadsFile.open(outFilename);
