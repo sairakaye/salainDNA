@@ -43,18 +43,11 @@ extern map<string, vector<unsigned long long int>> forwardReadsMap;
 extern map<string, vector<unsigned long long int>> reverseReadsMap;
 extern map<string, vector<unsigned long long int>> filteredReadsMap;
 
-typedef struct {
-    unsigned int numSeeds;
-    unsigned int numReads;
-    unsigned int numAcceptedSeeds;
-    unsigned int numAcceptedReads;
-} Counters;
+extern unsigned int numSeeds;
+extern unsigned int numReads;
+extern unsigned int numAcceptedSeeds;
+extern unsigned int numAcceptedReads;
 
-extern Counters *counter;
-
-extern string temp_comp;
-extern ofstream outputPossibleReadsFile;
-extern ofstream outputLocationsFile;
 extern ofstream infoFile;
 
 unsigned long long int extractRanking(string kMer);
@@ -65,6 +58,9 @@ string reverseComplement(string read);
 void getDirectAddressing(string filename, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable);
 void getOpenAddressing(string filename, map<long long, unsigned long long int>& codeTable, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable);
 map<unsigned long long int, vector<unsigned long long int>> getMinimizers(string filename);
-void results(map<string, vector<unsigned long long int>>& forwardReadsMap, map<string, vector<unsigned long long int>>& reverseReadsMap);
+void removingDuplicateLocationsInEachRead();
+void outputPossibleReads(string& mainName);
+void outputPossibleLocations(string& mainName);
+void results();
 
 #endif //PH_INTEGRATION_COMMON_H

@@ -4,7 +4,7 @@
 
 #include "indexing.h"
 
-void readIndexFile(string mode, string indexFile,
+void readIndexFile(string indexFile,
                    map<unsigned long long int, vector<unsigned long long int>>& minimizers,
                    map<long long, unsigned long long int>& codeTable,
                    vector<unsigned long long int>& dirTable,
@@ -23,7 +23,7 @@ void readIndexFile(string mode, string indexFile,
     }
 }
 
-void buildIndex(string mode, string mainName, string indexFile,
+void buildIndex(string mainName, string indexFile,
                 map<unsigned long long int, vector<unsigned long long int>>& minimizers,
                 map<long long, unsigned long long int>& codeTable,
                 vector<unsigned long long int>& dirTable,

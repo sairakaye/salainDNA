@@ -130,9 +130,9 @@ multimap<vector<unsigned long long int>, unsigned long long int>  generateMinimi
 }
 
 void buildMinimizersIndexing(string& genome, string& mainName) {
-    unsigned long long int q2 = q;
-    unsigned long long int w = q2;
+    unsigned long long int qIndexing = (unsigned long long int)q;
+    unsigned long long int wIndexing = (unsigned long long int)w;
 
-    cout << "Minimizers for q = " << q << " \n\n";
-    multimap<vector<unsigned long long int>, unsigned long long int> minimizers = generateMinimizers(genome, mainName, q, w, m);
+    cout << "Minimizers for q = " << qIndexing << " \n\n";
+    multimap<vector<unsigned long long int>, unsigned long long int> minimizers = generateMinimizers(genome, mainName, qIndexing, wIndexing, m);
 }

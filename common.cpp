@@ -4,7 +4,7 @@
 
 #include "common.h"
 
-vector<pair<string, int> > alphabetRef = { {"A", 0}, {"C",1}, {"G",2}, {"T", 3} };
+vector<pair<string, int>> alphabetRef = { {"A", 0}, {"C",1}, {"G",2}, {"T", 3} };
 
 unsigned long long int extractRanking(string kMer) {
     string binary;
@@ -285,16 +285,106 @@ map<unsigned long long int, vector<unsigned long long int>> getMinimizers(string
     return minimizers;
 }
 
-void results(map<string, vector<unsigned long long int>>& forwardReadsMap, map<string, vector<unsigned long long int>>& reverseReadsMap) {
-    cout << "Number of seeds: " << to_string(counter->numSeeds) << endl;
-    cout << "Number of reads: " << to_string(counter->numReads) << endl << endl;
-    infoFile << "Number of seeds: " << to_string(counter->numSeeds) << endl;
-    infoFile << "Number of reads: " << to_string(counter->numReads) << endl << endl;
+void removingDuplicateLocationsInEachRead() {
+    for (pair<string, vector<unsigned long long int>> readPair : forwardReadsMap) {
+        vector<unsigned long long int>& temp = readPair.second;
 
-    cout << "Number of accepted seeds: " << to_string(counter->numAcceptedSeeds) << endl;
-    cout << "Number of accepted reads: " << to_string(counter->numAcceptedReads) << endl << endl;
-    infoFile << "Number of accepted seeds: " << to_string(counter->numAcceptedSeeds) << endl;
-    infoFile << "Number of accepted reads: " << to_string(counter->numAcceptedReads) << endl << endl;
+        unordered_set<unsigned long long int> locationSet;
+        for (unsigned long long int location : readPair.second)
+            locationSet.insert(location);
+
+        temp.assign(locationSet.begin(), locationSet.end());
+        forwardReadsMap[readPair.first] = temp;
+    }
+
+    for (pair<string, vector<unsigned long long int>> readPair : reverseReadsMap) {
+        vector<unsigned long long int>& temp = readPair.second;
+
+        unordered_set<unsigned long long int> locationSet;
+        for (unsigned long long int location : readPair.second)
+            locationSet.insert(location);
+
+        temp.assign(locationSet.begin(), locationSet.end());
+        reverseReadsMap[readPair.first] = temp;
+    }
+}
+
+void outputPossibleReads(string& mainName) {
+    ofstream outputPossibleReadsFile;
+
+    string outFilename = "output_possible_reads_" + mode + "_" + mainName + "_" + to_string(q) + ".txt";
+    outputPossibleReadsFile.open(outFilename);
+
+    for (pair<string, vector<unsigned long long int>> readPair : forwardReadsMap) {
+        string read = readPair.first;
+
+        for (unsigned long long int location : readPair.second) {
+            if (refGenome.substr(location, m).size() == m) {
+                outputPossibleReadsFile << read << "\t" << refGenome.substr(location, m) << endl;
+            }
+        }
+    }
+
+    for (pair<string, vector<unsigned long long int>> readPair : reverseReadsMap) {
+        string read = readPair.first;
+
+        for (unsigned long long int location : readPair.second) {
+            if (refGenome.substr(location, m).size() == m) {
+                outputPossibleReadsFile << read << "\t" << refGenome.substr(location, m) << endl;
+            }
+        }
+    }
+
+    outputPossibleReadsFile.close();
+}
+
+void outputPossibleLocations(string& mainName) {
+    ofstream outputPossibleLocations;
+
+    string outFilename = "output_possible_locations_" + mode + "_" + mainName + "_" + to_string(q) + ".txt";
+    outputPossibleLocations.open(outFilename);
+
+    for (pair<string, vector<unsigned long long int>> readPair : forwardReadsMap) {
+        string read = readPair.first;
+
+        outputPossibleLocations << read + " - ";
+
+        for (unsigned long long int location : readPair.second) {
+            if (refGenome.substr(location, m).size() == m) {
+                outputPossibleLocations << location + " ";
+            }
+        }
+
+        outputPossibleLocations << endl;
+    }
+
+    for (pair<string, vector<unsigned long long int>> readPair : reverseReadsMap) {
+        string read = readPair.first;
+
+        outputPossibleLocations << read + " - ";
+
+        for (unsigned long long int location : readPair.second) {
+            if (refGenome.substr(location, m).size() == m) {
+                outputPossibleLocations << read << "\t" << refGenome.substr(location, m) << endl;
+            }
+        }
+
+        outputPossibleLocations << endl;
+    }
+
+    outputPossibleLocations.close();
+}
+
+void results() {
+    cout << "Number of seeds checked: " << to_string(numSeeds) << endl;
+    cout << "Number of reads checked: " << to_string(numReads) << endl << endl;
+    infoFile << "Number of seeds checked: " << to_string(numSeeds) << endl;
+    infoFile << "Number of reads checked: " << to_string(numReads) << endl << endl;
+
+    cout << "Number of accepted seeds: " << to_string(numAcceptedSeeds) << endl;
+    cout << "Number of accepted reads: " << to_string(numAcceptedReads) << endl << endl;
+    infoFile << "Number of accepted seeds: " << to_string(numAcceptedSeeds) << endl;
+    infoFile << "Number of accepted reads: " << to_string(numAcceptedReads) << endl << endl;
 
     vector<unsigned long long int> forwardFound;
     vector<unsigned long long int> reverseFound;
@@ -312,37 +402,35 @@ void results(map<string, vector<unsigned long long int>>& forwardReadsMap, map<s
         }
     }
 
-    cout << "Removing duplicate locations of the read/seeds mapped..." << endl;
+    cout << "Removing duplicate locations mapped..." << endl;
     unordered_set<unsigned long long int> duplicateRemoverSet;
 
-    for (unsigned long long int location : forwardFound)
+    for (unsigned long long int location : forwardFound) {
         duplicateRemoverSet.insert(location);
+    }
+
     forwardFound.assign(duplicateRemoverSet.begin(), duplicateRemoverSet.end());
     duplicateRemoverSet.clear();
 
-    for (unsigned long long int location : reverseFound)
+    for (unsigned long long int location : reverseFound) {
         duplicateRemoverSet.insert(location);
+    }
+
     reverseFound.assign(duplicateRemoverSet.begin(), duplicateRemoverSet.end());
     duplicateRemoverSet.clear();
 
-    cout << "Number of seeds found from forward (unique locations): " + to_string(forwardFound.size()) << endl;
-    cout << "Number of seeds found from backward (unique locations): " + to_string(reverseFound.size()) << endl;
-    infoFile << "Number of seeds found from forward (unique locations): " + to_string(forwardFound.size()) << endl;
-    infoFile << "Number of seeds found from backward (unique locations): " + to_string(reverseFound.size()) << endl;
+    cout << "Number of possible read locations found from forward (unique/non-duplicate): " + to_string(forwardFound.size()) << endl;
+    cout << "Number of possible read locations found from reverse (unique/non-duplicate): " + to_string(reverseFound.size()) << endl;
+    infoFile << "Number of possible read locations found from forward (unique/non-duplicate): " + to_string(forwardFound.size()) << endl;
+    infoFile << "Number of possible read locations found from reverse (unique/non-duplicate): " + to_string(reverseFound.size()) << endl;
 
     vector<unsigned long long int> combined(forwardFound);
     combined.insert(combined.end(), reverseFound.begin(), reverseFound.end());
     sort(combined.begin(), combined.end());
     combined.erase(unique(combined.begin(), combined.end()), combined.end());
 
-    cout << "Number of seed locations from forward and backward (including intersection): " + to_string(forwardFound.size() + reverseFound.size()) << endl;
-    cout << "Number of seed locations accepted (from both): " + to_string(combined.size()) << endl;
-    infoFile << "Number of seed locations from forward and backward (including intersection): " + to_string(forwardFound.size() + reverseFound.size()) << endl;
-    infoFile << "Number of seed locations accepted (from both): " + to_string(combined.size()) << endl;
-
-    if (q == 20) {
-        for (unsigned long long int location : combined) {
-            outputLocationsFile << to_string(location) << endl;
-        }
-    }
+    cout << "Number of possible read locations from forward and reverse (with duplicates): " + to_string(forwardFound.size() + reverseFound.size()) << endl;
+    cout << "Number of possible read locations from forward and reverse (without duplicates): " + to_string(combined.size()) << endl << endl;
+    infoFile << "Number of possible read locations from forward and reverse (with duplicates): " + to_string(forwardFound.size() + reverseFound.size()) << endl;
+    infoFile << "Number of possible read locations from forward and reverse (without duplicates): " + to_string(combined.size()) << endl;
 }

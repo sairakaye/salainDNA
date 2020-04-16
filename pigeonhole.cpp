@@ -82,9 +82,9 @@ void searchingReadProcess() {
         }
 
         #pragma omp atomic
-        counter->numAcceptedSeeds = counter->numAcceptedSeeds + tempAcceptedSeeds;
+        numAcceptedSeeds += tempAcceptedSeeds;
         #pragma omp atomic
-        counter->numSeeds = counter->numSeeds + tempReverseSeeds;
+        numSeeds += tempReverseSeeds;
     }
 }
 
@@ -163,10 +163,10 @@ void searchingReadFoundExitProcess() {
             }
         }
 
-       #pragma omp atomic
-        counter->numAcceptedSeeds = counter->numAcceptedSeeds + tempAcceptedSeeds;
-       #pragma omp atomic
-        counter->numSeeds = counter->numSeeds + tempReverseSeeds;
+        #pragma omp atomic
+        numAcceptedSeeds += tempAcceptedSeeds;
+        #pragma omp atomic
+        numSeeds += tempReverseSeeds;
     }
 }
 
