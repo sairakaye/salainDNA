@@ -31,6 +31,7 @@ extern unsigned int q;
 extern unsigned int w;
 extern unsigned int m;
 extern unsigned int e;
+extern double loadFactor;
 
 extern vector<pair<string, int> > alphabetRef;
 

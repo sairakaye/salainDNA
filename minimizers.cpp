@@ -38,9 +38,7 @@ multimap<vector<unsigned long long int>, unsigned long long int>  generateMinimi
     unsigned long int noOfKmers = m - q + 1;
     unsigned long int windowSize = w + q - 1;
 
-    cout << "Indexing start. \n";
-
-    map<unsigned long long int, vector<unsigned long long int>> minimizers; // <hash key of minimizer, positions in ref>
+    map<unsigned long long int, vector<unsigned long long int>> minimizers;
     unsigned long long int mask = pow(4, q);
 
     for (int i = 0; i < (m - windowSize + 1); i++) {
@@ -93,11 +91,10 @@ multimap<vector<unsigned long long int>, unsigned long long int>  generateMinimi
 //		cout << "[" << windowStr << " " << stringDNA.length() - (w + i) << "] ["  << finalMin << " " << finalMinIndex << " " << finalMinHash << "]" << endl;
     }
 
-    cout << "Indexing done. \n";
-
     auto indexing_time_end = chrono::high_resolution_clock::now();
     duration<double, std::milli> indexing_duration = duration_cast<milliseconds>(indexing_time_end - indexing_time_start);
-    cout << "Total indexing time: " << (indexing_duration.count()/1000) << " s \n\nWriting start.\n";
+    cout << "Time taken by the indexing process is : " << (indexing_duration.count()/1000) << " sec" << endl << endl;
+    cout << "Starting the writing process..." << endl << endl;
 
     auto writing_time_start = chrono::high_resolution_clock::now();
 
@@ -114,15 +111,13 @@ multimap<vector<unsigned long long int>, unsigned long long int>  generateMinimi
         outfile << endl;
     }
 
-    cout << "Writing done. \n";
-
     auto writing_time_end = chrono::high_resolution_clock::now();
     duration<double, std::milli> writing_duration = duration_cast<milliseconds>(writing_time_end - writing_time_start);
-    cout << "Total writing time: " << (writing_duration.count()/1000) << " s \n\n";
+    cout << "Time taken by the index writing process is : " << (writing_duration.count()/1000) << " sec" << endl << endl;
 
-    cout << "No. of seeds: " << noOfKmers;
-    cout << "\nNo. of minimizers: " << finalMinimizers.size();
-    cout << "\nImprovement factor: " << ((long double)(m - q + 1) / minimizers.size())<< '\n';
+//    cout << "No. of seeds: " << noOfKmers;
+//    cout << "\nNo. of minimizers: " << finalMinimizers.size();
+//    cout << "\nImprovement factor: " << ((long double)(m - q + 1) / minimizers.size())<< '\n\n';
 
     outfile.close();
 
@@ -131,8 +126,8 @@ multimap<vector<unsigned long long int>, unsigned long long int>  generateMinimi
 
 void buildMinimizersIndexing(string& genome, string& mainName) {
     unsigned long long int qIndexing = (unsigned long long int)q;
-    unsigned long long int wIndexing = (unsigned long long int)w;
+    unsigned long long int wIndexing = qIndexing;
 
-    cout << "Minimizers for q = " << qIndexing << " \n\n";
-    multimap<vector<unsigned long long int>, unsigned long long int> minimizers = generateMinimizers(genome, mainName, qIndexing, wIndexing, m);
+    cout << "Minimizers for q = " << qIndexing << endl << endl;
+    multimap<vector<unsigned long long int>, unsigned long long int> minimizers = generateMinimizers(genome, mainName, qIndexing, wIndexing, genome.length());
 }
