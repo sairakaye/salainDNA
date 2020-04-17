@@ -20,7 +20,10 @@ void searchingReadProcess() {
     int i;
     #pragma omp parallel for
     for (i = 0; i < reads.size(); i++) {
-        string forwardRead(reads[i]);
+        auto readIterator = reads.begin();
+        advance(readIterator, i);
+
+        string forwardRead((*readIterator).first);
         unsigned int tempAcceptedSeeds = 0;
         unsigned int tempReverseSeeds = 0;
         bool isFound = false;
@@ -101,7 +104,10 @@ void searchingReadFoundExitProcess() {
     int i;
     #pragma omp parallel for
     for (i = 0; i < reads.size(); i++) {
-        string forwardRead(reads[i]);
+        auto readIterator = reads.begin();
+        advance(readIterator, i);
+
+        string forwardRead((*readIterator).first);
         unsigned int tempAcceptedSeeds = 0;
         unsigned int tempReverseSeeds = 0;
         bool isFound = false;

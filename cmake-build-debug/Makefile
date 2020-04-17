@@ -366,6 +366,33 @@ openaddressing.cpp.s:
 	$(MAKE) -f CMakeFiles/multicore_rm.dir/build.make CMakeFiles/multicore_rm.dir/openaddressing.cpp.s
 .PHONY : openaddressing.cpp.s
 
+output.o: output.cpp.o
+
+.PHONY : output.o
+
+# target to build an object file
+output.cpp.o:
+	$(MAKE) -f CMakeFiles/multicore_rm.dir/build.make CMakeFiles/multicore_rm.dir/output.cpp.o
+.PHONY : output.cpp.o
+
+output.i: output.cpp.i
+
+.PHONY : output.i
+
+# target to preprocess a source file
+output.cpp.i:
+	$(MAKE) -f CMakeFiles/multicore_rm.dir/build.make CMakeFiles/multicore_rm.dir/output.cpp.i
+.PHONY : output.cpp.i
+
+output.s: output.cpp.s
+
+.PHONY : output.s
+
+# target to generate assembly for a file
+output.cpp.s:
+	$(MAKE) -f CMakeFiles/multicore_rm.dir/build.make CMakeFiles/multicore_rm.dir/output.cpp.s
+.PHONY : output.cpp.s
+
 pigeonhole.o: pigeonhole.cpp.o
 
 .PHONY : pigeonhole.o
@@ -483,6 +510,9 @@ help:
 	@echo "... openaddressing.o"
 	@echo "... openaddressing.i"
 	@echo "... openaddressing.s"
+	@echo "... output.o"
+	@echo "... output.i"
+	@echo "... output.s"
 	@echo "... pigeonhole.o"
 	@echo "... pigeonhole.i"
 	@echo "... pigeonhole.s"

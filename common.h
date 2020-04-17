@@ -23,7 +23,8 @@ using namespace std;
 using namespace std::chrono;
 
 extern string refGenome;
-extern vector<string> reads;
+//extern vector<string> reads;
+extern map<string, string> reads;
 
 extern string mode;
 extern string searchMode;
@@ -51,19 +52,14 @@ extern unsigned int numAcceptedReads;
 extern unsigned int numLocationsForward;
 extern unsigned int numLocationsReverse;
 
-extern ofstream infoFile;
-
 unsigned long long int extractRanking(string kMer);
 uint64_t inthash_64(uint64_t key, uint64_t mask);
 string readGenomeFile(string filename);
-vector<string> readReadsFile(string filename);
+map<string, string> readReadsFile(string filename);
 string reverseComplement(string read);
 void getDirectAddressing(string filename, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable);
 void getOpenAddressing(string filename, map<long long, unsigned long long int>& codeTable, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable);
 map<unsigned long long int, vector<unsigned long long int>> getMinimizers(string filename);
 void removingDuplicateLocationsInEachRead();
-void outputPossibleReads(string& mainName);
-void outputPossibleLocations(string& mainName);
-void results();
 
 #endif //MULTICORE_RM_COMMON_H

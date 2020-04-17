@@ -6,10 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/saimanalili/CLionProjects/multicore-rm/common.cpp
-common.h
-/home/saimanalili/CLionProjects/multicore-rm/common.h
-
 /home/saimanalili/CLionProjects/multicore-rm/common.h
 iostream
 -
@@ -37,4 +33,12 @@ edlib.h
 /home/saimanalili/CLionProjects/multicore-rm/edlib.h
 
 /home/saimanalili/CLionProjects/multicore-rm/edlib.h
+
+/home/saimanalili/CLionProjects/multicore-rm/output.cpp
+output.h
+/home/saimanalili/CLionProjects/multicore-rm/output.h
+
+/home/saimanalili/CLionProjects/multicore-rm/output.h
+common.h
+/home/saimanalili/CLionProjects/multicore-rm/common.h
 

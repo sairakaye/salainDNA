@@ -2,11 +2,11 @@
 #include "pigeonhole.h"
 #include "bitmatrix.h"
 #include "indexing.h"
+#include "output.h"
 #include "verification.h"
 
 string refGenome;
-vector<string> reads;
-map<string, vector<string>> readsLabelMap;
+map<string, string> reads;
 
 map<string, vector<unsigned long long int>> forwardReadsMap;
 map<string, vector<unsigned long long int>> reverseReadsMap;
@@ -17,28 +17,39 @@ map<long long, unsigned long long int> codeTable;
 vector<unsigned long long int> dirTable;
 vector<unsigned long long int> posTable;
 
-unsigned int numSeeds = 0;
-unsigned int numReads = 0;
-unsigned int numAcceptedSeeds = 0;
-unsigned int numAcceptedReads = 0;
-unsigned int numLocationsForward = 0;
-unsigned int numLocationsReverse = 0;
+unsigned int numSeeds;
+unsigned int numReads;
+unsigned int numAcceptedSeeds;
+unsigned int numAcceptedReads;
+unsigned int numLocationsForward;
+unsigned int numLocationsReverse;
 
-ofstream infoFile;
+string mode;
+string searchMode;
 
-string mode = "min";
-string searchMode = "exit";
-
-unsigned int q = 8;
+unsigned int q;
 unsigned int w;
 unsigned int m;
-unsigned int e = 0;
+unsigned int e;
 
 int main(int argc, char *argv[]) {
     string genomeFilePath;
     string readsFilePath;
     string indexFilePath;
     string mainName;
+
+    mode = "min";
+    searchMode = "exit";
+
+    q = 8;
+    e = 0;
+
+    numSeeds = 0;
+    numReads = 0;
+    numAcceptedSeeds = 0;
+    numAcceptedReads = 0;
+    numLocationsForward = 0;
+    numLocationsReverse = 0;
 
     processingArguments(argc, argv, genomeFilePath, readsFilePath, indexFilePath, mainName);
 
@@ -48,7 +59,7 @@ int main(int argc, char *argv[]) {
     reads = readReadsFile(readsFilePath);
 
     w = q + q - 1;
-    m = reads[0].size();
+    m = reads.begin()->first.size();
 
     if (indexFilePath.length() == 0) {
         string indexDefaultFile = mode + "_" + mainName + "_" + to_string(q) + ".txt";
@@ -56,6 +67,7 @@ int main(int argc, char *argv[]) {
         ifstream indexFile(indexDefaultFile);
 
         if (indexFile) {
+            indexFile.close();
             readIndexFile(indexDefaultFile, minimizers, codeTable, dirTable, posTable);
         } else {
             buildIndex(mainName, indexDefaultFile, minimizers, codeTable, dirTable, posTable);
@@ -63,9 +75,6 @@ int main(int argc, char *argv[]) {
     } else {
         readIndexFile(indexFilePath, minimizers, codeTable, dirTable, posTable);
     }
-
-    string infoFileName(mode + "_info_" + mainName + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + searchMode + ".txt");
-    infoFile.open(infoFileName.c_str(), ios::out);
 
     numSeeds = reads.size() * int(m / q);
     numReads = reads.size();
@@ -85,20 +94,16 @@ int main(int argc, char *argv[]) {
     auto end = omp_get_wtime();
     auto timeTaken = double(end - start);
 
-    cout << "Time taken by the pigeonhole process is : " << to_string(timeTaken) << " sec" << endl << endl;
-    infoFile << "Time taken by the pigeonhole process is : " << to_string(timeTaken) << " sec" << endl << endl;
     removingDuplicateLocationsInEachRead();
-
     numAcceptedReads = forwardReadsMap.size() + reverseReadsMap.size();
-    results();
+
+    outputSeedSelectorResults(mainName, timeTaken);
 
     //outputPossibleReads(mainName);
     //outputPossibleLocations(mainName);
 
     cout << "Starting Bit Matrix..." << endl;
     multiThreadedMain();
-
-    infoFile.close();
 
     return 0;
 }
