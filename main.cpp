@@ -31,7 +31,7 @@ unsigned int q;
 unsigned int w;
 unsigned int m;
 unsigned int e;
-double loadFactor = 0.8;
+double loadFactor;
 
 int main(int argc, char *argv[]) {
     string genomeFilePath;
@@ -44,6 +44,7 @@ int main(int argc, char *argv[]) {
 
     q = 8;
     e = 0;
+    loadFactor = 0.8;
 
     numSeeds = 0;
     numReads = 0;
