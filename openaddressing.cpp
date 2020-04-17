@@ -21,9 +21,7 @@ void buildOpenAddressingTables(string stringDNA, string mainName, int m, int q, 
     fill(dirTable.begin(), dirTable.end(), 0);
     fill(posTable.begin(), posTable.end(), 0);
 
-    vector<int> codeTableIndices; // store the indices here
-
-    cout << "Indexing start. \n";
+    vector<int> codeTableIndices;
 
     for (int i = 0; i < (m-q+1); i++) {
         unsigned long int kMerIndexInGenome = extractRanking(stringDNA.substr(i, q));
@@ -67,73 +65,41 @@ void buildOpenAddressingTables(string stringDNA, string mainName, int m, int q, 
         posTable.at(index) = i;
     }
 
-    cout << "Indexing done. \n";
-
     auto indexing_time_end = chrono::high_resolution_clock::now();
     duration<double, std::milli> indexing_duration = duration_cast<milliseconds>(indexing_time_end - indexing_time_start);
-    cout << "Total indexing time: " << (indexing_duration.count()/1000) << " s \n\nWriting start.\n";
+    cout << "Time taken by the indexing process is : " << (indexing_duration.count()/1000) << " sec" << endl << endl;
+    cout << "Starting the writing process..." << endl << endl;
 
     auto writing_time_start = chrono::high_resolution_clock::now();
 
     outfile << "code" << endl;
-//	cout << "code Table [of size " << codeTableSize << "] : ";
     for (int i = 0; i < codeTable.size(); i++) {
-//		cout << codeTable.at(i) << ' ';
-
         if (codeTable.at(i) != -1) {
             outfile << (unsigned long int)codeTable.at(i) << " " << i << endl;
         } else {
             outfile << codeTable.at(i) << " " << i << endl;
         }
-
-//        if (codeTable.at(i) != (-1)) {
-//            outfile << i << " " << (unsigned int)codeTable.at(i) << endl;
-//        } else {
-//            outfile << i << " " << codeTable.at(i) << endl;
-//        }
     }
     outfile << endl << "dir" << endl;
-//	cout << "\ndir Table [of size " << dirTableSize << "] : ";
     for (int i = 0; i < dirTable.size(); i++) {
-//		cout << dirTable.at(i) << ' ';
         outfile << dirTable.at(i) << endl;
     }
     outfile << endl << "pos" << endl;
-//	cout << "\npos Table [of size " << posTableSize << "] : ";
     for (int i = 0; i < posTable.size(); i++) {
-//		cout << posTable.at(i) << ' ';
         outfile << posTable.at(i) << endl;
     }
-//	cout << endl;
     outfile << endl;
-
-    cout << "Writing done. \n";
 
     auto writing_time_end = chrono::high_resolution_clock::now();
     duration<double, std::milli> writing_duration = duration_cast<milliseconds>(writing_time_end - writing_time_start);
-    cout << "Total writing time: " << (writing_duration.count()/1000) << " s \n\n";
+    cout << "Time taken by the index writing process is : " << (writing_duration.count()/1000) << " sec" << endl << endl;
 }
 
-void buildOpenAddressingIndexing(string& genome, string& mainName) {
-    double loadFactor = 0.8;
-
+void buildOpenAddressingIndexing(string& genome, string& mainName, double loadFactor) {
     unsigned int codeTableSize = floor(( pow(loadFactor, -1)) * genome.size());
     unsigned int dirTableSize = codeTableSize + 1;
     unsigned int posTableSize = genome.size() - q + 1;
 
-//		cout << codeTableSize << ' '<< dirTableSize << ' ' << ' ' << posTableSize;
-
-    cout << "Open Addressing for q = " << q << "\n\n";
+    cout << "Open Addressing for q = " << q  << endl << endl;
     buildOpenAddressingTables(genome, mainName, genome.length(), q, codeTableSize, dirTableSize, posTableSize);
-
-//		auto total_time_end = chrono::high_resolution_clock::now();
-//		duration<double, std::milli> total_duration = duration_cast<milliseconds>(total_time_end - total_time_start);
-//		cout << "\nTotal execution time: " << (total_duration.count()/1000) << " s \n";
-
-//		double percentageOccupied = ((double)occupiedSpaces / codeTableSize) * 100;
-//		double percentageCollided = ((double)collisions / occupiedSpaces) * 100;
-//		cout << "\n" << occupiedSpaces << " of " << codeTableSize << " places taken (" << percentageOccupied << "%)";
-//		cout << "\n" << collisions << " of " << occupiedSpaces << " collisions ("  << percentageCollided << "%)" << endl;
-
-    cout << "Done.\n";
 }

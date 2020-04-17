@@ -7,6 +7,6 @@
 
 #include "common.h"
 
-void buildOpenAddressingIndexing(string& genome, string& mainName);
+void buildOpenAddressingIndexing(string& genome, string& mainName, double loadFactor);
 
 #endif //MULTICORE_RM_OPENADDRESSING_H

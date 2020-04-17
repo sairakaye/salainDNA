@@ -31,6 +31,7 @@ unsigned int q;
 unsigned int w;
 unsigned int m;
 unsigned int e;
+double loadFactor = 0.8;
 
 int main(int argc, char *argv[]) {
     string genomeFilePath;
@@ -70,7 +71,7 @@ int main(int argc, char *argv[]) {
             indexFile.close();
             readIndexFile(indexDefaultFile, minimizers, codeTable, dirTable, posTable);
         } else {
-            buildIndex(mainName, indexDefaultFile, minimizers, codeTable, dirTable, posTable);
+            buildIndex(mainName, indexDefaultFile, minimizers, codeTable, dirTable, posTable, loadFactor);
         }
     } else {
         readIndexFile(indexFilePath, minimizers, codeTable, dirTable, posTable);

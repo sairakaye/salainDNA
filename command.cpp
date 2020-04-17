@@ -38,7 +38,8 @@ void helpCommands() {
     cout << "\t -g - file path of the genome file" << endl;
     cout << "\t -ir - file path of the input reads for mapping" << endl;
     cout << "\t -i - file path for the indexing file" << endl;
-    cout << "\t -m - mode of indexing (dir - direct addressing, open - open addressing, min - minimizers)" << endl;
+    cout << "\t -m - mode of indexing (dir - direct addressing, open - open addressing, min - minimizers) (default is min)" << endl;
+    cout << "\t -l - load factor for open addressing indexing mode (default is 0.8)" << endl;
     cout << "\t -e - error threshold (default is 0)" << endl;
     cout << "\t -s - search mode for seed selector (all - find locations in each seed, exit - when a location is found in the seed, immediately exit" << endl;
 }
@@ -83,6 +84,8 @@ void processingArguments(int argc, char *argv[], string &genomeFilePath, string 
                 }
             } else if (string(argv[i]) == "-s") {
                 searchMode = string(argv[i + 1]);
+            } else if (string(argv[i]) == "-l") {
+                loadFactor = stod(argv[i + 1]);
             }
         }
     }
