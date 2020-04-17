@@ -6,25 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/saimanalili/CLionProjects/multicore-rm/bitmatrix.cpp
-bitmatrix.h
-/home/saimanalili/CLionProjects/multicore-rm/bitmatrix.h
-edlib.h
-/home/saimanalili/CLionProjects/multicore-rm/edlib.h
-
 /home/saimanalili/CLionProjects/multicore-rm/bitmatrix.h
 common.h
 /home/saimanalili/CLionProjects/multicore-rm/common.h
 
-/home/saimanalili/CLionProjects/multicore-rm/command.cpp
-command.h
 /home/saimanalili/CLionProjects/multicore-rm/command.h
-
-/home/saimanalili/CLionProjects/multicore-rm/command.h
-common.h
-/home/saimanalili/CLionProjects/multicore-rm/common.h
-
-/home/saimanalili/CLionProjects/multicore-rm/common.cpp
 common.h
 /home/saimanalili/CLionProjects/multicore-rm/common.h
 
@@ -54,19 +40,11 @@ omp.h
 edlib.h
 /home/saimanalili/CLionProjects/multicore-rm/edlib.h
 
-/home/saimanalili/CLionProjects/multicore-rm/directaddressing.cpp
-directaddressing.h
-/home/saimanalili/CLionProjects/multicore-rm/directaddressing.h
-
 /home/saimanalili/CLionProjects/multicore-rm/directaddressing.h
 common.h
 /home/saimanalili/CLionProjects/multicore-rm/common.h
 
 /home/saimanalili/CLionProjects/multicore-rm/edlib.h
-
-/home/saimanalili/CLionProjects/multicore-rm/indexing.cpp
-indexing.h
-/home/saimanalili/CLionProjects/multicore-rm/indexing.h
 
 /home/saimanalili/CLionProjects/multicore-rm/indexing.h
 common.h
@@ -90,17 +68,9 @@ indexing.h
 output.h
 /home/saimanalili/CLionProjects/multicore-rm/output.h
 
-/home/saimanalili/CLionProjects/multicore-rm/minimizers.cpp
-minimizers.h
-/home/saimanalili/CLionProjects/multicore-rm/minimizers.h
-
 /home/saimanalili/CLionProjects/multicore-rm/minimizers.h
 common.h
 /home/saimanalili/CLionProjects/multicore-rm/common.h
-
-/home/saimanalili/CLionProjects/multicore-rm/openaddressing.cpp
-openaddressing.h
-/home/saimanalili/CLionProjects/multicore-rm/openaddressing.h
 
 /home/saimanalili/CLionProjects/multicore-rm/openaddressing.h
 common.h
@@ -114,33 +84,15 @@ output.h
 common.h
 /home/saimanalili/CLionProjects/multicore-rm/common.h
 
-/home/saimanalili/CLionProjects/multicore-rm/pigeonhole.cpp
-pigeonhole.h
-/home/saimanalili/CLionProjects/multicore-rm/pigeonhole.h
-
 /home/saimanalili/CLionProjects/multicore-rm/pigeonhole.h
 common.h
 /home/saimanalili/CLionProjects/multicore-rm/common.h
 searching.h
 /home/saimanalili/CLionProjects/multicore-rm/searching.h
-
-/home/saimanalili/CLionProjects/multicore-rm/searching.cpp
-searching.h
-/home/saimanalili/CLionProjects/multicore-rm/searching.h
-pigeonhole.h
-/home/saimanalili/CLionProjects/multicore-rm/pigeonhole.h
 
 /home/saimanalili/CLionProjects/multicore-rm/searching.h
 common.h
 /home/saimanalili/CLionProjects/multicore-rm/common.h
 minimizers.h
 /home/saimanalili/CLionProjects/multicore-rm/minimizers.h
-
-/home/saimanalili/CLionProjects/multicore-rm/verification.cpp
-verification.h
-/home/saimanalili/CLionProjects/multicore-rm/verification.h
-
-/home/saimanalili/CLionProjects/multicore-rm/verification.h
-common.h
-/home/saimanalili/CLionProjects/multicore-rm/common.h
 

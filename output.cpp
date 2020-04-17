@@ -42,11 +42,11 @@ void outputPossibleLocations(string& mainName) {
     for (pair<string, vector<unsigned long long int>> readPair : forwardReadsMap) {
         string read = readPair.first;
 
-        outputPossibleLocations << read + " - ";
+        outputPossibleLocations << read << endl;
 
         for (unsigned long long int location : readPair.second) {
             if (refGenome.substr(location, m).size() == m) {
-                outputPossibleLocations << location + " ";
+                outputPossibleLocations << location << endl;
             }
         }
 
@@ -56,11 +56,11 @@ void outputPossibleLocations(string& mainName) {
     for (pair<string, vector<unsigned long long int>> readPair : reverseReadsMap) {
         string read = readPair.first;
 
-        outputPossibleLocations << read + " - ";
+        outputPossibleLocations << read << endl;
 
         for (unsigned long long int location : readPair.second) {
             if (refGenome.substr(location, m).size() == m) {
-                outputPossibleLocations << read << "\t" << refGenome.substr(location, m) << endl;
+                outputPossibleLocations << location << endl;
             }
         }
 

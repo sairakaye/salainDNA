@@ -103,7 +103,7 @@ int main(int argc, char *argv[]) {
     outputSeedSelectorResults(mainName, timeTaken);
 
     //outputPossibleReads(mainName);
-    //outputPossibleLocations(mainName);
+    outputPossibleLocations(mainName);
 
     cout << "Starting Bit Matrix..." << endl;
     multiThreadedMain();
