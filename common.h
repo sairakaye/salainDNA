@@ -23,7 +23,6 @@ using namespace std;
 using namespace std::chrono;
 
 extern string refGenome;
-//extern vector<string> reads;
 extern map<string, string> reads;
 
 extern string mode;
@@ -34,14 +33,13 @@ extern unsigned int m;
 extern unsigned int e;
 extern double loadFactor;
 
-extern vector<pair<string, int> > alphabetRef;
+extern vector<pair<string, int>> alphabetRef;
 
 extern map<unsigned long long int, vector<unsigned long long int>> minimizers;
 extern map<long long, unsigned long long int> codeTable;
 extern vector<unsigned long long int> dirTable;
 extern vector<unsigned long long int> posTable;
 
-extern map<string, vector<string>> readsLabelMap;
 extern map<string, vector<unsigned long long int>> forwardReadsMap;
 extern map<string, vector<unsigned long long int>> reverseReadsMap;
 extern map<string, vector<unsigned long long int>> filteredReadsMap;

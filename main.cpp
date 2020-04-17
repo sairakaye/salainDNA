@@ -3,7 +3,7 @@
 #include "bitmatrix.h"
 #include "indexing.h"
 #include "output.h"
-#include "verification.h"
+//#include "verification.h"
 
 string refGenome;
 map<string, string> reads;
