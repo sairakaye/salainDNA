@@ -7,6 +7,7 @@
 
 string refGenome;
 vector<string> reads;
+map<string, string> readsLabelMap;
 
 map<string, vector<unsigned long long int>> forwardReadsMap;
 map<string, vector<unsigned long long int>> reverseReadsMap;

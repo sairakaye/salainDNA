@@ -24,6 +24,7 @@ using namespace std::chrono;
 
 extern string refGenome;
 extern vector<string> reads;
+extern map<string, string> readsLabelMap;
 
 extern string mode;
 extern string searchMode;
