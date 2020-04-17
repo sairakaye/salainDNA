@@ -58,8 +58,9 @@ string readGenomeFile(string filename) {
     return genome;
 }
 
-map<string, string> readReadsFile(string filename) {
-    map<string, string> readList;
+vector<string> readReadsFile(string filename) {
+    //map<string, string> readList;
+    vector<string> readList;
 
     ifstream fileRead(filename);
     string line;
@@ -76,7 +77,8 @@ map<string, string> readReadsFile(string filename) {
                 line.erase(line.length()-1);
             }
 
-            readList[line] = readName;
+            readList.push_back(line);
+            //readList[line] = readName;
             //readList.push_back(line);
             //readsLabelMap[readName].push_back(line);
             //readsLabelMap[readName].push_back(reverseComplement(line));

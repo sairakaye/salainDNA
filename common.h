@@ -23,7 +23,7 @@ using namespace std;
 using namespace std::chrono;
 
 extern string refGenome;
-extern map<string, string> reads;
+extern vector<string> reads;
 
 extern string mode;
 extern string searchMode;
@@ -54,7 +54,7 @@ extern unsigned int numLocationsReverse;
 unsigned long long int extractRanking(string kMer);
 uint64_t inthash_64(uint64_t key, uint64_t mask);
 string readGenomeFile(string filename);
-map<string, string> readReadsFile(string filename);
+vector<string> readReadsFile(string filename);
 string reverseComplement(string read);
 void getDirectAddressing(string filename, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable);
 void getOpenAddressing(string filename, map<long long, unsigned long long int>& codeTable, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable);

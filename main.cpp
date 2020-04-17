@@ -6,7 +6,7 @@
 //#include "verification.h"
 
 string refGenome;
-map<string, string> reads;
+vector<string> reads;
 
 map<string, vector<unsigned long long int>> forwardReadsMap;
 map<string, vector<unsigned long long int>> reverseReadsMap;
@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
     reads = readReadsFile(readsFilePath);
 
     w = q + q - 1;
-    m = reads.begin()->first.size();
+    m = reads[0].size();
 
     if (indexFilePath.length() == 0) {
         string indexDefaultFile = mode + "_" + mainName + "_" + to_string(q) + ".txt";
