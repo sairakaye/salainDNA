@@ -34,11 +34,23 @@ edlib.h
 
 /home/saimanalili/CLionProjects/multicore-rm/edlib.h
 
-/home/saimanalili/CLionProjects/multicore-rm/output.cpp
-output.h
-/home/saimanalili/CLionProjects/multicore-rm/output.h
-
-/home/saimanalili/CLionProjects/multicore-rm/output.h
+/home/saimanalili/CLionProjects/multicore-rm/minimizers.h
 common.h
 /home/saimanalili/CLionProjects/multicore-rm/common.h
+
+/home/saimanalili/CLionProjects/multicore-rm/pigeonhole.cpp
+pigeonhole.h
+/home/saimanalili/CLionProjects/multicore-rm/pigeonhole.h
+
+/home/saimanalili/CLionProjects/multicore-rm/pigeonhole.h
+common.h
+/home/saimanalili/CLionProjects/multicore-rm/common.h
+searching.h
+/home/saimanalili/CLionProjects/multicore-rm/searching.h
+
+/home/saimanalili/CLionProjects/multicore-rm/searching.h
+common.h
+/home/saimanalili/CLionProjects/multicore-rm/common.h
+minimizers.h
+/home/saimanalili/CLionProjects/multicore-rm/minimizers.h
 

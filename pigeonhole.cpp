@@ -23,7 +23,7 @@ void searchingReadProcess() {
         string forwardRead(reads[i]);
         vector<unsigned long long int> totalPossibleLocations;
         unsigned int tempAcceptedSeeds = 0;
-        unsigned int tempReverseSeeds = 0;
+        //unsigned int tempReverseSeeds = 0;
         bool isFound = false;
 
         int k;
@@ -59,10 +59,60 @@ void searchingReadProcess() {
             }
         }
 
-        if (tempAcceptedSeeds == j) {
+        if (tempAcceptedSeeds == (j - e)) {
+            possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
+            totalPossibleLocations.clear();
+            #pragma omp atomic
+            numAcceptedSeeds += tempAcceptedSeeds;
+            #pragma omp atomic
+            numAcceptedReads++;
+        } else if (tempAcceptedSeeds == 0) {
+            tempAcceptedSeeds = 0;
+            string reverseRead = reverseComplement(forwardRead);
 
+            int k;
+            for (k = 0; k < j; k++) {
+                int startPosition = k * q;
+
+                string seed;
+
+                if (mode.compare("min") == 0) {
+                    seed = reverseRead.substr(startPosition, w);
+
+                    if (seed.size() < w) {
+                        startPosition += seed.size() - w;
+                        seed = forwardRead.substr(startPosition, w);
+                    }
+                } else {
+                    seed = reverseRead.substr(startPosition, q);
+
+                    if (seed.size() < q) {
+                        startPosition += seed.size() - q;
+                        seed = forwardRead.substr(startPosition, q);
+                    }
+                }
+
+                vector<unsigned long long int> reverse;
+
+                searchingPosition(seed, reverseRead, mode, q, k, false, isCheckForApproximate, reverse);
+
+                if (reverse.size() > 0) {
+                    tempAcceptedSeeds++;
+                    isFound = true;
+                    totalPossibleLocations.insert(totalPossibleLocations.end(), reverse.begin(), reverse.end());
+                }
+            }
+
+            if (tempAcceptedSeeds == (j - e)) {
+                possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
+                totalPossibleLocations.clear();
+                #pragma omp atomic
+                numAcceptedSeeds += tempAcceptedSeeds;
+                #pragma omp atomic
+                numAcceptedReads++;
+            }
         }
-
+    }
         // Thinking how to make the reverse implement. Will use it if none of the seeds can be found on the genome or if it doesn't reach the count of accepted seeds?
         /*
         if (!isFound) {
@@ -96,11 +146,10 @@ void searchingReadProcess() {
         }
         */
 
-        #pragma omp atomic
-        numAcceptedSeeds += tempAcceptedSeeds;
+        /*
         #pragma omp atomic
         numSeeds += tempReverseSeeds;
-    }
+        */
 }
 
 /*

@@ -285,6 +285,21 @@ map<unsigned long long int, vector<unsigned long long int>> getMinimizers(string
 }
 
 void removingDuplicateLocationsInEachRead() {
+    for (pair<string, vector<unsigned long long int>> readPair : possibleReadsMap) {
+        vector<unsigned long long int>& temp = readPair.second;
+
+        unordered_set<unsigned long long int> locationSet;
+        for (unsigned long long int location : readPair.second) {
+            locationSet.insert(location);
+        }
+
+        temp.assign(locationSet.begin(), locationSet.end());
+        possibleReadsMap[readPair.first] = temp;
+
+        numLocationsForward += temp.size();
+    }
+
+    /*
     for (pair<string, vector<unsigned long long int>> readPair : forwardReadsMap) {
         vector<unsigned long long int>& temp = readPair.second;
 
@@ -311,4 +326,5 @@ void removingDuplicateLocationsInEachRead() {
 
         numLocationsReverse += temp.size();
     }
+    */
 }
