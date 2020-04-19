@@ -9,8 +9,9 @@ string refGenome;
 vector<string> reads;
 map<string, string> readsLabelMap;
 
-map<string, vector<unsigned long long int>> forwardReadsMap;
-map<string, vector<unsigned long long int>> reverseReadsMap;
+//map<string, vector<unsigned long long int>> forwardReadsMap;
+//map<string, vector<unsigned long long int>> reverseReadsMap;
+map<string, vector<unsigned long long int>> possibleReadsMap;
 map<string, vector<unsigned long long int>> filteredReadsMap;
 
 map<unsigned long long int, vector<unsigned long long int>> minimizers;
@@ -98,7 +99,7 @@ int main(int argc, char *argv[]) {
     auto timeTaken = double(end - start);
 
     removingDuplicateLocationsInEachRead();
-    numAcceptedReads = forwardReadsMap.size() + reverseReadsMap.size();
+    numAcceptedReads = possibleReadsMap.size();
 
     outputSeedSelectorResults(mainName, timeTaken);
 

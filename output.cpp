@@ -10,6 +10,18 @@ void outputPossibleReads(string& mainName) {
     string outFilename = "output_possible_reads_" + mode + "_" + mainName + "_" + to_string(q) + ".txt";
     outputPossibleReadsFile.open(outFilename);
 
+    for (pair<string, vector<unsigned long long int>> readPair : possibleReadsMap) {
+        string read = readPair.first;
+
+        for (unsigned long long int location : readPair.second) {
+            if (refGenome.substr(location, m).size() == m) {
+                outputPossibleReadsFile << read << "\t" << refGenome.substr(location, m) << endl;
+            }
+        }
+    }
+
+    /*
+
     for (pair<string, vector<unsigned long long int>> readPair : forwardReadsMap) {
         string read = readPair.first;
 
@@ -29,6 +41,7 @@ void outputPossibleReads(string& mainName) {
             }
         }
     }
+    */
 
     outputPossibleReadsFile.close();
 }
@@ -39,6 +52,21 @@ void outputPossibleLocations(string& mainName) {
     string outFilename = "output_possible_locations_" + mode + "_" + mainName + "_" + to_string(q) + ".txt";
     outputPossibleLocations.open(outFilename);
 
+    for (pair<string, vector<unsigned long long int>> readPair : possibleReadsMap) {
+        string read = readPair.first;
+
+        outputPossibleLocations << read << endl;
+
+        for (unsigned long long int location : readPair.second) {
+            if (refGenome.substr(location, m).size() == m) {
+                outputPossibleLocations << location << endl;
+            }
+        }
+
+        outputPossibleLocations << endl;
+    }
+
+    /*
     for (pair<string, vector<unsigned long long int>> readPair : forwardReadsMap) {
         string read = readPair.first;
 
@@ -66,6 +94,7 @@ void outputPossibleLocations(string& mainName) {
 
         outputPossibleLocations << endl;
     }
+    */
 
     outputPossibleLocations.close();
 }

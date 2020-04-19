@@ -10,16 +10,16 @@ vector<unsigned long long int>& location) {
     for (int i = 0; i < location.size(); i++) {
         if (seed.compare(refGenome.substr(location[i], q)) == 0) {
             if ((location[i] - (q * k)) >= 0 && (location[i] - (q * k)) < refGenome.size()) {
-                #pragma omp critical
-                {
+                //#pragma omp critical
+                //{
                     foundLocations.push_back(location[i] - (q * k));
 
-                    if (isForwardStrand) {
-                        forwardReadsMap[read].push_back(location[i] - (q * k));
-                    } else {
-                        reverseReadsMap[read].push_back(location[i] - (q * k));
-                    }
-                };
+                    //if (isForwardStrand) {
+                    //    forwardReadsMap[read].push_back(location[i] - (q * k));
+                    //} else {
+                    //    reverseReadsMap[read].push_back(location[i] - (q * k));
+                   //}
+                //};
             } else {
                 continue;
             }
@@ -35,16 +35,16 @@ vector<unsigned long long int>& location) {
         if (result.status == EDLIB_STATUS_OK) {
             if (result.editDistance <= allowableE) {
                 if ((location[i] - (q * k)) >= 0 && (location[i] - (q * k)) < refGenome.size()) {
-                    #pragma omp critical
-                    {
+                    //#pragma omp critical
+                    //{
                     foundLocations.push_back(location[i] - (q * k));
 
-                    if (isForwardStrand) {
-                        forwardReadsMap[read].push_back(location[i] - (q * k));
-                    } else {
-                        reverseReadsMap[read].push_back(location[i] - (q * k));
-                    }
-                    };
+                    //if (isForwardStrand) {
+                    //    forwardReadsMap[read].push_back(location[i] - (q * k));
+                    //} else {
+                    //    reverseReadsMap[read].push_back(location[i] - (q * k));
+                    //}
+                    //};
                 } else {
                     continue;
                 }
@@ -59,16 +59,16 @@ void searchingUsingDirectOrOpen(string seed, string read, unsigned long long int
 vector<unsigned long long int>& location) {
     while (seed.compare(refGenome.substr(posTable[index], q)) == 0) {
         if ((posTable[index] - (q * k)) >= 0 && (posTable[index]- (q * k)) < refGenome.size()) {
-            #pragma omp critical
-            {
+            //#pragma omp critical
+            //{
             foundLocations.push_back(posTable[index] - (q * k));
 
-            if (isForwardStrand) {
-                forwardReadsMap[read].push_back(posTable[index]  - (q * k));
-            } else {
-                reverseReadsMap[read].push_back(posTable[index]  - (q * k));
-            }
-            };
+            //if (isForwardStrand) {
+            //    forwardReadsMap[read].push_back(posTable[index]  - (q * k));
+            //} else {
+            //    reverseReadsMap[read].push_back(posTable[index]  - (q * k));
+            //}
+            //};
         }
 
         index++;
@@ -85,16 +85,16 @@ vector<unsigned long long int>& location) {
         if (result.status == EDLIB_STATUS_OK) {
             if (result.editDistance <= allowableE) {
                 if ((posTable[index] - (q * k)) >= 0 && (posTable[index]- (q * k)) < refGenome.size()) {
-                    #pragma omp critical
-                    {
+                    //#pragma omp critical
+                    //{
                     foundLocations.push_back(posTable[index] - (q * k));
 
-                    if (isForwardStrand) {
-                        forwardReadsMap[read].push_back(posTable[index]  - (q * k));
-                    } else {
-                        reverseReadsMap[read].push_back(posTable[index]  - (q * k));
-                    }
-                    };
+                    //if (isForwardStrand) {
+                    //    forwardReadsMap[read].push_back(posTable[index]  - (q * k));
+                    //} else {
+                    //    reverseReadsMap[read].push_back(posTable[index]  - (q * k));
+                    //}
+                    //};
                 }
 
                 index++;

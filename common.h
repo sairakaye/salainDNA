@@ -41,8 +41,9 @@ extern map<long long, unsigned long long int> codeTable;
 extern vector<unsigned long long int> dirTable;
 extern vector<unsigned long long int> posTable;
 
-extern map<string, vector<unsigned long long int>> forwardReadsMap;
-extern map<string, vector<unsigned long long int>> reverseReadsMap;
+//extern map<string, vector<unsigned long long int>> forwardReadsMap;
+//extern map<string, vector<unsigned long long int>> reverseReadsMap;
+extern map<string, vector<unsigned long long int>> possibleReadsMap;
 extern map<string, vector<unsigned long long int>> filteredReadsMap;
 
 extern unsigned int numSeeds;
