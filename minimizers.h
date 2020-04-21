@@ -8,6 +8,7 @@
 #include "common.h"
 
 unsigned long long int getMinimizerRank(string windowSeed, int q, int windowSize);
+unsigned long long int getMinimizerRankWithoutWindow(string windowSeed, int q);
 void buildMinimizersIndexing(string& genome, string& mainName);
 
 #endif //PH_INTEGRATION_MINIMIZERS_H

@@ -33,9 +33,11 @@ void searchingReadProcess() {
             if (mode.compare("min") == 0) {
                 seed = forwardRead.substr(startPosition, w);
 
-                if (seed.size() < w) {
+                if (seed.size() < w && seed.size() != q) {
                     startPosition += seed.size() - w;
                     seed = forwardRead.substr(startPosition, w);
+                } else if (seed.size() == q) {
+                    seed = forwardRead.substr(startPosition, q);
                 }
             } else {
                 seed = forwardRead.substr(startPosition, q);

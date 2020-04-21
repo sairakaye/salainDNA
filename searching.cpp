@@ -118,7 +118,18 @@ void searchingPosition(string seed, string read, string mode, int q, int k, bool
                 approximateSearchingUsingMinimizers(seed.substr(0, q), read, k, isForwardStrand, foundLocations, location);
             }
         }
-    } else if ((mode.compare("dir") == 0 || mode.compare("open") == 0) && seed.size() == q) {
+    } else if (mode.compare("min") == 0 && seed.size() == q) {
+        rank = getMinimizerRankWithoutWindow(seed, q);
+        location = minimizers[rank];
+
+        if (location.size() > 0) {
+            if (isExactMatching) {
+                searchingUsingMinimizers(seed.substr(0, q), read, k, isForwardStrand, foundLocations, location);
+            } else {
+                approximateSearchingUsingMinimizers(seed.substr(0, q), read, k, isForwardStrand, foundLocations, location);
+            }
+        }
+    } else if (mode.compare("dir") == 0 || mode.compare("open") == 0) {
         if (mode.compare("dir") == 0) {
             rank = extractRanking(seed);
 

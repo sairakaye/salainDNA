@@ -27,6 +27,15 @@ unsigned long long int getMinimizerRank(string windowSeed, int q, int windowSize
     return finalMinHash;
 }
 
+unsigned long long int getMinimizerRankWithoutWindow(string windowSeed, int q) {
+    unsigned long long int mask = pow(4, q);
+
+    unsigned long long int rankHashValue = extractRanking(windowSeed);
+    unsigned long long int finalMinHash = inthash_64(rankHashValue, mask - 1);
+
+    return finalMinHash;
+}
+
 multimap<vector<unsigned long long int>, unsigned long long int>  generateMinimizers(string stringDNA, string mainName, unsigned int q, unsigned int w, unsigned int m)
 {
     auto indexing_time_start = chrono::high_resolution_clock::now();
