@@ -48,9 +48,9 @@ int main(int argc, char *argv[]) {
     mode = "min";
     searchMode = "exit";
 
-    q = 8;
+    q = 12;
     e = 0;
-    loadFactor = 0.8;
+    loadFactor = 0.9;
 
     isReverseAccepted = true;
 
