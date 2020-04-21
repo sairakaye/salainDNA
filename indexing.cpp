@@ -18,7 +18,7 @@ void readIndexFile(string indexFile,
     } else if (mode.compare("open") == 0) {
         getOpenAddressing(indexFile, codeTable, dirTable, posTable);
     } else {
-        cout << "Mode not valid...";
+        cout << "Mode not valid..." << endl;
         exit(EXIT_FAILURE);
     }
 }

@@ -11,20 +11,18 @@ void searchingReadProcess() {
     j = m / q;
     allowableE = floor(e / j);
 
-    bool isCheckForApproximate = true;
+    bool isExactMatching = false;
 
     if (allowableE == 0) {
-        isCheckForApproximate = false;
+        isExactMatching = true;
     }
 
     int i;
-//    #pragma omp parallel for
+    #pragma omp parallel for reduction(+:numAcceptedSeeds)
     for (i = 0; i < reads.size(); i++) {
         string forwardRead(reads[i]);
         vector<unsigned long long int> totalPossibleLocations;
         unsigned int tempAcceptedSeeds = 0;
-        //unsigned int tempReverseSeeds = 0;
-        bool isFound = false;
 
         int k;
         for (k = 0; k < j; k++) {
@@ -44,29 +42,26 @@ void searchingReadProcess() {
 
                 if (seed.size() < q) {
                     startPosition += seed.size() - q;
-                    seed = forwardRead.substr(startPosition, w);
+                    seed = forwardRead.substr(startPosition, q);
                 }
             }
 
             vector<unsigned long long int> forward;
 
-            searchingPosition(seed, forwardRead, mode, q, k, true, isCheckForApproximate, forward);
+            searchingPosition(seed, forwardRead, mode, q, k, true, isExactMatching, forward);
 
             if (forward.size() > 0) {
                 tempAcceptedSeeds++;
-                isFound = true;
                 totalPossibleLocations.insert(totalPossibleLocations.end(), forward.begin(), forward.end());
             }
         }
 
-        if (tempAcceptedSeeds == (j - e)) {
-            possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
-            totalPossibleLocations.clear();
-            #pragma omp atomic
-            numAcceptedSeeds += tempAcceptedSeeds;
-            #pragma omp atomic
-            numAcceptedReads++;
-        } else if (tempAcceptedSeeds == 0) {
+        if (isExactMatching && tempAcceptedSeeds >= (j - e)) {
+            #pragma omp critical
+            {
+                possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
+            };
+        } else if (isExactMatching && tempAcceptedSeeds == 0 && isReverseAccepted) {
             tempAcceptedSeeds = 0;
             string reverseRead = reverseComplement(forwardRead);
 
@@ -94,62 +89,74 @@ void searchingReadProcess() {
 
                 vector<unsigned long long int> reverse;
 
-                searchingPosition(seed, reverseRead, mode, q, k, false, isCheckForApproximate, reverse);
+                searchingPosition(seed, reverseRead, mode, q, k, false, isExactMatching, reverse);
 
                 if (reverse.size() > 0) {
                     tempAcceptedSeeds++;
-                    isFound = true;
                     totalPossibleLocations.insert(totalPossibleLocations.end(), reverse.begin(), reverse.end());
                 }
             }
 
-            if (tempAcceptedSeeds == (j - e)) {
-                possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
-                totalPossibleLocations.clear();
-                #pragma omp atomic
-                numAcceptedSeeds += tempAcceptedSeeds;
-                #pragma omp atomic
-                numAcceptedReads++;
+            if (tempAcceptedSeeds >= (j - e)) {
+                #pragma omp critical
+                {
+                    possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
+                };
             }
-        }
-    }
-        // Thinking how to make the reverse implement. Will use it if none of the seeds can be found on the genome or if it doesn't reach the count of accepted seeds?
-        /*
-        if (!isFound) {
+        } else if (!isExactMatching && tempAcceptedSeeds == j) {
+            #pragma omp critical
+            {
+                possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
+            };
+
+            #pragma omp atomic
+            numAcceptedReads++;
+        } else if (!isExactMatching && tempAcceptedSeeds == 0 && isReverseAccepted) {
+            tempAcceptedSeeds = 0;
             string reverseRead = reverseComplement(forwardRead);
 
             int k;
             for (k = 0; k < j; k++) {
-                tempReverseSeeds++;
                 int startPosition = k * q;
 
                 string seed;
 
                 if (mode.compare("min") == 0) {
                     seed = reverseRead.substr(startPosition, w);
-                } else {
-                    seed = reverseRead.substr(startPosition, q);
-                }
 
-                if (seed.size() == w || seed.size() == q) {
-                    vector<unsigned long long int> reverse;
-
-                    searchingPosition(seed, reverseRead, mode, q, k, false, isCheckForApproximate, reverse);
-
-                    if (reverse.size() > 0) {
-                        tempAcceptedSeeds++;
+                    if (seed.size() < w) {
+                        startPosition += seed.size() - w;
+                        seed = forwardRead.substr(startPosition, w);
                     }
                 } else {
-                    break;
+                    seed = reverseRead.substr(startPosition, q);
+
+                    if (seed.size() < q) {
+                        startPosition += seed.size() - q;
+                        seed = forwardRead.substr(startPosition, q);
+                    }
+                }
+
+                vector<unsigned long long int> reverse;
+
+                searchingPosition(seed, reverseRead, mode, q, k, false, isExactMatching, reverse);
+
+                if (reverse.size() > 0) {
+                    tempAcceptedSeeds++;
+                    totalPossibleLocations.insert(totalPossibleLocations.end(), reverse.begin(), reverse.end());
                 }
             }
-        }
-        */
 
-        /*
-        #pragma omp atomic
-        numSeeds += tempReverseSeeds;
-        */
+            if (tempAcceptedSeeds == j) {
+                #pragma omp critical
+                {
+                    possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
+                };
+            }
+        }
+
+        numAcceptedSeeds += tempAcceptedSeeds;
+    }
 }
 
 /*

@@ -118,13 +118,8 @@ void outputSeedSelectorResults(string& mainName, double timeTaken) {
     //infoFile << "Number of accepted reads: " << to_string(numAcceptedReads) << endl << endl;
 
 
-    cout << "Number of possible read locations found from forward: " + to_string(numLocationsForward) << endl;
-    cout << "Number of possible read locations found from reverse:  " + to_string(numLocationsReverse) << endl;
-    //infoFile << "Number of possible read locations found from forward: " + to_string(numLocationsForward) << endl;
-    //infoFile << "Number of possible read locations found from reverse: " + to_string(numLocationsReverse) << endl;
-
-    cout << "Number of possible read locations from forward and reverse: " + to_string(numLocationsForward + numLocationsReverse) << endl;
-    //infoFile << "Number of possible read locations from forward and reverse: " + to_string(numLocationsForward + numLocationsReverse) << endl;
+    cout << "Number of possible read locations found: " + to_string(numLocations) << endl << endl;
+    //infoFile << "Number of possible read locations found from forward: " + to_string(numLocations) << endl;
 
     //infoFile.close();
 }

@@ -6,6 +6,16 @@
 
 #IncludeRegexTransform: 
 
+/home/saimanalili/CLionProjects/multicore-rm/bitmatrix.cpp
+bitmatrix.h
+/home/saimanalili/CLionProjects/multicore-rm/bitmatrix.h
+edlib.h
+/home/saimanalili/CLionProjects/multicore-rm/edlib.h
+
+/home/saimanalili/CLionProjects/multicore-rm/bitmatrix.h
+common.h
+/home/saimanalili/CLionProjects/multicore-rm/common.h
+
 /home/saimanalili/CLionProjects/multicore-rm/common.h
 iostream
 -
@@ -33,24 +43,4 @@ edlib.h
 /home/saimanalili/CLionProjects/multicore-rm/edlib.h
 
 /home/saimanalili/CLionProjects/multicore-rm/edlib.h
-
-/home/saimanalili/CLionProjects/multicore-rm/minimizers.h
-common.h
-/home/saimanalili/CLionProjects/multicore-rm/common.h
-
-/home/saimanalili/CLionProjects/multicore-rm/pigeonhole.cpp
-pigeonhole.h
-/home/saimanalili/CLionProjects/multicore-rm/pigeonhole.h
-
-/home/saimanalili/CLionProjects/multicore-rm/pigeonhole.h
-common.h
-/home/saimanalili/CLionProjects/multicore-rm/common.h
-searching.h
-/home/saimanalili/CLionProjects/multicore-rm/searching.h
-
-/home/saimanalili/CLionProjects/multicore-rm/searching.h
-common.h
-/home/saimanalili/CLionProjects/multicore-rm/common.h
-minimizers.h
-/home/saimanalili/CLionProjects/multicore-rm/minimizers.h
 

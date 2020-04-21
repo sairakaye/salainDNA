@@ -86,6 +86,24 @@ void processingArguments(int argc, char *argv[], string &genomeFilePath, string 
                 searchMode = string(argv[i + 1]);
             } else if (string(argv[i]) == "-l") {
                 loadFactor = stod(argv[i + 1]);
+            } else if (string(argv[i]) == "-rev") {
+                int value;
+
+                try {
+                    value = stoi(argv[i+1]);
+
+                    if (value == 0) {
+                        isReverseAccepted = false;
+                    } else if (value == 1) {
+                        isReverseAccepted = true;
+                    } else {
+                        cout << "Input either 1 for true or 0 for false." << endl;
+                        exit(EXIT_FAILURE);
+                    }
+                } catch (exception &err) {
+                    cout << "Invalid input. Input either 1 for true or 0 for false." << endl;
+                    exit(EXIT_FAILURE);
+                }
             }
         }
     }

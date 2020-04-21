@@ -46,12 +46,22 @@ extern vector<unsigned long long int> posTable;
 extern map<string, vector<unsigned long long int>> possibleReadsMap;
 extern map<string, vector<unsigned long long int>> filteredReadsMap;
 
+
+//typedef struct {
+//    string *read;
+//    unsigned long long int *location;
+//} PossibleRead;
+//
+//extern vector<PossibleRead *> possibleReadsVector;
+//extern vector<PossibleRead *> filteredReadsVector;
+
+extern bool isReverseAccepted;
+
 extern unsigned int numSeeds;
 extern unsigned int numReads;
 extern unsigned int numAcceptedSeeds;
 extern unsigned int numAcceptedReads;
-extern unsigned int numLocationsForward;
-extern unsigned int numLocationsReverse;
+extern unsigned int numLocations;
 
 unsigned long long int extractRanking(string kMer);
 uint64_t inthash_64(uint64_t key, uint64_t mask);
@@ -61,6 +71,6 @@ string reverseComplement(string read);
 void getDirectAddressing(string filename, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable);
 void getOpenAddressing(string filename, map<long long, unsigned long long int>& codeTable, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable);
 map<unsigned long long int, vector<unsigned long long int>> getMinimizers(string filename);
-void removingDuplicateLocationsInEachRead();
+void processingPossibleReadsForBitmatrix();
 
 #endif //MULTICORE_RM_COMMON_H

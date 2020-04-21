@@ -14,6 +14,11 @@ map<string, string> readsLabelMap;
 map<string, vector<unsigned long long int>> possibleReadsMap;
 map<string, vector<unsigned long long int>> filteredReadsMap;
 
+//vector<PossibleRead> possibleReadsVector;
+//vector<PossibleRead> filteredReadsVector;
+
+bool isReverseAccepted;
+
 map<unsigned long long int, vector<unsigned long long int>> minimizers;
 map<long long, unsigned long long int> codeTable;
 vector<unsigned long long int> dirTable;
@@ -23,8 +28,7 @@ unsigned int numSeeds;
 unsigned int numReads;
 unsigned int numAcceptedSeeds;
 unsigned int numAcceptedReads;
-unsigned int numLocationsForward;
-unsigned int numLocationsReverse;
+unsigned int numLocations;
 
 string mode;
 string searchMode;
@@ -48,12 +52,13 @@ int main(int argc, char *argv[]) {
     e = 0;
     loadFactor = 0.8;
 
+    isReverseAccepted = true;
+
     numSeeds = 0;
     numReads = 0;
     numAcceptedSeeds = 0;
     numAcceptedReads = 0;
-    numLocationsForward = 0;
-    numLocationsReverse = 0;
+    numLocations = 0;
 
     processingArguments(argc, argv, genomeFilePath, readsFilePath, indexFilePath, mainName);
 
@@ -98,16 +103,16 @@ int main(int argc, char *argv[]) {
     auto end = omp_get_wtime();
     auto timeTaken = double(end - start);
 
-    removingDuplicateLocationsInEachRead();
     numAcceptedReads = possibleReadsMap.size();
+    processingPossibleReadsForBitmatrix();
 
     outputSeedSelectorResults(mainName, timeTaken);
 
     //outputPossibleReads(mainName);
     //outputPossibleLocations(mainName);
 
-    //cout << "Starting Bit Matrix..." << endl;
-    //multiThreadedMain();
+    cout << "Starting Bit Matrix..." << endl;
+    multiThreadedMain();
 
     return 0;
 }

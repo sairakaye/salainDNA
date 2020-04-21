@@ -284,9 +284,9 @@ map<unsigned long long int, vector<unsigned long long int>> getMinimizers(string
     return minimizers;
 }
 
-void removingDuplicateLocationsInEachRead() {
+void processingPossibleReadsForBitmatrix() {
     for (pair<string, vector<unsigned long long int>> readPair : possibleReadsMap) {
-        vector<unsigned long long int>& temp = readPair.second;
+        vector<unsigned long long int> &temp = readPair.second;
 
         unordered_set<unsigned long long int> locationSet;
         for (unsigned long long int location : readPair.second) {
@@ -296,35 +296,6 @@ void removingDuplicateLocationsInEachRead() {
         temp.assign(locationSet.begin(), locationSet.end());
         possibleReadsMap[readPair.first] = temp;
 
-        numLocationsForward += temp.size();
+        numLocations += temp.size();
     }
-
-    /*
-    for (pair<string, vector<unsigned long long int>> readPair : forwardReadsMap) {
-        vector<unsigned long long int>& temp = readPair.second;
-
-        unordered_set<unsigned long long int> locationSet;
-        for (unsigned long long int location : readPair.second) {
-            locationSet.insert(location);
-        }
-
-        temp.assign(locationSet.begin(), locationSet.end());
-        forwardReadsMap[readPair.first] = temp;
-
-        numLocationsForward += temp.size();
-    }
-
-    for (pair<string, vector<unsigned long long int>> readPair : reverseReadsMap) {
-        vector<unsigned long long int>& temp = readPair.second;
-
-        unordered_set<unsigned long long int> locationSet;
-        for (unsigned long long int location : readPair.second)
-            locationSet.insert(location);
-
-        temp.assign(locationSet.begin(), locationSet.end());
-        reverseReadsMap[readPair.first] = temp;
-
-        numLocationsReverse += temp.size();
-    }
-    */
 }
