@@ -7,15 +7,15 @@
 int occupiedSpaces = 0;
 int collisions = 0;
 
-void buildOpenAddressingTables(string stringDNA, string mainName, int m, int q, unsigned int codeTableSize, unsigned int dirTableSize, int posTableSize) {
+void buildOpenAddressingTables(string stringDNA, string mainName, unsigned int m, unsigned int q, unsigned long long int codeTableSize, unsigned long long int dirTableSize, unsigned long long int posTableSize) {
     auto indexing_time_start = chrono::high_resolution_clock::now();
 
     ofstream outfile;
     outfile.open("open_" + mainName + "_" + to_string(q) + ".txt", ios::out);
 
-    vector<long long> codeTable(codeTableSize);
-    vector<unsigned long> dirTable(dirTableSize);
-    vector<unsigned long> posTable(posTableSize);
+    vector<long long int> codeTable(codeTableSize);
+    vector<unsigned long long int> dirTable(dirTableSize);
+    vector<unsigned long long int> posTable(posTableSize);
 
     fill(codeTable.begin(), codeTable.end(), -1);
     fill(dirTable.begin(), dirTable.end(), 0);
@@ -24,17 +24,17 @@ void buildOpenAddressingTables(string stringDNA, string mainName, int m, int q, 
     vector<int> codeTableIndices;
 
     for (int i = 0; i < (m-q+1); i++) {
-        unsigned long int kMerIndexInGenome = extractRanking(stringDNA.substr(i, q));
-        unsigned int hashValue = kMerIndexInGenome % (int)codeTableSize;
+        unsigned long long int kMerIndexInGenome = extractRanking(stringDNA.substr(i, q));
+        unsigned long long int hashValue = kMerIndexInGenome % (unsigned long long int)codeTableSize;
 //		int hashValue = inthash_64(kMerIndexInGenome, shiftedValue - 1);
 
         if (codeTable.at(hashValue) != -1) {
             collisions++;
-            unsigned int j = hashValue;
-            unsigned int k = 1;
+            unsigned long long int j = hashValue;
+            unsigned long long int k = 1;
 
             while (codeTable.at(j) != -1 && codeTable.at(j) != kMerIndexInGenome) {
-                j = (j + (k * k)) % (int)codeTableSize;
+                j = (j + (k * k)) % (unsigned long long int)codeTableSize;
                 k = k + 1;
             }
 
@@ -49,7 +49,6 @@ void buildOpenAddressingTables(string stringDNA, string mainName, int m, int q, 
     }
 
     for (int i = 0; i < stringDNA.length() - q + 1; i++) {
-        unsigned long int kMerIndexInGenome = extractRanking(stringDNA.substr(i, q));
         dirTable.at(codeTableIndices.at(i))++;
     }
 
@@ -57,9 +56,8 @@ void buildOpenAddressingTables(string stringDNA, string mainName, int m, int q, 
         dirTable.at(i) += dirTable.at(i-1);
     }
 
-    unsigned int index = 0;
+    unsigned long long int index = 0;
     for (int i = stringDNA.length() - q; i >= 0; i--) {
-        unsigned long int kMerIndexInGenome = extractRanking(stringDNA.substr(i, q));
         dirTable.at(codeTableIndices.at(i))--;
         index = dirTable.at(codeTableIndices.at(i));
         posTable.at(index) = i;
@@ -75,7 +73,7 @@ void buildOpenAddressingTables(string stringDNA, string mainName, int m, int q, 
     outfile << "code" << endl;
     for (int i = 0; i < codeTable.size(); i++) {
         if (codeTable.at(i) != -1) {
-            outfile << (unsigned long int)codeTable.at(i) << " " << i << endl;
+            outfile << (unsigned long long int)codeTable.at(i) << " " << i << endl;
         } else {
             outfile << codeTable.at(i) << " " << i << endl;
         }
@@ -96,9 +94,9 @@ void buildOpenAddressingTables(string stringDNA, string mainName, int m, int q, 
 }
 
 void buildOpenAddressingIndexing(string& genome, string& mainName, double loadFactor) {
-    unsigned int codeTableSize = floor(( pow(loadFactor, -1)) * genome.size());
-    unsigned int dirTableSize = codeTableSize + 1;
-    unsigned int posTableSize = genome.size() - q + 1;
+    unsigned long long int codeTableSize = floor(( pow(loadFactor, -1)) * genome.size());
+    unsigned long long int dirTableSize = codeTableSize + 1;
+    unsigned long long int posTableSize = genome.size() - q + 1;
 
     cout << "Open Addressing for q = " << q  << endl << endl;
     buildOpenAddressingTables(genome, mainName, genome.length(), q, codeTableSize, dirTableSize, posTableSize);

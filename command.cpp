@@ -85,7 +85,12 @@ void processingArguments(int argc, char *argv[], string &genomeFilePath, string 
             } else if (string(argv[i]) == "-s") {
                 searchMode = string(argv[i + 1]);
             } else if (string(argv[i]) == "-l") {
-                loadFactor = stod(argv[i + 1]);
+                try {
+                    loadFactor = stod(argv[i + 1]);
+                } catch (exception &err) {
+                    cout << err.what() << endl;
+                    exit(EXIT_FAILURE);
+                }
             } else if (string(argv[i]) == "-rev") {
                 int value;
 
