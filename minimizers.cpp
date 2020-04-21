@@ -10,7 +10,7 @@ unsigned long long int getMinimizerRank(string windowSeed, int q, int windowSize
 
     unsigned long long int minm1 = 1L << (2 * q + 1);
 
-    for (unsigned int j = 0; j < (windowSize - q + 1); j++){
+    for (unsigned int j = 0; j < (windowSize - q + 1); j++) {
         string sMinimizer = windowSeed.substr(j, q);
         unsigned long long int hashValue = extractRanking(sMinimizer);
         unsigned long long int tempMinHash = inthash_64(hashValue, mask - 1);

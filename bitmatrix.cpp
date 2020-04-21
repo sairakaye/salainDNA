@@ -254,11 +254,11 @@ void multiThreadedMain() {
     }
     */
 
-    vector<string> reads;
-    vector<string> refs;
+    //vector<string> reads;
+    //vector<string> refs;
 
-    int refcount = refs.size();
-    int readcount = reads.size();
+    //int refcount = refs.size();
+    //int readcount = reads.size();
 
     int E = e;
 
@@ -274,28 +274,8 @@ void multiThreadedMain() {
 
     int i;
     #pragma omp parallel for reduction(+:notNeeded, alignmentNeeded)
-    for(i = 0; i < forwardReadsMap.size(); i++) {
-        auto iteratorMap = forwardReadsMap.begin();
-        advance(iteratorMap, i);
-
-        vector<unsigned long long int>& locations = (*iteratorMap).second;
-
-        int j;
-        for (j = 0; j < locations.size(); j++) {
-            if (countOnes(threadFunc(E, (*iteratorMap).first, refGenome.substr(locations[j], m)), E) <= E) {
-                #pragma omp critical
-                filteredReadsMap[(*iteratorMap).first].push_back(locations[j]);
-                alignmentNeeded++;
-            } else {
-                notNeeded++;
-            }
-
-        }
-    }
-
-    #pragma omp parallel for reduction(+:notNeeded, alignmentNeeded)
-    for(i = 0; i < reverseReadsMap.size(); i++) {
-        auto iteratorMap = reverseReadsMap.begin();
+    for(i = 0; i < possibleReadsMap.size(); i++) {
+        auto iteratorMap = possibleReadsMap.begin();
         advance(iteratorMap, i);
 
         vector<unsigned long long int>& locations = (*iteratorMap).second;

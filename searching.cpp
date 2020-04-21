@@ -7,21 +7,20 @@
 
 void searchingUsingMinimizers(string seed, string read, int k, bool isForwardStrand, vector<unsigned long long int>& foundLocations,
 vector<unsigned long long int>& location) {
-    for (int i = 0; i < location.size(); i++) {
+    int i;
+    for (i = 0; i < location.size(); i++) {
         if (seed.compare(refGenome.substr(location[i], q)) == 0) {
             if ((location[i] - (q * k)) >= 0 && (location[i] - (q * k)) < refGenome.size()) {
-                #pragma omp critical
-                {
+                //#pragma omp critical
+                //{
                     foundLocations.push_back(location[i] - (q * k));
 
-                    if (isForwardStrand) {
-                        forwardReadsMap[read].push_back(location[i] - (q * k));
-                    } else {
-                        reverseReadsMap[read].push_back(location[i] - (q * k));
-                    }
-                };
-            } else {
-                continue;
+                    //if (isForwardStrand) {
+                    //    forwardReadsMap[read].push_back(location[i] - (q * k));
+                    //} else {
+                    //    reverseReadsMap[read].push_back(location[i] - (q * k));
+                   //}
+                //};
             }
         }
     }
@@ -29,29 +28,26 @@ vector<unsigned long long int>& location) {
 
 void approximateSearchingUsingMinimizers(string seed, string read, int k, bool isForwardStrand, vector<unsigned long long int>& foundLocations,
 vector<unsigned long long int>& location) {
-    for (int i = 0; i < location.size(); i++) {
+    int i;
+    for (i = 0; i < location.size(); i++) {
         EdlibAlignResult result = edlibAlign(refGenome.substr(location[i], seed.length()).c_str(), seed.length(), seed.c_str(), seed.length(), edlibDefaultAlignConfig());
 
-        if (result.status == EDLIB_STATUS_OK) {
-            if (result.editDistance <= allowableE) {
-                if ((location[i] - (q * k)) >= 0 && (location[i] - (q * k)) < refGenome.size()) {
-                    #pragma omp critical
-                    {
-                    foundLocations.push_back(location[i] - (q * k));
+        if (result.editDistance <= allowableE) {
+            if ((location[i] - (q * k)) >= 0 && (location[i] - (q * k)) < refGenome.size()) {
+                //#pragma omp critical
+                //{
+                foundLocations.push_back(location[i] - (q * k));
 
-                    if (isForwardStrand) {
-                        forwardReadsMap[read].push_back(location[i] - (q * k));
-                    } else {
-                        reverseReadsMap[read].push_back(location[i] - (q * k));
-                    }
-                    };
-                } else {
-                    continue;
-                }
+                //if (isForwardStrand) {
+                //    forwardReadsMap[read].push_back(location[i] - (q * k));
+                //} else {
+                //    reverseReadsMap[read].push_back(location[i] - (q * k));
+                //}
+                //};
             }
-
-            edlibFreeAlignResult(result);
         }
+
+        edlibFreeAlignResult(result);
     }
 }
 
@@ -59,16 +55,16 @@ void searchingUsingDirectOrOpen(string seed, string read, unsigned long long int
 vector<unsigned long long int>& location) {
     while (seed.compare(refGenome.substr(posTable[index], q)) == 0) {
         if ((posTable[index] - (q * k)) >= 0 && (posTable[index]- (q * k)) < refGenome.size()) {
-            #pragma omp critical
-            {
+            //#pragma omp critical
+            //{
             foundLocations.push_back(posTable[index] - (q * k));
 
-            if (isForwardStrand) {
-                forwardReadsMap[read].push_back(posTable[index]  - (q * k));
-            } else {
-                reverseReadsMap[read].push_back(posTable[index]  - (q * k));
-            }
-            };
+            //if (isForwardStrand) {
+            //    forwardReadsMap[read].push_back(posTable[index]  - (q * k));
+            //} else {
+            //    reverseReadsMap[read].push_back(posTable[index]  - (q * k));
+            //}
+            //};
         }
 
         index++;
@@ -82,32 +78,30 @@ vector<unsigned long long int>& location) {
     while (continueCompare) {
         EdlibAlignResult result = edlibAlign(refGenome.substr(posTable[index], seed.length()).c_str(), seed.length(), seed.c_str(), seed.length(), edlibDefaultAlignConfig());
 
-        if (result.status == EDLIB_STATUS_OK) {
-            if (result.editDistance <= allowableE) {
-                if ((posTable[index] - (q * k)) >= 0 && (posTable[index]- (q * k)) < refGenome.size()) {
-                    #pragma omp critical
-                    {
-                    foundLocations.push_back(posTable[index] - (q * k));
+        if (result.editDistance <= allowableE) {
+            if ((posTable[index] - (q * k)) >= 0 && (posTable[index]- (q * k)) < refGenome.size()) {
+                //#pragma omp critical
+                //{
+                foundLocations.push_back(posTable[index] - (q * k));
 
-                    if (isForwardStrand) {
-                        forwardReadsMap[read].push_back(posTable[index]  - (q * k));
-                    } else {
-                        reverseReadsMap[read].push_back(posTable[index]  - (q * k));
-                    }
-                    };
-                }
-
-                index++;
-            } else {
-                continueCompare = false;
+                //if (isForwardStrand) {
+                //    forwardReadsMap[read].push_back(posTable[index]  - (q * k));
+                //} else {
+                //    reverseReadsMap[read].push_back(posTable[index]  - (q * k));
+                //}
+                //};
             }
 
-            edlibFreeAlignResult(result);
+            index++;
+        } else {
+            continueCompare = false;
         }
+
+        edlibFreeAlignResult(result);
     }
 }
 
-void searchingPosition(string seed, string read, string mode, int q, int k, bool isForwardStrand, bool isCheckApproximate, vector<unsigned long long int>& foundLocations) {
+void searchingPosition(string seed, string read, string mode, int q, int k, bool isForwardStrand, bool isExactMatching, vector<unsigned long long int>& foundLocations) {
     vector<unsigned long long int> location;
 
     unsigned long long int rank;
@@ -118,10 +112,10 @@ void searchingPosition(string seed, string read, string mode, int q, int k, bool
         location = minimizers[rank];
 
         if (location.size() > 0) {
-            if (isCheckApproximate) {
-                approximateSearchingUsingMinimizers(seed.substr(0, q), read, k, isForwardStrand, foundLocations, location);
-            } else {
+            if (isExactMatching) {
                 searchingUsingMinimizers(seed.substr(0, q), read, k, isForwardStrand, foundLocations, location);
+            } else {
+                approximateSearchingUsingMinimizers(seed.substr(0, q), read, k, isForwardStrand, foundLocations, location);
             }
         }
     } else if ((mode.compare("dir") == 0 || mode.compare("open") == 0) && seed.size() == q) {
@@ -132,10 +126,10 @@ void searchingPosition(string seed, string read, string mode, int q, int k, bool
                 index = dirTable[rank];
 
                 if (index < posTable.size()) {
-                    if (isCheckApproximate) {
-                        approximateSearchingUsingDirectOrOpen(seed, read, index, mode, k, isForwardStrand, foundLocations, location);
-                    } else {
+                    if (isExactMatching) {
                         searchingUsingDirectOrOpen(seed, read, index, mode, k, isForwardStrand, foundLocations, location);
+                    } else {
+                        approximateSearchingUsingDirectOrOpen(seed, read, index, mode, k, isForwardStrand, foundLocations, location);
                     }
 
                 }
@@ -146,10 +140,10 @@ void searchingPosition(string seed, string read, string mode, int q, int k, bool
             try {
                 index = dirTable[codeTable[rank]];
 
-                if (isCheckApproximate) {
-                    approximateSearchingUsingDirectOrOpen(seed, read, index, mode, k, isForwardStrand, foundLocations, location);
-                } else {
+                if (isExactMatching) {
                     searchingUsingDirectOrOpen(seed, read, index, mode, k, isForwardStrand, foundLocations, location);
+                } else {
+                    approximateSearchingUsingDirectOrOpen(seed, read, index, mode, k, isForwardStrand, foundLocations, location);
                 }
 
 

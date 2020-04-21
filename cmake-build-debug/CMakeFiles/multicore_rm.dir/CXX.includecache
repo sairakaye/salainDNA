@@ -6,6 +6,16 @@
 
 #IncludeRegexTransform: 
 
+/home/saimanalili/CLionProjects/multicore-rm/bitmatrix.cpp
+bitmatrix.h
+/home/saimanalili/CLionProjects/multicore-rm/bitmatrix.h
+edlib.h
+/home/saimanalili/CLionProjects/multicore-rm/edlib.h
+
+/home/saimanalili/CLionProjects/multicore-rm/bitmatrix.h
+common.h
+/home/saimanalili/CLionProjects/multicore-rm/common.h
+
 /home/saimanalili/CLionProjects/multicore-rm/common.h
 iostream
 -
@@ -33,12 +43,4 @@ edlib.h
 /home/saimanalili/CLionProjects/multicore-rm/edlib.h
 
 /home/saimanalili/CLionProjects/multicore-rm/edlib.h
-
-/home/saimanalili/CLionProjects/multicore-rm/output.cpp
-output.h
-/home/saimanalili/CLionProjects/multicore-rm/output.h
-
-/home/saimanalili/CLionProjects/multicore-rm/output.h
-common.h
-/home/saimanalili/CLionProjects/multicore-rm/common.h
 
