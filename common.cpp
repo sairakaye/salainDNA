@@ -48,6 +48,11 @@ string readGenomeFile(string filename) {
             genome.append(line);
         }
 
+        for (int j = 0; j < genome.length(); j++) {
+            if (genome.at(j) != 'A' && genome.at(j) != 'C' && genome.at(j) != 'G' && genome.at(j) != 'T')
+                replace(genome.begin(), genome.end(), genome.at(j), '\0');
+        }
+
         fileGenome.close();
     } else {
         cout << "File does not exist." << endl;

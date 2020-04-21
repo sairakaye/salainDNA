@@ -8,7 +8,7 @@ unsigned long long int getMinimizerRank(string windowSeed, int q, int windowSize
     unsigned long long int mask = pow(4, q);
     string finalMin;
 
-    unsigned long long int minm1 = 1L << (2 * q + 1);
+    unsigned long long int minm1 = 1ULL << (2 * q + 1);
 
     for (unsigned int j = 0; j < (windowSize - q + 1); j++) {
         string sMinimizer = windowSeed.substr(j, q);
@@ -50,14 +50,14 @@ multimap<vector<unsigned long long int>, unsigned long long int>  generateMinimi
     map<unsigned long long int, vector<unsigned long long int>> minimizers;
     unsigned long long int mask = pow(4, q);
 
-    for (int i = 0; i < (m - windowSize + 1); i++) {
+    for (unsigned int i = 0; i < (m - windowSize + 1); i++) {
         string finalMin;
         int finalMinIndex;
 
         string windowStr = stringDNA.substr(i, windowSize);
-        unsigned long long int minm1 = 1L << (2 * q + 1);
+        unsigned long long int minm1 = 1ULL << (2 * q + 1);
 
-        for (int j = 0; j < (windowSize - q + 1); j++){
+        for (unsigned int j = 0; j < (windowSize - q + 1); j++){
             string sMinimizer = windowStr.substr(j, q);
             unsigned long long int hashValue = extractRanking(sMinimizer);
             unsigned long long int tempMinHash = inthash_64(hashValue, mask - 1);
@@ -75,14 +75,14 @@ multimap<vector<unsigned long long int>, unsigned long long int>  generateMinimi
 //      cout << "[" <<  windowStr << " " << i << "] ["  << finalMin << " " << (finalMinIndex - 1) << " " << finalMinHash << "]" << endl;
     }
 
-    for (int i = 0; i < (w - 1); i++) {
+    for (unsigned int i = 0; i < (w - 1); i++) {
         string finalMin;
         int finalMinIndex;
 
         string windowStr = stringDNA.substr(stringDNA.length() - (w + i), windowSize);
-        unsigned long long int minm1 = 1L << (2 * q + 1);
+        unsigned long long int minm1 = 1ULL << (2 * q + 1);
 
-        for (int j = 0; j < (windowStr.length() - q + 1); j++){
+        for (unsigned int j = 0; j < (windowStr.length() - q + 1); j++){
             string sMinimizer = windowStr.substr(j, q);
             unsigned long long int hashValue = extractRanking(sMinimizer);
             unsigned long long int tempMinHash = inthash_64(hashValue, mask - 1);
