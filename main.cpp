@@ -62,13 +62,13 @@ int main(int argc, char *argv[]) {
 
     processingArguments(argc, argv, genomeFilePath, readsFilePath, indexFilePath, mainName);
 
+    if (genomeFilePath.length() == 0) {
+        cout << "Input reference genome was not defined..." << endl;
+        exit(EXIT_FAILURE);
+    }
+
     cout << "Reading the reference genome... " << endl << genomeFilePath << endl << endl;
     refGenome = readGenomeFile(genomeFilePath);
-    cout << "Reading the reads... " << endl << readsFilePath << endl << endl;
-    reads = readReadsFile(readsFilePath);
-
-    w = q + q - 1;
-    m = reads[0].size();
 
     if (indexFilePath.length() == 0) {
         string indexDefaultFile = mode + "_" + mainName + "_" + to_string(q) + ".txt";
@@ -82,8 +82,42 @@ int main(int argc, char *argv[]) {
             buildIndex(mainName, indexDefaultFile, minimizers, codeTable, dirTable, posTable, loadFactor);
         }
     } else {
-        readIndexFile(indexFilePath, minimizers, codeTable, dirTable, posTable);
+        ifstream indexFile(indexFilePath);
+
+        if (indexFile) {
+            indexFile.close();
+            smatch m;
+            regex indexRegex("([min|dir|open]+)_([a-zA-z0-9_]*)_([0-9]*).txt");
+
+            if (regex_search(indexFilePath, m, indexRegex)) {
+                if (mode == m.str(1) && to_string(q) == m.str(3)) {
+                    mainName = m.str(2);
+                    readIndexFile(indexFilePath, minimizers, codeTable, dirTable, posTable);
+                } else {
+                    cout << "File does not match mode and q set..." << endl;
+                    exit(EXIT_FAILURE);
+                }
+            } else {
+                cout << "Index file name did not match system defined file name..." << endl;
+                exit(EXIT_FAILURE);
+            }
+        } else {
+            cout << "File does not exist." << endl;
+            cout << "File name: " << indexFilePath << endl;
+            exit(EXIT_FAILURE);
+        }
     }
+
+    if (readsFilePath.length() == 0) {
+        cout << "Indexing done..." << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    cout << "Reading the reads... " << endl << readsFilePath << endl << endl;
+    reads = readReadsFile(readsFilePath);
+
+    w = q + q - 1;
+    m = reads[0].size();
 
     numSeeds = reads.size() * int(m / q);
     numReads = reads.size();
