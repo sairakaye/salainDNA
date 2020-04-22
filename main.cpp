@@ -103,8 +103,8 @@ int main(int argc, char *argv[]) {
             }
         } else {
             cout << "File does not exist." << endl;
-            cout << "File name: " << indexFilePath << endl;
-            exit(EXIT_FAILURE);
+            cout << "File name: " << indexFilePath << endl << endl;
+            buildIndex(mainName, indexFilePath, minimizers, codeTable, dirTable, posTable, loadFactor);
         }
     }
 
