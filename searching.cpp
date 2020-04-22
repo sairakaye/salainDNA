@@ -5,7 +5,7 @@
 #include "searching.h"
 #include "pigeonhole.h"
 
-void searchingUsingMinimizers(string seed, string read, int k, bool isForwardStrand, vector<unsigned long long int>& foundLocations,
+void searchingUsingMinimizers(string seed, string read, int k, vector<unsigned long long int>& foundLocations,
 vector<unsigned long long int>& location) {
     int i;
     for (i = 0; i < location.size(); i++) {
@@ -26,7 +26,7 @@ vector<unsigned long long int>& location) {
     }
 }
 
-void approximateSearchingUsingMinimizers(string seed, string read, int k, bool isForwardStrand, vector<unsigned long long int>& foundLocations,
+void approximateSearchingUsingMinimizers(string seed, string read, int k, vector<unsigned long long int>& foundLocations,
 vector<unsigned long long int>& location) {
     int i;
     for (i = 0; i < location.size(); i++) {
@@ -51,7 +51,7 @@ vector<unsigned long long int>& location) {
     }
 }
 
-void searchingUsingDirectOrOpen(string seed, string read, unsigned long long int index, string mode, int k, bool isForwardStrand, vector<unsigned long long int>& foundLocations,
+void searchingUsingDirectOrOpen(string seed, string read, unsigned long long int index, string mode, int k, vector<unsigned long long int>& foundLocations,
 vector<unsigned long long int>& location) {
     while (seed.compare(refGenome.substr(posTable[index], q)) == 0) {
         if ((posTable[index] - (q * k)) >= 0 && (posTable[index]- (q * k)) < refGenome.size()) {
@@ -71,7 +71,7 @@ vector<unsigned long long int>& location) {
     }
 }
 
-void approximateSearchingUsingDirectOrOpen(string seed, string read, unsigned long long int index, string mode, int k, bool isForwardStrand, vector<unsigned long long int>& foundLocations,
+void approximateSearchingUsingDirectOrOpen(string seed, string read, unsigned long long int index, string mode, int k, vector<unsigned long long int>& foundLocations,
 vector<unsigned long long int>& location) {
     bool continueCompare = true;
 
@@ -101,7 +101,7 @@ vector<unsigned long long int>& location) {
     }
 }
 
-void searchingPosition(string seed, string read, string mode, int q, int k, bool isForwardStrand, bool isExactMatching, vector<unsigned long long int>& foundLocations) {
+void exactSearchingPosition(string seed, string read, string mode, int q, int k, vector<unsigned long long int>& foundLocations) {
     vector<unsigned long long int> location;
 
     unsigned long long int rank;
@@ -112,11 +112,7 @@ void searchingPosition(string seed, string read, string mode, int q, int k, bool
         location = minimizers[rank];
 
         if (location.size() > 0) {
-            if (isExactMatching) {
-                searchingUsingMinimizers(seed.substr(0, q), read, k, isForwardStrand, foundLocations, location);
-            } else {
-                approximateSearchingUsingMinimizers(seed.substr(0, q), read, k, isForwardStrand, foundLocations, location);
-            }
+            searchingUsingMinimizers(seed.substr(0, q), read, k, foundLocations, location);
         }
     } else if (mode.compare("dir") == 0 || mode.compare("open") == 0) {
         if (mode.compare("dir") == 0) {
@@ -126,12 +122,7 @@ void searchingPosition(string seed, string read, string mode, int q, int k, bool
                 index = dirTable[rank];
 
                 if (index < posTable.size()) {
-                    if (isExactMatching) {
-                        searchingUsingDirectOrOpen(seed, read, index, mode, k, isForwardStrand, foundLocations, location);
-                    } else {
-                        approximateSearchingUsingDirectOrOpen(seed, read, index, mode, k, isForwardStrand, foundLocations, location);
-                    }
-
+                    searchingUsingDirectOrOpen(seed, read, index, mode, k, foundLocations, location);
                 }
             }
         } else {
@@ -140,13 +131,43 @@ void searchingPosition(string seed, string read, string mode, int q, int k, bool
             try {
                 index = dirTable[codeTable[rank]];
 
-                if (isExactMatching) {
-                    searchingUsingDirectOrOpen(seed, read, index, mode, k, isForwardStrand, foundLocations, location);
-                } else {
-                    approximateSearchingUsingDirectOrOpen(seed, read, index, mode, k, isForwardStrand, foundLocations, location);
+                searchingUsingDirectOrOpen(seed, read, index, mode, k, foundLocations, location);
+            } catch (exception& e) { }
+        }
+    }
+}
+
+void approximateSearchingPosition(string seed, string read, string mode, int q, int k, vector<unsigned long long int>& foundLocations) {
+    vector<unsigned long long int> location;
+
+    unsigned long long int rank;
+    unsigned long long int index;
+
+    if (mode.compare("min") == 0) {
+        rank = getMinimizerRank(seed, q, w);
+        location = minimizers[rank];
+
+        if (location.size() > 0) {
+            approximateSearchingUsingMinimizers(seed.substr(0, q), read, k, foundLocations, location);
+        }
+    } else if (mode.compare("dir") == 0 || mode.compare("open") == 0) {
+        if (mode.compare("dir") == 0) {
+            rank = extractRanking(seed);
+
+            if (rank >= 0) {
+                index = dirTable[rank];
+
+                if (index < posTable.size()) {
+                    approximateSearchingUsingDirectOrOpen(seed, read, index, mode, k, foundLocations, location);
                 }
+            }
+        } else {
+            rank = extractRanking(seed);
 
+            try {
+                index = dirTable[codeTable[rank]];
 
+                approximateSearchingUsingDirectOrOpen(seed, read, index, mode, k,foundLocations, location);
             } catch (exception& e) { }
         }
     }
