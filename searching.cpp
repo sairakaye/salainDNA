@@ -107,19 +107,8 @@ void searchingPosition(string seed, string read, string mode, int q, int k, bool
     unsigned long long int rank;
     unsigned long long int index;
 
-    if (mode.compare("min") == 0 && seed.size() == w) {
+    if (mode.compare("min") == 0) {
         rank = getMinimizerRank(seed, q, w);
-        location = minimizers[rank];
-
-        if (location.size() > 0) {
-            if (isExactMatching) {
-                searchingUsingMinimizers(seed.substr(0, q), read, k, isForwardStrand, foundLocations, location);
-            } else {
-                approximateSearchingUsingMinimizers(seed.substr(0, q), read, k, isForwardStrand, foundLocations, location);
-            }
-        }
-    } else if (mode.compare("min") == 0 && seed.size() == q) {
-        rank = getMinimizerRankWithoutWindow(seed, q);
         location = minimizers[rank];
 
         if (location.size() > 0) {

@@ -295,7 +295,9 @@ void processingPossibleReadsForBitmatrix() {
 
         unordered_set<unsigned long long int> locationSet;
         for (unsigned long long int location : readPair.second) {
-            locationSet.insert(location);
+            if (refGenome.substr(location, m).size() == m) {
+                locationSet.insert(location);
+            }
         }
 
         temp.assign(locationSet.begin(), locationSet.end());

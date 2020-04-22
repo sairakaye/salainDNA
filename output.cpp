@@ -14,9 +14,7 @@ void outputPossibleReads(string& mainName) {
         string read = readPair.first;
 
         for (unsigned long long int location : readPair.second) {
-            if (refGenome.substr(location, m).size() == m) {
-                outputPossibleReadsFile << read << "\t" << refGenome.substr(location, m) << endl;
-            }
+            outputPossibleReadsFile << read << "\t" << refGenome.substr(location, m) << endl;
         }
     }
 
@@ -58,9 +56,7 @@ void outputPossibleLocations(string& mainName) {
         outputPossibleLocations << read << endl;
 
         for (unsigned long long int location : readPair.second) {
-            if (refGenome.substr(location, m).size() == m) {
-                outputPossibleLocations << location << endl;
-            }
+            outputPossibleLocations << location << endl;
         }
 
         outputPossibleLocations << endl;

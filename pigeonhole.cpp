@@ -33,11 +33,9 @@ void searchingReadProcess() {
             if (mode.compare("min") == 0) {
                 seed = forwardRead.substr(startPosition, w);
 
-                if (seed.size() < w && seed.size() != q) {
+                if (seed.size() < w) {
                     startPosition += seed.size() - w;
                     seed = forwardRead.substr(startPosition, w);
-                } else if (seed.size() == q) {
-                    seed = forwardRead.substr(startPosition, q);
                 }
             } else {
                 seed = forwardRead.substr(startPosition, q);
@@ -150,6 +148,161 @@ void searchingReadProcess() {
             }
 
             if (tempAcceptedSeeds == j) {
+                #pragma omp critical
+                {
+                    possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
+                };
+            }
+        }
+
+        numAcceptedSeeds += tempAcceptedSeeds;
+    }
+}
+
+void searchingReadFoundExitProcess() {
+    j = m / q;
+    allowableE = floor(e / j);
+
+    bool isExactMatching = false;
+
+    if (allowableE == 0) {
+        isExactMatching = true;
+    }
+
+    int i;
+    #pragma omp parallel for reduction(+:numAcceptedSeeds)
+    for (i = 0; i < reads.size(); i++) {
+        string forwardRead(reads[i]);
+        vector<unsigned long long int> totalPossibleLocations;
+        unsigned int tempAcceptedSeeds = 0;
+
+        int k;
+        for (k = 0; k < j; k++) {
+            int startPosition = k * q;
+
+            string seed;
+
+            if (mode.compare("min") == 0) {
+                seed = forwardRead.substr(startPosition, w);
+
+                if (seed.size() < w) {
+                    startPosition += seed.size() - w;
+                    seed = forwardRead.substr(startPosition, w);
+                }
+            } else {
+                seed = forwardRead.substr(startPosition, q);
+
+                if (seed.size() < q) {
+                    startPosition += seed.size() - q;
+                    seed = forwardRead.substr(startPosition, q);
+                }
+            }
+
+            vector<unsigned long long int> forward;
+
+            searchingPosition(seed, forwardRead, mode, q, k, true, isExactMatching, forward);
+
+            if (forward.size() > 0) {
+                tempAcceptedSeeds++;
+                totalPossibleLocations.insert(totalPossibleLocations.end(), forward.begin(), forward.end());
+                break;
+            }
+        }
+
+        if (isExactMatching && tempAcceptedSeeds > 0) {
+            #pragma omp critical
+            {
+                possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
+            };
+        } else if (isExactMatching && tempAcceptedSeeds == 0 && isReverseAccepted) {
+            tempAcceptedSeeds = 0;
+            string reverseRead = reverseComplement(forwardRead);
+
+            int k;
+            for (k = 0; k < j; k++) {
+                int startPosition = k * q;
+
+                string seed;
+
+                if (mode.compare("min") == 0) {
+                    seed = reverseRead.substr(startPosition, w);
+
+                    if (seed.size() < w) {
+                        startPosition += seed.size() - w;
+                        seed = forwardRead.substr(startPosition, w);
+                    }
+                } else {
+                    seed = reverseRead.substr(startPosition, q);
+
+                    if (seed.size() < q) {
+                        startPosition += seed.size() - q;
+                        seed = forwardRead.substr(startPosition, q);
+                    }
+                }
+
+                vector<unsigned long long int> reverse;
+
+                searchingPosition(seed, reverseRead, mode, q, k, false, isExactMatching, reverse);
+
+                if (reverse.size() > 0) {
+                    tempAcceptedSeeds++;
+                    totalPossibleLocations.insert(totalPossibleLocations.end(), reverse.begin(), reverse.end());
+                    break;
+                }
+            }
+
+            if (tempAcceptedSeeds > 0) {
+                #pragma omp critical
+                {
+                    possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
+                };
+            }
+        } else if (!isExactMatching && tempAcceptedSeeds > 0) {
+            #pragma omp critical
+            {
+                possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
+            };
+
+            #pragma omp atomic
+            numAcceptedReads++;
+        } else if (!isExactMatching && tempAcceptedSeeds == 0 && isReverseAccepted) {
+            tempAcceptedSeeds = 0;
+            string reverseRead = reverseComplement(forwardRead);
+
+            int k;
+            for (k = 0; k < j; k++) {
+                int startPosition = k * q;
+
+                string seed;
+
+                if (mode.compare("min") == 0) {
+                    seed = reverseRead.substr(startPosition, w);
+
+                    if (seed.size() < w) {
+                        startPosition += seed.size() - w;
+                        seed = forwardRead.substr(startPosition, w);
+                    }
+                } else {
+                    seed = reverseRead.substr(startPosition, q);
+
+                    if (seed.size() < q) {
+                        startPosition += seed.size() - q;
+                        seed = forwardRead.substr(startPosition, q);
+                    }
+                }
+
+                vector<unsigned long long int> reverse;
+
+                searchingPosition(seed, reverseRead, mode, q, k, false, isExactMatching, reverse);
+
+                if (reverse.size() > 0) {
+                    tempAcceptedSeeds++;
+                    totalPossibleLocations.insert(totalPossibleLocations.end(), reverse.begin(), reverse.end());
+                    break;
+                }
+            }
+
+            if (tempAcceptedSeeds > 0) {
                 #pragma omp critical
                 {
                     possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
