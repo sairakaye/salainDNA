@@ -128,7 +128,7 @@ int main(int argc, char *argv[]) {
     if (searchMode.compare("all") == 0) {
         searchingReadProcess();
     } else if (searchMode.compare("exit") == 0) {
-        //searchingReadFoundExitProcess();
+        searchingReadFoundExitProcess();
     } else {
         cout << "Invalid searching mode..." << endl;
         exit(EXIT_FAILURE);
