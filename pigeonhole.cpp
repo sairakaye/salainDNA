@@ -140,7 +140,7 @@ void approximateSearchingForAll() {
             }
         }
 
-        if (tempAcceptedSeeds == j) {
+        if (tempAcceptedSeeds >= (j - e % j)) {
             #pragma omp critical
             {
                 possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
@@ -181,7 +181,7 @@ void approximateSearchingForAll() {
                 }
             }
 
-            if (tempAcceptedSeeds == j) {
+            if (tempAcceptedSeeds >= (j - e % j)) {
                 #pragma omp critical
                 {
                     possibleReadsMap[reverseRead] = vector<unsigned long long int>(totalPossibleLocations);
@@ -345,11 +345,13 @@ void approximateSearchingForExit() {
                 tempAcceptedSeeds++;
                 totalPossibleLocations.insert(totalPossibleLocations.end(), forward.begin(), forward.end());
 
-                #pragma omp critical
-                {
-                    possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
-                };
-                break;
+                if (tempAcceptedSeeds == (j - e % j)) {
+                    #pragma omp critical
+                    {
+                        possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
+                    };
+                    break;
+                }
             }
         }
 
@@ -387,11 +389,13 @@ void approximateSearchingForExit() {
                     tempAcceptedSeeds++;
                     totalPossibleLocations.insert(totalPossibleLocations.end(), reverse.begin(), reverse.end());
 
-                    #pragma omp critical
-                    {
-                        possibleReadsMap[reverseRead] = vector<unsigned long long int>(totalPossibleLocations);
-                    };
-                    break;
+                    if (tempAcceptedSeeds == (j - e % j)) {
+                        #pragma omp critical
+                        {
+                            possibleReadsMap[reverseRead] = vector<unsigned long long int>(totalPossibleLocations);
+                        };
+                        break;
+                    }
                 }
             }
         }
