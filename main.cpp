@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
     e = 0;
     loadFactor = 0.9;
 
-    isReverseAccepted = true;
+    isReverseAccepted = false;
 
     numSeeds = 0;
     numReads = 0;
@@ -138,7 +138,6 @@ int main(int argc, char *argv[]) {
     auto timeTaken = double(end - start);
 
     numAcceptedReads = possibleReadsMap.size();
-    processingPossibleReadsForBitmatrix();
 
     outputSeedSelectorResults(mainName, timeTaken);
 

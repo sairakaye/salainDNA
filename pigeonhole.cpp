@@ -48,8 +48,12 @@ void exactSearchingForAll() {
         }
 
         if (tempAcceptedSeeds >= (j - e)) {
+            sort(totalPossibleLocations.begin(), totalPossibleLocations.end());
+            totalPossibleLocations.erase(unique(totalPossibleLocations.begin(), totalPossibleLocations.end()), totalPossibleLocations.end());
+
             #pragma omp critical
             {
+                numLocations += totalPossibleLocations.size();
                 possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
             };
         } else if (tempAcceptedSeeds == 0 && isReverseAccepted) {
@@ -89,8 +93,12 @@ void exactSearchingForAll() {
             }
 
             if (tempAcceptedSeeds >= (j - e)) {
+                sort(totalPossibleLocations.begin(), totalPossibleLocations.end());
+                totalPossibleLocations.erase(unique(totalPossibleLocations.begin(), totalPossibleLocations.end()), totalPossibleLocations.end());
+
                 #pragma omp critical
                 {
+                    numLocations += totalPossibleLocations.size();
                     possibleReadsMap[reverseRead] = vector<unsigned long long int>(totalPossibleLocations);
                 };
             }
@@ -141,8 +149,12 @@ void approximateSearchingForAll() {
         }
 
         if (tempAcceptedSeeds >= (j - e % j)) {
+            sort(totalPossibleLocations.begin(), totalPossibleLocations.end());
+            totalPossibleLocations.erase(unique(totalPossibleLocations.begin(), totalPossibleLocations.end()), totalPossibleLocations.end());
+
             #pragma omp critical
             {
+                numLocations += totalPossibleLocations.size();
                 possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
             };
         } else if (tempAcceptedSeeds == 0 && isReverseAccepted) {
@@ -182,8 +194,12 @@ void approximateSearchingForAll() {
             }
 
             if (tempAcceptedSeeds >= (j - e % j)) {
+                sort(totalPossibleLocations.begin(), totalPossibleLocations.end());
+                totalPossibleLocations.erase(unique(totalPossibleLocations.begin(), totalPossibleLocations.end()), totalPossibleLocations.end());
+
                 #pragma omp critical
                 {
+                    numLocations += totalPossibleLocations.size();
                     possibleReadsMap[reverseRead] = vector<unsigned long long int>(totalPossibleLocations);
                 };
             }
@@ -249,8 +265,12 @@ void exactSearchingForExit() {
                 totalPossibleLocations.insert(totalPossibleLocations.end(), forward.begin(), forward.end());
 
                 if (tempAcceptedSeeds == (j - e)) {
+                    sort(totalPossibleLocations.begin(), totalPossibleLocations.end());
+                    totalPossibleLocations.erase(unique(totalPossibleLocations.begin(), totalPossibleLocations.end()), totalPossibleLocations.end());
+
                     #pragma omp critical
                     {
+                        numLocations += totalPossibleLocations.size();
                         possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
                     };
                     break;
@@ -293,8 +313,12 @@ void exactSearchingForExit() {
                     totalPossibleLocations.insert(totalPossibleLocations.end(), reverse.begin(), reverse.end());
 
                     if (tempAcceptedSeeds == (j - e)) {
+                        sort(totalPossibleLocations.begin(), totalPossibleLocations.end());
+                        totalPossibleLocations.erase(unique(totalPossibleLocations.begin(), totalPossibleLocations.end()), totalPossibleLocations.end());
+
                         #pragma omp critical
                         {
+                            numLocations += totalPossibleLocations.size();
                             possibleReadsMap[reverseRead] = vector<unsigned long long int>(totalPossibleLocations);
                         };
                         break;
@@ -346,8 +370,12 @@ void approximateSearchingForExit() {
                 totalPossibleLocations.insert(totalPossibleLocations.end(), forward.begin(), forward.end());
 
                 if (tempAcceptedSeeds == (j - e % j)) {
+                    sort(totalPossibleLocations.begin(), totalPossibleLocations.end());
+                    totalPossibleLocations.erase(unique(totalPossibleLocations.begin(), totalPossibleLocations.end()), totalPossibleLocations.end());
+
                     #pragma omp critical
                     {
+                        numLocations += totalPossibleLocations.size();
                         possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
                     };
                     break;
@@ -390,8 +418,12 @@ void approximateSearchingForExit() {
                     totalPossibleLocations.insert(totalPossibleLocations.end(), reverse.begin(), reverse.end());
 
                     if (tempAcceptedSeeds == (j - e % j)) {
+                        sort(totalPossibleLocations.begin(), totalPossibleLocations.end());
+                        totalPossibleLocations.erase(unique(totalPossibleLocations.begin(), totalPossibleLocations.end()), totalPossibleLocations.end());
+
                         #pragma omp critical
                         {
+                            numLocations += totalPossibleLocations.size();
                             possibleReadsMap[reverseRead] = vector<unsigned long long int>(totalPossibleLocations);
                         };
                         break;

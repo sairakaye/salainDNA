@@ -289,6 +289,7 @@ map<unsigned long long int, vector<unsigned long long int>> getMinimizers(string
     return minimizers;
 }
 
+/*
 void processingPossibleReadsForBitmatrix() {
     for (pair<string, vector<unsigned long long int>> readPair : possibleReadsMap) {
         vector<unsigned long long int> &temp = readPair.second;
@@ -306,3 +307,4 @@ void processingPossibleReadsForBitmatrix() {
         numLocations += temp.size();
     }
 }
+*/
