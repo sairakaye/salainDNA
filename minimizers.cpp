@@ -38,8 +38,6 @@ unsigned long long int getMinimizerRankWithoutWindow(string windowSeed, int q) {
 
 multimap<vector<unsigned long long int>, unsigned long long int>  generateMinimizers(string stringDNA, string mainName, unsigned int q, unsigned int w, unsigned int m)
 {
-    auto indexing_time_start = chrono::high_resolution_clock::now();
-
     ofstream outfile;
     string filename ("min_" + mainName + "_" + to_string(q) + ".txt");
     outfile.open(filename.c_str(), ios::out);
@@ -50,7 +48,10 @@ multimap<vector<unsigned long long int>, unsigned long long int>  generateMinimi
     map<unsigned long long int, vector<unsigned long long int>> minimizers;
     unsigned long long int mask = pow(4, q);
 
-    for (unsigned int i = 0; i < (m - windowSize + 1); i++) {
+    unsigned int i;
+
+    #pragma omp parallel for
+    for (i = 0; i < (m - windowSize + 1); i++) {
         string finalMin;
         int finalMinIndex;
 
@@ -69,13 +70,16 @@ multimap<vector<unsigned long long int>, unsigned long long int>  generateMinimi
             }
         }
 
-        unsigned long long int rankHashValue = extractRanking(finalMin);
-        unsigned long long int finalMinHash = inthash_64(rankHashValue, mask - 1);
-        minimizers[finalMinHash].push_back(i);
-//      cout << "[" <<  windowStr << " " << i << "] ["  << finalMin << " " << (finalMinIndex - 1) << " " << finalMinHash << "]" << endl;
+        #pragma omp critical
+        {
+            unsigned long long int rankHashValue = extractRanking(finalMin);
+            unsigned long long int finalMinHash = inthash_64(rankHashValue, mask - 1);
+            minimizers[finalMinHash].push_back(i);
+        }
     }
 
-    for (unsigned int i = 0; i < (w - 1); i++) {
+    #pragma omp parallel for
+    for (i = 0; i < (w - 1); i++) {
         string finalMin;
         int finalMinIndex;
 
@@ -94,18 +98,13 @@ multimap<vector<unsigned long long int>, unsigned long long int>  generateMinimi
             }
         }
 
-        unsigned long long int rankHashValue = extractRanking(finalMin);
-        unsigned long long int finalMinHash = inthash_64(rankHashValue,  mask - 1);
-        minimizers[finalMinHash].push_back(stringDNA.length() - (w + i));
-//		cout << "[" << windowStr << " " << stringDNA.length() - (w + i) << "] ["  << finalMin << " " << finalMinIndex << " " << finalMinHash << "]" << endl;
+        #pragma omp critical
+        {
+            unsigned long long int rankHashValue = extractRanking(finalMin);
+            unsigned long long int finalMinHash = inthash_64(rankHashValue, mask - 1);
+            minimizers[finalMinHash].push_back(stringDNA.length() - (w + i));
+        }
     }
-
-    auto indexing_time_end = chrono::high_resolution_clock::now();
-    duration<double, std::milli> indexing_duration = duration_cast<milliseconds>(indexing_time_end - indexing_time_start);
-    cout << "Time taken by the indexing process is : " << (indexing_duration.count()/1000) << " sec" << endl << endl;
-    cout << "Starting the writing process..." << endl << endl;
-
-    auto writing_time_start = chrono::high_resolution_clock::now();
 
     multimap<vector<unsigned long long int>, unsigned long long int> finalMinimizers;
     for(auto const &kv : minimizers)
@@ -119,14 +118,6 @@ multimap<vector<unsigned long long int>, unsigned long long int>  generateMinimi
         }
         outfile << endl;
     }
-
-    auto writing_time_end = chrono::high_resolution_clock::now();
-    duration<double, std::milli> writing_duration = duration_cast<milliseconds>(writing_time_end - writing_time_start);
-    cout << "Time taken by the index writing process is : " << (writing_duration.count()/1000) << " sec" << endl << endl;
-
-//    cout << "No. of seeds: " << noOfKmers;
-//    cout << "\nNo. of minimizers: " << finalMinimizers.size();
-//    cout << "\nImprovement factor: " << ((long double)(m - q + 1) / minimizers.size())<< '\n\n';
 
     outfile.close();
 
