@@ -4,14 +4,10 @@
 
 #include "openaddressing.h"
 
-int occupiedSpaces = 0;
-int collisions = 0;
-
-void buildOpenAddressingTables(string stringDNA, string mainName, unsigned int m, unsigned int q, unsigned long long int codeTableSize, unsigned long long int dirTableSize, unsigned long long int posTableSize) {
-    auto indexing_time_start = chrono::high_resolution_clock::now();
-
+void buildOpenAddressingTables(string stringDNA, string mainName, unsigned int m, unsigned int q, unsigned long long int codeTableSize, unsigned long long int dirTableSize, unsigned long long int posTableSize)
+{
     ofstream outfile;
-    outfile.open("open_" + mainName + "_" + to_string(q) + ".txt", ios::out);
+    outfile.open( "open_" + mainName + "_" + to_string(q) + ".txt", ios::out);
 
     vector<long long int> codeTable(codeTableSize);
     vector<unsigned long long int> dirTable(dirTableSize);
@@ -21,54 +17,59 @@ void buildOpenAddressingTables(string stringDNA, string mainName, unsigned int m
     fill(dirTable.begin(), dirTable.end(), 0);
     fill(posTable.begin(), posTable.end(), 0);
 
-    vector<int> codeTableIndices;
+    vector<unsigned long long int> codeTableIndices(m - q + 1);
+    int i;
 
-    for (int i = 0; i < (m-q+1); i++) {
+    omp_lock_t myLock;
+    omp_init_lock(&myLock);
+
+    #pragma omp parallel for
+    for (i = 0; i < (m - q + 1); i++) {
         unsigned long long int kMerIndexInGenome = extractRanking(stringDNA.substr(i, q));
         unsigned long long int hashValue = kMerIndexInGenome % (unsigned long long int)codeTableSize;
-//		int hashValue = inthash_64(kMerIndexInGenome, shiftedValue - 1);
 
+        omp_set_lock(&myLock);
         if (codeTable.at(hashValue) != -1) {
-            collisions++;
             unsigned long long int j = hashValue;
             unsigned long long int k = 1;
 
             while (codeTable.at(j) != -1 && codeTable.at(j) != kMerIndexInGenome) {
-                j = (j + (k * k)) % (unsigned long long int)codeTableSize;
+                j = (j + (k * k)) % (unsigned long long int) codeTableSize;
                 k = k + 1;
             }
-
             codeTable.at(j) = kMerIndexInGenome;
-            codeTableIndices.push_back(j);
-            occupiedSpaces++;
+            dirTable.at(j)++;
+
+            omp_unset_lock(&myLock);
+
+            codeTableIndices.at(i) = j;
         } else {
             codeTable.at(hashValue) = kMerIndexInGenome;
-            codeTableIndices.push_back(hashValue);
-            occupiedSpaces++;
+            dirTable.at(hashValue)++;
+
+            omp_unset_lock(&myLock);
+
+            codeTableIndices.at(i) = hashValue;
         }
     }
 
-    for (int i = 0; i < stringDNA.length() - q + 1; i++) {
-        dirTable.at(codeTableIndices.at(i))++;
-    }
+    omp_destroy_lock(&myLock);
 
-    for (int i = 1; i < dirTable.size(); i++) {
+    for (i = 1; i < dirTable.size(); i++) {
         dirTable.at(i) += dirTable.at(i-1);
     }
 
-    unsigned long long int index = 0;
-    for (int i = stringDNA.length() - q; i >= 0; i--) {
-        dirTable.at(codeTableIndices.at(i))--;
-        index = dirTable.at(codeTableIndices.at(i));
+    #pragma omp parallel for
+    for (i = stringDNA.length() - q; i >= 0; i--) {
+        unsigned long long int index = 0;
+
+        #pragma omp critical
+        {
+            dirTable.at(codeTableIndices.at(i))--;
+            index = dirTable.at(codeTableIndices.at(i));
+        }
         posTable.at(index) = i;
     }
-
-    auto indexing_time_end = chrono::high_resolution_clock::now();
-    duration<double, std::milli> indexing_duration = duration_cast<milliseconds>(indexing_time_end - indexing_time_start);
-    cout << "Time taken by the indexing process is : " << (indexing_duration.count()/1000) << " sec" << endl << endl;
-    cout << "Starting the writing process..." << endl << endl;
-
-    auto writing_time_start = chrono::high_resolution_clock::now();
 
     outfile << "code" << endl;
     for (int i = 0; i < codeTable.size(); i++) {
@@ -88,9 +89,7 @@ void buildOpenAddressingTables(string stringDNA, string mainName, unsigned int m
     }
     outfile << endl;
 
-    auto writing_time_end = chrono::high_resolution_clock::now();
-    duration<double, std::milli> writing_duration = duration_cast<milliseconds>(writing_time_end - writing_time_start);
-    cout << "Time taken by the index writing process is : " << (writing_duration.count()/1000) << " sec" << endl << endl;
+    outfile.close();
 }
 
 void buildOpenAddressingIndexing(string& genome, string& mainName, double loadFactor) {
