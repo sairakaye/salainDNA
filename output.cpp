@@ -114,12 +114,15 @@ void outputSeedSelectorResults(string& mainName, double timeTaken) {
     //infoFile << "Number of accepted reads: " << to_string(numAcceptedReads) << endl << endl;
 
 
-    cout << "Number of possible read locations found: " + to_string(numLocations) << endl << endl;
+    cout << "Number of possible read locations found: " + to_string(numPossibleReadLocations) << endl << endl;
     //infoFile << "Number of possible read locations found from forward: " + to_string(numLocations) << endl;
 
     //infoFile.close();
 }
 
 void outputPrealignmentResults() {
-
+    cout << "There are " << numReads << " reads. " << numAcceptedReads << " are accepted for e = " + to_string(e) << "." << endl;
+    cout << "Sequence Name: " << genomeName << endl;
+    cout << "Locations found by Seed Selector: " << numPossibleReadLocations << endl;
+    cout << "Locations found by Bit Matrix: " << numFilteredReadLocations << endl;
 }

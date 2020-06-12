@@ -23,6 +23,7 @@ using namespace std;
 using namespace std::chrono;
 
 extern string refGenome;
+extern string genomeName;
 extern vector<string> reads;
 extern map<string, string> readsLabelMap;
 
@@ -61,16 +62,18 @@ extern unsigned int numSeeds;
 extern unsigned int numReads;
 extern unsigned int numAcceptedSeeds;
 extern unsigned int numAcceptedReads;
-extern unsigned int numLocations;
+extern unsigned int numPossibleReadLocations;
+extern unsigned int numFilteredReadLocations;
 
 unsigned long long int extractRanking(string kMer);
 uint64_t inthash_64(uint64_t key, uint64_t mask);
-string readGenomeFile(string filename);
+string readGenomeFile(string filename, string& genomeName);
 vector<string> readReadsFile(string filename);
 string reverseComplement(string read);
 void getDirectAddressing(string filename, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable);
 void getOpenAddressing(string filename, map<long long, unsigned long long int>& codeTable, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable);
 map<unsigned long long int, vector<unsigned long long int>> getMinimizers(string filename);
-void processingPossibleReadsForBitmatrix();
+//void processingPossibleReadsForBitmatrix();
+void outputPrealignmentResults();
 
 #endif //MULTICORE_RM_COMMON_H

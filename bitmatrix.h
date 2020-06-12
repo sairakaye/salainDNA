@@ -9,13 +9,15 @@
 
 //#include <zconf.h>
 
+/*
 extern int TruePos;
 extern int TrueNeg;
 extern int FalsePos;
 extern int FalseNeg;
+*/
 
-extern int alignmentNeeded;
-extern int notNeeded;
+extern unsigned int alignmentNeeded;
+extern unsigned int notNeeded;
 
 //void multiThreadedMain(map<string, vector<unsigned long long int>>& forwardReadsMap, map<string, vector<unsigned long long int>>& reverseReadsMap);
 void multiThreadedMain();

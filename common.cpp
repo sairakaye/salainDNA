@@ -34,7 +34,7 @@ uint64_t inthash_64(uint64_t key, uint64_t mask) {
     return key;
 }
 
-string readGenomeFile(string filename) {
+string readGenomeFile(string filename, string &genomeName) {
     string genome;
 
     ifstream fileGenome (filename);
@@ -42,8 +42,10 @@ string readGenomeFile(string filename) {
 
     if (fileGenome.is_open()) {
         while (getline (fileGenome,line)) {
-            if (line.rfind(">", 0) == 0)
+            if (line.rfind(">", 0) == 0) {
+                genomeName = line.substr(1, line.find(' ') - 1);
                 continue;
+            }
 
             genome.append(line);
         }

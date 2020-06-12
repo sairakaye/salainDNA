@@ -5,6 +5,7 @@
 #include "output.h"
 //#include "verification.h"
 
+string genomeName;
 string refGenome;
 vector<string> reads;
 map<string, string> readsLabelMap;
@@ -28,7 +29,8 @@ unsigned int numSeeds;
 unsigned int numReads;
 unsigned int numAcceptedSeeds;
 unsigned int numAcceptedReads;
-unsigned int numLocations;
+unsigned int numPossibleReadLocations;
+unsigned int numFilteredReadLocations;
 
 string mode;
 string searchMode;
@@ -58,7 +60,7 @@ int main(int argc, char *argv[]) {
     numReads = 0;
     numAcceptedSeeds = 0;
     numAcceptedReads = 0;
-    numLocations = 0;
+    numPossibleReadLocations = 0;
 
     processingArguments(argc, argv, genomeFilePath, readsFilePath, indexFilePath, mainName);
 
@@ -68,7 +70,7 @@ int main(int argc, char *argv[]) {
     }
 
     cout << "Reading the reference genome... " << endl << genomeFilePath << endl << endl;
-    refGenome = readGenomeFile(genomeFilePath);
+    refGenome = readGenomeFile(genomeFilePath, genomeName);
 
     if (indexFilePath.length() == 0) {
         string indexDefaultFile = mode + "_" + mainName + "_" + to_string(q) + ".txt";
@@ -146,6 +148,8 @@ int main(int argc, char *argv[]) {
 
     cout << "Starting Bit Matrix..." << endl;
     multiThreadedMain();
+
+    outputPrealignmentResults();
 
     return 0;
 }

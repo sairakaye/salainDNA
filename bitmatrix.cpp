@@ -9,14 +9,15 @@
 
 using namespace std;
 
-
+/*
 int TruePos = 0;
 int TrueNeg = 0;
 int FalsePos = 0;
 int FalseNeg = 0;
+*/
 
-int alignmentNeeded = 0;
-int notNeeded = 0;
+unsigned int alignmentNeeded = 0;
+unsigned int notNeeded = 0;
 
 
 vector<vector<int>> createMap (string P, string T, int E){
@@ -212,10 +213,10 @@ vector<int> slidingWindow(vector<vector<int>> NMap, int m, int E) {
 
 }
 
-vector<int> threadFunc(int E , string read, string reference){
+vector<int> threadFunc(int E, string read, string reference){
 
-    int m = reference.length();
-    int n = read.length();
+    unsigned int m = reference.length();
+    unsigned int n = read.length();
 
 
     vector<int> shouji(m);
@@ -260,15 +261,15 @@ void multiThreadedMain() {
     //int refcount = refs.size();
     //int readcount = reads.size();
 
-    int E = e;
-
     alignmentNeeded = 0;
     notNeeded = 0;
 
+    /*
     TruePos = 0;
     TrueNeg = 0;
     FalsePos = 0;
     FalseNeg = 0;
+    */
 
     auto start = std::chrono::high_resolution_clock::now();
 
@@ -282,7 +283,7 @@ void multiThreadedMain() {
 
         int j;
         for (j = 0; j < locations.size(); j++) {
-            if (countOnes(threadFunc(E, (*iteratorMap).first, refGenome.substr(locations[j], m)), E) <= E) {
+            if (countOnes(threadFunc(e, (*iteratorMap).first, refGenome.substr(locations[j], m)), e) <= e) {
                 #pragma omp critical
                 filteredReadsMap[(*iteratorMap).first].push_back(locations[j]);
                 alignmentNeeded++;
@@ -297,9 +298,11 @@ void multiThreadedMain() {
 
     chrono::duration<double> diff = end-start;
 
-    cout << diff.count() << "\t" <<E<<"\t"<<alignmentNeeded<<"\t"<<notNeeded << endl;
+    numFilteredReadLocations = alignmentNeeded;
+    cout << diff.count() << "\t" << e << "\t" << alignmentNeeded << "\t" << notNeeded << endl << endl;
 }
 
+/*
 void checkResultswithEdlib(){
 
 
@@ -358,6 +361,7 @@ void checkResultswithEdlib(){
              cout << "\n" << "Size: ";
              cout << shouji.size();*/
 
+            /*
             if (countOnes(shouji, E) <= E) {
                 ShoujiAccept = true;
             } else {
@@ -402,7 +406,7 @@ void checkResultswithEdlib(){
         cout << finalTime << "\t" <<E<<"\t"<<TruePos<<"\t"<<TrueNeg<<"\t"<<FalsePos<<"\t"<<FalseNeg;
     }
 }
-/*
+
 
 int main(void){
     //fixedInputMain();
