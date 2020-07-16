@@ -146,8 +146,8 @@ int main(int argc, char *argv[]) {
     //outputPossibleReads(mainName);
     //outputPossibleLocations(mainName);
 
-    cout << "Starting Bit Matrix..." << endl;
-    multiThreadedMain();
+    //cout << "Starting Bit Matrix..." << endl;
+    //multiThreadedMain();
 
     outputPrealignmentResults();
 
