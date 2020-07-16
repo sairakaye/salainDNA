@@ -19,20 +19,24 @@ int FalseNeg = 0;
 unsigned int alignmentNeeded = 0;
 unsigned int notNeeded = 0;
 
+void increment(int i, vector<int> &locations){
+    for(int j = i; j < locations.size(); j++){
+        locations[j]++;
+    }
 
-vector<vector<int>> createMap (string P, string T, int E){
+}
+vector<int> createMap (string P, string T, int E, vector<int> &locations){
     int m = T.size();
     int n = P.size();
     char t[m];
     char p[n];
     int count;
 
-
-    vector<vector<int>> NMap;
+    vector<int> NMap;
     for(int i = 0; i < 2*E + 1; i++){
-        NMap.push_back(vector<int>());
+        NMap.push_back(2);
+        locations.push_back(i);
     }
-
 
     int jE;
     for(int i = 0; i<m; i++){
@@ -40,10 +44,12 @@ vector<vector<int>> createMap (string P, string T, int E){
         for(int j = i-E; j<i+E+1;j++){
             if(jE <= 2*E) {
                 if (T[j] != NULL && P[i] == T[j]) {
-                    NMap[jE].push_back(0);
+                    NMap.insert(NMap.begin() + locations[jE], 0);
+                    increment(jE, locations);
                     jE++;
                 } else if (T[j] != NULL && P[i] != T[j]) {
-                    NMap[jE].push_back(1);
+                    NMap.insert(NMap.begin() + locations[jE], 1);
+                    increment(jE, locations);
                     jE++;
                     count++;
                 }
@@ -51,14 +57,19 @@ vector<vector<int>> createMap (string P, string T, int E){
                     jE++;
                 }
             }
-
-
         }
     }
+    /*cout << "\n";
+    for(int j = 0; j < NMap.size();j++) {
+        if(NMap[j] == 2){
+            cout << NMap[j];
+            cout << "\n";
+        }
+        else{
+            cout << NMap[j];
+        }
 
-    if(count <= E){
-        return vector<vector<int>>();
-    }
+    }*/
 
     int E1 = E;
     int E2 = 1;
@@ -66,15 +77,21 @@ vector<vector<int>> createMap (string P, string T, int E){
     for (int i = 0; i < E; i++){
         for (int j = 0; j < E1; j++)
         {
-            NMap[i].push_back(-1);
+            /*  if(i == 0){
+                  NMap.insert(NMap.begin(), -1);
+                  increment(i, locations);
+              }*/
 
+            NMap.insert(NMap.begin() + locations[i], -1);
+            increment(i, locations);
         }
         //hammingMap[i].erase(hammingMap[i].end() - E1, hammingMap[i].end());
         E1--;
     }
     for (int i = E + 1; i < E * 2 + 1; i++){
         for (int j = 0; j < E2; j++){
-            NMap[i].insert(NMap[i].begin() + j, -1);
+            NMap.insert(NMap.begin() + locations[i - 1] + 1, -1);
+            increment(i, locations);
         }
         //hammingMap[i].erase(hammingMap[i].end() - E1, hammingMap[i].end());
         E2++;
@@ -83,7 +100,6 @@ vector<vector<int>> createMap (string P, string T, int E){
 
     return NMap;
 }
-
 
 int countZeroes(vector<int> toCount){
     int ctr = 0;
@@ -116,16 +132,24 @@ int countOnes(vector<int> toCount, int E){
     }
     return ctr;
 }
-vector<int> checkDiagonals(int m, vector<vector<int>> NMap, int E, int w, int windowSize){
+vector<int> checkDiagonals(int m, vector<int> NMap, int E, int w, int windowSize, vector<int> &locations, int ctr){
     vector<int> bestDiagonal = {1,1,1,1};
     vector<int> currDiagonal;
 
     int bestZeroCount = 0;
-    int ctr = 0;
+    //int ctr = 0;
 
+    //#pragma omp parallel for
     for(int i = 0; i < E * 2 + 1; i++){
         for(int j = 0; j < windowSize; j++){
-            currDiagonal.push_back(NMap[i][w+j]);
+            //-currDiagonal.push_back(NMap[i][w+j]);
+
+            if(i == 0){
+                currDiagonal.push_back(NMap[0 + j + ctr]);
+            }
+            else{
+                currDiagonal.push_back(NMap[locations[i-1] + 1 + j + ctr]);
+            }
         }
         int currZeroCount = countZeroes(currDiagonal);
 
@@ -140,25 +164,35 @@ vector<int> checkDiagonals(int m, vector<vector<int>> NMap, int E, int w, int wi
     return bestDiagonal;
 }
 
-vector<int> slidingWindow(vector<vector<int>> NMap, int m, int E) {
+vector<int> slidingWindow(vector<int> NMap, int m, int E, vector<int> &locations) {
     int windowSize = 4;
     vector<int> finalVector;
-    vector<int> mainDiagonal;
+    //vector<int> mainDiagonal;
     //vector<thread> threadArray;
 
-    mainDiagonal = NMap[E];
-    finalVector = mainDiagonal;
+    for(int i = 0; i < m; i++){
+        if(E == 0){
+            finalVector.push_back(NMap[i]);
+        }
+        else{
+            finalVector.push_back(NMap[locations[E-1] + 1 + i]);
+        }
+
+    }
+
 
     if(NMap.empty()){
         return vector<int>();
     }
     else {
+        int ctr = 0;
         for (int w = 0; w < m; w++) {
             if (w + windowSize > m) {
                 windowSize = m - w;
             }
 
-            vector<int> bestDiagonalinVector = checkDiagonals(m, NMap, E, w, windowSize);
+            vector<int> bestDiagonalinVector = checkDiagonals(m, NMap, E, w, windowSize, locations, ctr);
+            ctr++;
 
             int l = 0;
             for (int i = w; i < windowSize + w; i++) {
@@ -171,45 +205,51 @@ vector<int> slidingWindow(vector<vector<int>> NMap, int m, int E) {
 
 
 /*
- *      vector<int> tempDiag;
-        vector<int> seedVector;
-        for (int i = w; i < windowSize + w; i++) {
-            if (i < m) {
-                seedVector.push_back(finalVector[i]);
-                tempDiag.push_back(mainDiagonal[i]);
-            }
-        }
+*      vector<int> tempDiag;
+      vector<int> seedVector;
+      for (int i = w; i < windowSize + w; i++) {
+          if (i < m) {
+              seedVector.push_back(finalVector[i]);
+              tempDiag.push_back(mainDiagonal[i]);
+          }
+      }
 
 
-        vector<int> finalDiag;
-        vector<int> tempfinalVector = finalVector;
-        finalDiag = tempDiag;
+      vector<int> finalDiag;
+      vector<int> tempfinalVector = finalVector;
+      finalDiag = tempDiag;
 
-        if (windowSize >= 3) {
-            vector<int> finalDiag;
-            finalDiag = tempDiag;
+      if (windowSize >= 3) {
+          vector<int> finalDiag;
+          finalDiag = tempDiag;
 
-            if (countZeroes(tempDiag) < countZeroes(bestDiagonalinVector)) {
-                finalDiag = bestDiagonalinVector;
-            }
+          if (countZeroes(tempDiag) < countZeroes(bestDiagonalinVector)) {
+              finalDiag = bestDiagonalinVector;
+          }
 
 
-            if (countZeroes(seedVector) > countZeroes(finalDiag)) {
-                finalDiag = seedVector;
-            }
+          if (countZeroes(seedVector) > countZeroes(finalDiag)) {
+              finalDiag = seedVector;
+          }
 
-            int l = 0;
-            for (int i = w; i < windowSize + w; i++) {
-                if (i < m) {
-                    finalVector[i] = finalDiag[l];
-                    l++;
-                }
+          int l = 0;
+          for (int i = w; i < windowSize + w; i++) {
+              if (i < m) {
+                  finalVector[i] = finalDiag[l];
+                  l++;
+              }
 
-            }
-        }*/
+          }
+      }*/
         }
     }
+
+    /* for(int i =0; i < finalVector.size(); i++){
+         cout << finalVector[i];
+     }*/
+
     return finalVector;
+
 
 }
 
@@ -220,8 +260,9 @@ vector<int> threadFunc(int E, string read, string reference){
 
 
     vector<int> shouji(m);
+    vector<int> locations;
     //vector<vector<int>> nmap;
-    shouji = slidingWindow(createMap(read, reference, E),m, E);
+    shouji = slidingWindow(createMap(read, reference, E,locations),m, E, locations);
 
     return shouji;
     /*if (countOnes(shouji) <= E) {
