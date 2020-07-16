@@ -22,6 +22,77 @@
 using namespace std;
 using namespace std::chrono;
 
+/**
+ * What to modify? (as of now)
+ * -> Genome (should have list)
+ * -> Reads
+ * ->
+ */
+
+class Genome {
+    Genome(string genomeName, string genomeData) {
+        this->genomeName = genomeName;
+        this->genomeData = genomeData;
+    }
+
+    private:
+        string genomeName;
+        string genomeData;
+
+    public:
+        string getData() {
+            return genomeData;
+        }
+
+        string getName() {
+            return genomeName;
+        }
+};
+
+class Read {
+    Read(string readName, string readData) {
+        this->readName = readName;
+        this->readData = readData;
+    }
+
+    private:
+        string readName;
+        string readData;
+        vector<unsigned long long int> forwardLocations;
+        vector<unsigned long long int> reverseLocations;
+
+    public:
+        string getName() {
+            return readName;
+        }
+
+        string getData() {
+            return readData;
+        }
+
+        vector<unsigned long long int> getForwardLocationList() {
+            return forwardLocations;
+        }
+
+        vector<unsigned long long int> getReverseLocationList() {
+            return reverseLocations;
+        }
+
+        vector<unsigned long long int> setForwardLocationList(vector<unsigned long long int> forwardLocations) {
+            forwardLocations.clear();
+            forwardLocations.shrink_to_fit();
+            this->forwardLocations = forwardLocations;
+        }
+
+        vector<unsigned long long int> setReverseLocationList(vector<unsigned long long int> reverseLocations) {
+            reverseLocations.clear();
+            reverseLocations.shrink_to_fit();
+            this->reverseLocations = reverseLocations;
+        }
+};
+
+extern vector<Genome>;
+
 extern string refGenome;
 extern string genomeName;
 extern vector<string> reads;
