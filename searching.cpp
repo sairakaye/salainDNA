@@ -9,9 +9,9 @@ void searchingUsingMinimizers(string seed, string read, int k, vector<unsigned l
 vector<unsigned long long int>& location) {
     int i;
     for (i = 0; i < location.size(); i++) {
-        if (seed.compare(refGenome.substr(location[i], q)) == 0) {
-            if ((location[i] - (q * k)) >= 0 && (location[i] - (q * k)) < refGenome.size() &&
-                    refGenome.substr(location[i] - (q * k), m).size() == m) {
+        if (seed.compare(refGenome.genomeData.substr(location[i], q)) == 0) {
+            if ((location[i] - (q * k)) >= 0 && (location[i] - (q * k)) < refGenome.genomeData.size() &&
+                    refGenome.genomeData.substr(location[i] - (q * k), m).size() == m) {
                 //#pragma omp critical
                 //{
                     foundLocations.push_back(location[i] - (q * k));
@@ -31,11 +31,11 @@ void approximateSearchingUsingMinimizers(string seed, string read, int k, vector
 vector<unsigned long long int>& location) {
     int i;
     for (i = 0; i < location.size(); i++) {
-        EdlibAlignResult result = edlibAlign(refGenome.substr(location[i], seed.length()).c_str(), seed.length(), seed.c_str(), seed.length(), edlibDefaultAlignConfig());
+        EdlibAlignResult result = edlibAlign(refGenome.genomeData.substr(location[i], seed.length()).c_str(), seed.length(), seed.c_str(), seed.length(), edlibDefaultAlignConfig());
 
         if (result.editDistance <= allowableE) {
-            if ((location[i] - (q * k)) >= 0 && (location[i] - (q * k)) < refGenome.size() &&
-                    refGenome.substr(location[i] - (q * k), m).size() == m) {
+            if ((location[i] - (q * k)) >= 0 && (location[i] - (q * k)) < refGenome.genomeData.size() &&
+                    refGenome.genomeData.substr(location[i] - (q * k), m).size() == m) {
                 //#pragma omp critical
                 //{
                 foundLocations.push_back(location[i] - (q * k));
@@ -55,9 +55,9 @@ vector<unsigned long long int>& location) {
 
 void searchingUsingDirectOrOpen(string seed, string read, unsigned long long int index, string mode, int k, vector<unsigned long long int>& foundLocations,
 vector<unsigned long long int>& location) {
-    while (seed.compare(refGenome.substr(posTable[index], q)) == 0) {
-        if ((posTable[index] - (q * k)) >= 0 && (posTable[index]- (q * k)) < refGenome.size() &&
-                refGenome.substr(posTable[index] - (q * k), m).size() == m) {
+    while (seed.compare(refGenome.genomeData.substr(posTable[index], q)) == 0) {
+        if ((posTable[index] - (q * k)) >= 0 && (posTable[index]- (q * k)) < refGenome.genomeData.size() &&
+                refGenome.genomeData.substr(posTable[index] - (q * k), m).size() == m) {
             //#pragma omp critical
             //{
             foundLocations.push_back(posTable[index] - (q * k));
@@ -79,11 +79,11 @@ vector<unsigned long long int>& location) {
     bool continueCompare = true;
 
     while (continueCompare) {
-        EdlibAlignResult result = edlibAlign(refGenome.substr(posTable[index], seed.length()).c_str(), seed.length(), seed.c_str(), seed.length(), edlibDefaultAlignConfig());
+        EdlibAlignResult result = edlibAlign(refGenome.genomeData.substr(posTable[index], seed.length()).c_str(), seed.length(), seed.c_str(), seed.length(), edlibDefaultAlignConfig());
 
         if (result.editDistance <= allowableE) {
-            if ((posTable[index] - (q * k)) >= 0 && (posTable[index]- (q * k)) < refGenome.size() &&
-                    refGenome.substr(posTable[index] - (q * k), m).size() == m) {
+            if ((posTable[index] - (q * k)) >= 0 && (posTable[index]- (q * k)) < refGenome.genomeData.size() &&
+                    refGenome.genomeData.substr(posTable[index] - (q * k), m).size() == m) {
                 //#pragma omp critical
                 //{
                 foundLocations.push_back(posTable[index] - (q * k));

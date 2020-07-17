@@ -34,9 +34,10 @@ uint64_t inthash_64(uint64_t key, uint64_t mask) {
     return key;
 }
 
-string readGenomeFile(string filename, string &genomeName) {
-    string genome;
-
+Genome readGenomeFile(string filename) {
+    Genome genome;
+    string genomeData;
+    string genomeName;
     ifstream fileGenome (filename);
     string line;
 
@@ -47,13 +48,16 @@ string readGenomeFile(string filename, string &genomeName) {
                 continue;
             }
 
-            genome.append(line);
+            genomeData.append(line);
         }
 
-        for (int j = 0; j < genome.length(); j++) {
-            if (genome.at(j) != 'A' && genome.at(j) != 'C' && genome.at(j) != 'G' && genome.at(j) != 'T')
-                replace(genome.begin(), genome.end(), genome.at(j), '\0');
+        for (int j = 0; j < genomeData.length(); j++) {
+            if (genomeData.at(j) != 'A' && genomeData.at(j) != 'C' && genomeData.at(j) != 'G' && genomeData.at(j) != 'T')
+                replace(genomeData.begin(), genomeData.end(), genomeData.at(j), '\0');
         }
+
+        genome.genomeName = genomeName;
+        genome.genomeData = genomeData;
 
         fileGenome.close();
     } else {
@@ -65,16 +69,26 @@ string readGenomeFile(string filename, string &genomeName) {
     return genome;
 }
 
-vector<string> readReadsFile(string filename) {
-    vector<string> readList;
-
+void readReadsFile(string filename) {
+    //vector<string> readList;
     ifstream fileRead(filename);
     string line;
+    string read;
     string readName;
 
     if (fileRead.is_open()) {
         while (getline (fileRead,line)) {
             if (line.rfind(">", 0) == 0) {
+                if (read.size() > 0 && readName.size() > 0) {
+                    Read readStruct;
+                    readStruct.readName = readName;
+                    readStruct.readData = read;
+                    //readMap[read] = readStruct;
+                    reads.push_back(readStruct);
+                    read = "";
+                    //numReads++;
+                }
+
                 readName = line.substr(1, line.find(' ') - 1);
                 continue;
             }
@@ -83,8 +97,20 @@ vector<string> readReadsFile(string filename) {
                 line.erase(line.length()-1);
             }
 
+            read.append(line);
+
+            /*
             readList.push_back(line);
             readsLabelMap[line] = readName;
+            */
+        }
+
+        if (read.size() > 0 && readName.size() > 0) {
+            Read readStruct;
+            readStruct.readName = readName;
+            readStruct.readData = read;
+            //readMap[read] = readStruct;
+            reads.push_back(readStruct);
         }
 
         fileRead.close();
@@ -94,7 +120,7 @@ vector<string> readReadsFile(string filename) {
         exit(EXIT_FAILURE);
     }
 
-    return readList;
+    //return readList;
 }
 
 string reverseComplement(string read) {

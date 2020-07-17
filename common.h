@@ -29,74 +29,28 @@ using namespace std::chrono;
  * ->
  */
 
-class Genome {
-    Genome(string genomeName, string genomeData) {
-        this->genomeName = genomeName;
-        this->genomeData = genomeData;
-    }
+typedef struct Genome {
+    string genomeName;
+    string genomeData;
+} Genome;
 
-    private:
-        string genomeName;
-        string genomeData;
+typedef struct Read {
+    string readName;
+    string readData;
+    vector<unsigned long long int> forwardLocations;
+    vector<unsigned long long int> reverseLocations;
+} Read;
 
-    public:
-        string getData() {
-            return genomeData;
-        }
+extern Genome refGenome;
+//extern map<string, Read> readMap;
+extern vector<Read> reads;
 
-        string getName() {
-            return genomeName;
-        }
-};
-
-class Read {
-    Read(string readName, string readData) {
-        this->readName = readName;
-        this->readData = readData;
-    }
-
-    private:
-        string readName;
-        string readData;
-        vector<unsigned long long int> forwardLocations;
-        vector<unsigned long long int> reverseLocations;
-
-    public:
-        string getName() {
-            return readName;
-        }
-
-        string getData() {
-            return readData;
-        }
-
-        vector<unsigned long long int> getForwardLocationList() {
-            return forwardLocations;
-        }
-
-        vector<unsigned long long int> getReverseLocationList() {
-            return reverseLocations;
-        }
-
-        vector<unsigned long long int> setForwardLocationList(vector<unsigned long long int> forwardLocations) {
-            forwardLocations.clear();
-            forwardLocations.shrink_to_fit();
-            this->forwardLocations = forwardLocations;
-        }
-
-        vector<unsigned long long int> setReverseLocationList(vector<unsigned long long int> reverseLocations) {
-            reverseLocations.clear();
-            reverseLocations.shrink_to_fit();
-            this->reverseLocations = reverseLocations;
-        }
-};
-
-extern vector<Genome>;
-
+/*
 extern string refGenome;
 extern string genomeName;
 extern vector<string> reads;
 extern map<string, string> readsLabelMap;
+*/
 
 extern string mode;
 extern string searchMode;
@@ -115,8 +69,8 @@ extern vector<unsigned long long int> posTable;
 
 //extern map<string, vector<unsigned long long int>> forwardReadsMap;
 //extern map<string, vector<unsigned long long int>> reverseReadsMap;
-extern map<string, vector<unsigned long long int>> possibleReadsMap;
-extern map<string, vector<unsigned long long int>> filteredReadsMap;
+//extern map<string, vector<unsigned long long int>> possibleReadsMap;
+//extern map<string, vector<unsigned long long int>> filteredReadsMap;
 
 
 //typedef struct {
@@ -138,13 +92,12 @@ extern unsigned int numFilteredReadLocations;
 
 unsigned long long int extractRanking(string kMer);
 uint64_t inthash_64(uint64_t key, uint64_t mask);
-string readGenomeFile(string filename, string& genomeName);
-vector<string> readReadsFile(string filename);
+Genome readGenomeFile(string filename);
+void readReadsFile(string filename);
 string reverseComplement(string read);
 void getDirectAddressing(string filename, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable);
 void getOpenAddressing(string filename, map<long long, unsigned long long int>& codeTable, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable);
 map<unsigned long long int, vector<unsigned long long int>> getMinimizers(string filename);
 //void processingPossibleReadsForBitmatrix();
-void outputPrealignmentResults();
 
 #endif //MULTICORE_RM_COMMON_H
