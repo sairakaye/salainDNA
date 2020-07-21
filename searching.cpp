@@ -33,8 +33,7 @@ vector<unsigned long long int>& location) {
         EdlibAlignResult result = edlibAlign(refGenome.genomeData.substr(location[i], seed.length()).c_str(), seed.length(), seed.c_str(), seed.length(), edlibDefaultAlignConfig());
 
         if (result.editDistance <= allowableE) {
-            if ((location[i] - (q * k)) >= 0 && (location[i] - (q * k)) < refGenome.genomeData.size() &&
-                    refGenome.genomeData.substr(location[i] - (q * k), m).size() == m) {
+            if ((location[i] - (q * k)) >= 0 && (location[i] - (q * k)) < refGenome.genomeData.size()) {
                 //#pragma omp critical
                 //{
                 foundLocations.push_back(location[i] - (q * k));
@@ -80,8 +79,7 @@ vector<unsigned long long int>& location) {
         EdlibAlignResult result = edlibAlign(refGenome.genomeData.substr(posTable[index], seed.length()).c_str(), seed.length(), seed.c_str(), seed.length(), edlibDefaultAlignConfig());
 
         if (result.editDistance <= allowableE) {
-            if ((posTable[index] - (q * k)) >= 0 && (posTable[index]- (q * k)) < refGenome.genomeData.size() &&
-                    refGenome.genomeData.substr(posTable[index] - (q * k), m).size() == m) {
+            if ((posTable[index] - (q * k)) >= 0 && (posTable[index]- (q * k)) < refGenome.genomeData.size()) {
                 //#pragma omp critical
                 //{
                 foundLocations.push_back(posTable[index] - (q * k));
