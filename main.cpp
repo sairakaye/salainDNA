@@ -156,7 +156,7 @@ int main(int argc, char *argv[]) {
     //outputPossibleLocations(mainName);
 
     //cout << "Starting Bit Matrix..." << endl;
-    multiThreadedMain();
+    //multiThreadedMain();
 
     //outputPrealignmentResults();
 

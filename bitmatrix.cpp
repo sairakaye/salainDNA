@@ -321,9 +321,11 @@ void multiThreadedMain() {
     for(i = 0; i < reads.size(); i++) {
         string read(reads[i].readData);
         vector<unsigned long long int> tempAcceptedLocations;
-        vector<unsigned long long int>& locations = reads[i].forwardLocations;
+        //vector<unsigned long long int>& forwarlocations = reads[i].forwardLocations;
 
-        if (locations.size() > 0) {
+        if (reads[i].forwardLocations.size() > 0) {
+            vector<unsigned long long int>& locations = reads[i].forwardLocations;
+
             int j;
             for (j = 0; j < locations.size(); j++) {
                 if (countOnes(threadFunc(e, read, refGenome.genomeData.substr(locations[j], m)), e) <= e) {
@@ -339,7 +341,6 @@ void multiThreadedMain() {
             reads[i].forwardLocations = vector<unsigned long long int>(tempAcceptedLocations);
         }
 
-        /*
         if (reads[i].reverseLocations.size() > 0) {
             vector<unsigned long long int>& locations = reads[i].reverseLocations;
 
@@ -357,7 +358,6 @@ void multiThreadedMain() {
             #pragma omp critical
             reads[i].reverseLocations = vector<unsigned long long int>(tempAcceptedLocations);
         }
-        */
     }
 
     /*

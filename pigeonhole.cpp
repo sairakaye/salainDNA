@@ -8,8 +8,12 @@ int j;
 int allowableE;
 
 void exactSearchingForAll() {
+    ofstream infoFile;
+    string infoFileName("testing_hatdog.txt");
+    infoFile.open(infoFileName.c_str(), ios::out);
+
     int i;
-    #pragma omp parallel for reduction(+:numAcceptedSeeds)
+    //#pragma omp parallel for reduction(+:numAcceptedSeeds)
     for (i = 0; i < reads.size(); i++) {
         string forwardRead(reads[i].readData);
         vector<unsigned long long int> totalPossibleLocations;
@@ -106,10 +110,15 @@ void exactSearchingForAll() {
                     numAcceptedReads++;
                 };
             }
+        } else {
+            #pragma omp critical
+            infoFile << ">" << reads[i].readName << "\n" << reads[i].readData << endl;
         }
 
         numAcceptedSeeds += tempAcceptedSeeds;
     }
+
+    infoFile.close();
 }
 
 void approximateSearchingForAll() {
