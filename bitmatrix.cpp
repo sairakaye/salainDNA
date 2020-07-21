@@ -324,10 +324,14 @@ void multiThreadedMain() {
 
         int j;
         for (j = 0; j < locations.size(); j++) {
-            if (countOnes(threadFunc(e, (*iteratorMap).first, refGenome.substr(locations[j], m)), e) <= e) {
-                #pragma omp critical
-                filteredReadsMap[(*iteratorMap).first].push_back(locations[j]);
-                alignmentNeeded++;
+            if (refGenome.substr(locations[j], m).size() == m) {
+                if (countOnes(threadFunc(e, (*iteratorMap).first, refGenome.substr(locations[j], m)), e) <= e) {
+                    #pragma omp critical
+                    filteredReadsMap[(*iteratorMap).first].push_back(locations[j]);
+                    alignmentNeeded++;
+                } else {
+                    notNeeded++;
+                }
             } else {
                 notNeeded++;
             }
