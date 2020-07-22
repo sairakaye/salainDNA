@@ -13,7 +13,7 @@ void exactSearchingForAll() {
     infoFile.open(infoFileName.c_str(), ios::out);
 
     int i;
-    //#pragma omp parallel for reduction(+:numAcceptedSeeds)
+    #pragma omp parallel for reduction(+:numAcceptedSeeds)
     for (i = 0; i < reads.size(); i++) {
         string forwardRead(reads[i].readData);
         vector<unsigned long long int> totalPossibleLocations;
