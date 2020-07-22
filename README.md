@@ -2,4 +2,3 @@
 - Indexing
 - Seed Selector (Pigeonhole)
 - Bit-matrix
-- Edlib
