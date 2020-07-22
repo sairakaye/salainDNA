@@ -42,6 +42,7 @@ void helpCommands() {
     cout << "\t -l - load factor for open addressing indexing mode (default is 0.9)" << endl;
     cout << "\t -e - error threshold (default is 0)" << endl;
     cout << "\t -s - search mode for seed selector (all - find locations in each seed, exit - when a location is found in the seed, immediately exit" << endl;
+    cout << "\t -out - output file for the SAM file" << endl;
 }
 
 void processingArguments(int argc, char *argv[], string &genomeFilePath, string &readsFilePath, string &indexFilePath, string &mainName) {
@@ -109,6 +110,8 @@ void processingArguments(int argc, char *argv[], string &genomeFilePath, string 
                     cout << "Invalid input. Input either 1 for true or 0 for false." << endl;
                     exit(EXIT_FAILURE);
                 }
+            } else if (string(argv[i]) == "-out") {
+                SAMFileName = string(argv[i + 1]);
             }
         }
     }

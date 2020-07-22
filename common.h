@@ -22,19 +22,12 @@
 using namespace std;
 using namespace std::chrono;
 
-/**
- * What to modify? (as of now)
- * -> Genome (should have list)
- * -> Reads
- * ->
- */
-
-typedef struct Genome {
+typedef struct {
     string genomeName;
     string genomeData;
 } Genome;
 
-typedef struct Read {
+typedef struct {
     string readName;
     string readData;
     vector<unsigned long long int> forwardLocations;
@@ -59,6 +52,8 @@ extern unsigned int w;
 extern unsigned int m;
 extern unsigned int e;
 extern double loadFactor;
+
+extern string SAMFileName;
 
 extern vector<pair<string, int>> alphabetRef;
 

@@ -43,6 +43,8 @@ unsigned int numFilteredReadLocations;
 string mode;
 string searchMode;
 
+string SAMFileName;
+
 unsigned int q;
 unsigned int w;
 unsigned int m;
@@ -119,7 +121,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (readsFilePath.length() == 0) {
-        cout << "Indexing done..." << endl;
+        cout << "File for reads is not specified..." << endl;
         exit(EXIT_FAILURE);
     }
 
@@ -127,7 +129,6 @@ int main(int argc, char *argv[]) {
     readReadsFile(readsFilePath);
 
     w = q + q - 1;
-    //m = readMap.begin()->second.readData.size();
     m = reads[0].readData.size();
 
     numReads = reads.size();
@@ -148,17 +149,16 @@ int main(int argc, char *argv[]) {
     auto end = omp_get_wtime();
     auto timeTaken = double(end - start);
 
-    //numAcceptedReads = possibleReadsMap.size();
-
     outputSeedSelectorResults(mainName, timeTaken);
-
-    //outputPossibleReads(mainName);
-    //outputPossibleLocations(mainName);
+    //outputFileSeedSelectorResults(mainName, timeTaken);
 
     //cout << "Starting Bit Matrix..." << endl;
-    //multiThreadedMain();
+    multiThreadedMain();
+    outputPrealignmentResults();
 
-    //outputPrealignmentResults();
+    if (SAMFileName.length() > 0) {
+        outputSAMFile();
+    }
 
     return 0;
 }
