@@ -24,7 +24,7 @@ void approximateSearchingUsingMinimizers(string seed, int k, vector<unsigned lon
         EdlibAlignResult result = edlibAlign(refGenome.genomeData.substr(location[i], seed.length()).c_str(), seed.length(),
                 seed.c_str(), seed.length(), edlibDefaultAlignConfig());
 
-        if (result.editDistance <= e) {
+        if (result.editDistance <= q) {
             if ((location[i] - (q * k)) >= 0 && (location[i] - (q * k)) < refGenome.genomeData.size()) {
                 foundLocations.push_back(location[i] - (q * k));
             }
@@ -32,6 +32,11 @@ void approximateSearchingUsingMinimizers(string seed, int k, vector<unsigned lon
             if (*(minEditFound) > result.editDistance) {
                 *(minEditFound) = result.editDistance;
             }
+        }
+
+        if (result.editDistance >= q) {
+            edlibFreeAlignResult(result);
+            break;
         }
 
         edlibFreeAlignResult(result);
@@ -58,7 +63,7 @@ void approximateSearchingUsingDirectOrOpen(string seed, unsigned long long int i
             EdlibAlignResult result = edlibAlign(refGenome.genomeData.substr(posTable[index], seed.length()).c_str(),
                                                  seed.length(), seed.c_str(), seed.length(), edlibDefaultAlignConfig());
 
-            if (result.editDistance <= e) {
+            if (result.editDistance <= q) {
                 if ((posTable[index] - (q * k)) >= 0 && (posTable[index] - (q * k)) < refGenome.genomeData.size()) {
                     foundLocations.push_back(posTable[index] - (q * k));
                 }
@@ -72,10 +77,13 @@ void approximateSearchingUsingDirectOrOpen(string seed, unsigned long long int i
                 continueCompare = false;
             }
 
+            if (result.editDistance >= q) {
+                continueCompare = false;
+            }
+
             edlibFreeAlignResult(result);
         } else {
             continueCompare = false;
-            break;
         }
     }
 }
