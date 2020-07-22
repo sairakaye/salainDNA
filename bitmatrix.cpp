@@ -114,7 +114,7 @@ int countZeroes(vector<int> toCount){
 }
 
 
-int countOnes(vector<int> toCount, int E){
+int countOnes(vector<int> toCount, unsigned int E){
     int ctr = 0;
 
     if(toCount.empty()){
@@ -312,32 +312,88 @@ void multiThreadedMain() {
     FalseNeg = 0;
     */
 
+    //int E = e;
+
     auto start = std::chrono::high_resolution_clock::now();
 
+    int i;
+    #pragma omp parallel for reduction(+:notNeeded, alignmentNeeded)
+    for(i = 0; i < reads.size(); i++) {
+        string read(reads[i].readData);
+        vector<unsigned long long int> tempAcceptedLocations;
+
+        if (reads[i].forwardLocations.size() > 0) {
+            vector<unsigned long long int>& locations = reads[i].forwardLocations;
+
+            int j;
+            for (j = 0; j < locations.size(); j++) {
+                if (refGenome.genomeData.substr(locations[j], m).size() == m) {
+                    if (countOnes(threadFunc(e, read, refGenome.genomeData.substr(locations[j], m)), e) <= e) {
+                        #pragma omp critical
+                        tempAcceptedLocations.push_back(locations[j]);
+                        alignmentNeeded++;
+                    } else {
+                        notNeeded++;
+                    }
+                } else {
+                    notNeeded++;
+                }
+            }
+
+            #pragma omp critical
+            reads[i].forwardLocations = vector<unsigned long long int>(tempAcceptedLocations);
+        } else if (reads[i].reverseLocations.size() > 0) {
+            vector<unsigned long long int>& locations = reads[i].reverseLocations;
+
+            int j;
+            for (j = 0; j < locations.size(); j++) {
+                if (refGenome.genomeData.substr(locations[j], m).size() == m) {
+                    if (countOnes(threadFunc(e, read, refGenome.genomeData.substr(locations[j], m)), e) <= e) {
+                    #pragma omp critical
+                        tempAcceptedLocations.push_back(locations[j]);
+                        alignmentNeeded++;
+                    } else {
+                        notNeeded++;
+                    }
+                } else {
+                    notNeeded++;
+                }
+            }
+
+            #pragma omp critical
+            reads[i].reverseLocations = vector<unsigned long long int>(tempAcceptedLocations);
+        }
+    }
+
+    /*
     int i;
     #pragma omp parallel for reduction(+:notNeeded, alignmentNeeded)
     for(i = 0; i < possibleReadsMap.size(); i++) {
         auto iteratorMap = possibleReadsMap.begin();
         advance(iteratorMap, i);
 
+        string read = (*iteratorMap).first;
         vector<unsigned long long int>& locations = (*iteratorMap).second;
+        vector<unsigned long long int> tempAcceptedLocations;
 
         int j;
         for (j = 0; j < locations.size(); j++) {
-            if (refGenome.substr(locations[j], m).size() == m) {
-                if (countOnes(threadFunc(e, (*iteratorMap).first, refGenome.substr(locations[j], m)), e) <= e) {
-                    #pragma omp critical
-                    filteredReadsMap[(*iteratorMap).first].push_back(locations[j]);
-                    alignmentNeeded++;
-                } else {
-                    notNeeded++;
-                }
+            if (countOnes(threadFunc(e, read, refGenome.genomeData.substr(locations[j], m)), e) <= e) {
+                /*
+                #pragma omp critical
+                filteredReadsMap[(*iteratorMap).first].push_back(locations[j]);
+                tempAcceptedLocations.push_back(locations[j]);
+                alignmentNeeded++;
             } else {
                 notNeeded++;
             }
-
         }
+
+        /*
+        #pragma omp critical
+        filteredReadsMap[read] = vector<unsigned long long int>(tempAcceptedLocations);
     }
+    */
 
     auto end = std::chrono::high_resolution_clock::now();
 

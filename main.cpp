@@ -5,15 +5,23 @@
 #include "output.h"
 //#include "verification.h"
 
+Genome refGenome;
+//map<string, Read> readMap;
+vector<Read> reads;
+
+/*
 string genomeName;
 string refGenome;
 vector<string> reads;
 map<string, string> readsLabelMap;
-
+*/
 //map<string, vector<unsigned long long int>> forwardReadsMap;
 //map<string, vector<unsigned long long int>> reverseReadsMap;
+
+/*
 map<string, vector<unsigned long long int>> possibleReadsMap;
 map<string, vector<unsigned long long int>> filteredReadsMap;
+*/
 
 //vector<PossibleRead> possibleReadsVector;
 //vector<PossibleRead> filteredReadsVector;
@@ -34,6 +42,8 @@ unsigned int numFilteredReadLocations;
 
 string mode;
 string searchMode;
+
+string SAMFileName;
 
 unsigned int q;
 unsigned int w;
@@ -70,7 +80,7 @@ int main(int argc, char *argv[]) {
     }
 
     cout << "Reading the reference genome... " << endl << genomeFilePath << endl << endl;
-    refGenome = readGenomeFile(genomeFilePath, genomeName);
+    refGenome = readGenomeFile(genomeFilePath);
 
     if (indexFilePath.length() == 0) {
         string indexDefaultFile = mode + "_" + mainName + "_" + to_string(q) + ".txt";
@@ -111,18 +121,18 @@ int main(int argc, char *argv[]) {
     }
 
     if (readsFilePath.length() == 0) {
-        cout << "Indexing done..." << endl;
+        cout << "File for reads is not specified..." << endl;
         exit(EXIT_FAILURE);
     }
 
     cout << "Reading the reads... " << endl << readsFilePath << endl << endl;
-    reads = readReadsFile(readsFilePath);
+    readReadsFile(readsFilePath);
 
     w = q + q - 1;
-    m = reads[0].size();
+    m = reads[0].readData.size();
 
-    numSeeds = reads.size() * int(m / q);
     numReads = reads.size();
+    numSeeds = numReads * int(m / q);
 
     cout << "Doing searching process..." << endl << endl;
     auto start = omp_get_wtime();
@@ -139,17 +149,16 @@ int main(int argc, char *argv[]) {
     auto end = omp_get_wtime();
     auto timeTaken = double(end - start);
 
-    numAcceptedReads = possibleReadsMap.size();
-
     outputSeedSelectorResults(mainName, timeTaken);
+    //outputFileSeedSelectorResults(mainName, timeTaken);
 
-    //outputPossibleReads(mainName);
-    //outputPossibleLocations(mainName);
-
-    cout << "Starting Bit Matrix..." << endl;
+    //cout << "Starting Bit Matrix..." << endl;
     multiThreadedMain();
-
     outputPrealignmentResults();
+
+    if (SAMFileName.length() > 0) {
+        outputSAMFile();
+    }
 
     return 0;
 }

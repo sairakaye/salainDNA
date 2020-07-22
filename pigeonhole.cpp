@@ -8,10 +8,14 @@ int j;
 int allowableE;
 
 void exactSearchingForAll() {
+    ofstream infoFile;
+    string infoFileName("testing_hatdog.txt");
+    infoFile.open(infoFileName.c_str(), ios::out);
+
     int i;
-    #pragma omp parallel for reduction(+:numAcceptedSeeds)
+    //#pragma omp parallel for reduction(+:numAcceptedSeeds)
     for (i = 0; i < reads.size(); i++) {
-        string forwardRead(reads[i]);
+        string forwardRead(reads[i].readData);
         vector<unsigned long long int> totalPossibleLocations;
         unsigned int tempAcceptedSeeds = 0;
 
@@ -54,7 +58,9 @@ void exactSearchingForAll() {
             #pragma omp critical
             {
                 numPossibleReadLocations += totalPossibleLocations.size();
-                possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
+                //possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
+                reads[i].forwardLocations = vector<unsigned long long int>(totalPossibleLocations);
+                numAcceptedReads++;
             };
         } else if (tempAcceptedSeeds == 0 && isReverseAccepted) {
             tempAcceptedSeeds = 0;
@@ -99,20 +105,27 @@ void exactSearchingForAll() {
                 #pragma omp critical
                 {
                     numPossibleReadLocations += totalPossibleLocations.size();
-                    possibleReadsMap[reverseRead] = vector<unsigned long long int>(totalPossibleLocations);
+                    //possibleReadsMap[reverseRead] = vector<unsigned long long int>(totalPossibleLocations);
+                    reads[i].reverseLocations = vector<unsigned long long int>(totalPossibleLocations);
+                    numAcceptedReads++;
                 };
             }
+        } else {
+            #pragma omp critical
+            infoFile << ">" << reads[i].readName << "\n" << reads[i].readData << endl;
         }
 
         numAcceptedSeeds += tempAcceptedSeeds;
     }
+
+    infoFile.close();
 }
 
 void approximateSearchingForAll() {
     int i;
     #pragma omp parallel for reduction(+:numAcceptedSeeds)
     for (i = 0; i < reads.size(); i++) {
-        string forwardRead(reads[i]);
+        string forwardRead(reads[i].readData);
         vector<unsigned long long int> totalPossibleLocations;
         unsigned int tempAcceptedSeeds = 0;
 
@@ -155,7 +168,9 @@ void approximateSearchingForAll() {
             #pragma omp critical
             {
                 numPossibleReadLocations += totalPossibleLocations.size();
-                possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
+                //possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
+                reads[i].forwardLocations = vector<unsigned long long int>(totalPossibleLocations);
+                numAcceptedReads++;
             };
         } else if (tempAcceptedSeeds == 0 && isReverseAccepted) {
             tempAcceptedSeeds = 0;
@@ -200,7 +215,9 @@ void approximateSearchingForAll() {
                 #pragma omp critical
                 {
                     numPossibleReadLocations += totalPossibleLocations.size();
-                    possibleReadsMap[reverseRead] = vector<unsigned long long int>(totalPossibleLocations);
+                    //possibleReadsMap[reverseRead] = vector<unsigned long long int>(totalPossibleLocations);
+                    reads[i].reverseLocations = vector<unsigned long long int>(totalPossibleLocations);
+                    numAcceptedReads++;
                 };
             }
         }
@@ -230,7 +247,7 @@ void exactSearchingForExit() {
     int i;
     #pragma omp parallel for reduction(+:numAcceptedSeeds)
     for (i = 0; i < reads.size(); i++) {
-        string forwardRead(reads[i]);
+        string forwardRead(reads[i].readData);
         vector<unsigned long long int> totalPossibleLocations;
         unsigned int tempAcceptedSeeds = 0;
 
@@ -271,7 +288,9 @@ void exactSearchingForExit() {
                     #pragma omp critical
                     {
                         numPossibleReadLocations += totalPossibleLocations.size();
-                        possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
+                        //possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
+                        reads[i].forwardLocations = vector<unsigned long long int>(totalPossibleLocations);
+                        numAcceptedReads++;
                     };
                     break;
                 }
@@ -319,7 +338,9 @@ void exactSearchingForExit() {
                         #pragma omp critical
                         {
                             numPossibleReadLocations += totalPossibleLocations.size();
-                            possibleReadsMap[reverseRead] = vector<unsigned long long int>(totalPossibleLocations);
+                            //possibleReadsMap[reverseRead] = vector<unsigned long long int>(totalPossibleLocations);
+                            reads[i].reverseLocations = vector<unsigned long long int>(totalPossibleLocations);
+                            numAcceptedReads++;
                         };
                         break;
                     }
@@ -335,7 +356,7 @@ void approximateSearchingForExit() {
     int i;
     #pragma omp parallel for reduction(+:numAcceptedSeeds)
     for (i = 0; i < reads.size(); i++) {
-        string forwardRead(reads[i]);
+        string forwardRead(reads[i].readData);
         vector<unsigned long long int> totalPossibleLocations;
         unsigned int tempAcceptedSeeds = 0;
 
@@ -376,7 +397,8 @@ void approximateSearchingForExit() {
                     #pragma omp critical
                     {
                         numPossibleReadLocations += totalPossibleLocations.size();
-                        possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
+                        //possibleReadsMap[forwardRead] = vector<unsigned long long int>(totalPossibleLocations);
+                        reads[i].forwardLocations = vector<unsigned long long int>(totalPossibleLocations);
                     };
                     break;
                 }
@@ -424,7 +446,8 @@ void approximateSearchingForExit() {
                         #pragma omp critical
                         {
                             numPossibleReadLocations += totalPossibleLocations.size();
-                            possibleReadsMap[reverseRead] = vector<unsigned long long int>(totalPossibleLocations);
+                            //possibleReadsMap[reverseRead] = vector<unsigned long long int>(totalPossibleLocations);
+                            reads[i].reverseLocations = vector<unsigned long long int>(totalPossibleLocations);
                         };
                         break;
                     }

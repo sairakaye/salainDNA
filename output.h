@@ -10,5 +10,8 @@
 void outputPossibleReads(string& mainName);
 void outputPossibleLocations(string& mainName);
 void outputSeedSelectorResults(string& mainName, double timeTaken);
+void outputFileSeedSelectorResults(string& mainName, double timeTaken);
+void outputPrealignmentResults();
+void outputSAMFile();
 
 #endif //MULTICORE_RM_OUTPUT_H
