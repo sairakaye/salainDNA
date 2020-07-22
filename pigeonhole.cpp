@@ -30,22 +30,22 @@ void exactSearchingForAll() {
             if (mode.compare("min") == 0) {
                 seed = forwardRead.substr(startPosition, w);
 
-                if (seed.size() < w) {
-                    startPosition += seed.size() - w;
+                if (seed.length() < w) {
+                    startPosition += seed.length() - w;
                     seed = forwardRead.substr(startPosition, w);
                 }
             } else {
                 seed = forwardRead.substr(startPosition, q);
 
-                if (seed.size() < q) {
-                    startPosition += seed.size() - q;
+                if (seed.length() < q) {
+                    startPosition += seed.length() - q;
                     seed = forwardRead.substr(startPosition, q);
                 }
             }
 
             vector<unsigned long long int> forward;
 
-            exactSearchingPosition(seed, forwardRead, mode, q, k, forward);
+            exactSearchingPosition(seed, mode, q, k, forward);
 
             if (forward.size() > 0) {
                 tempAcceptedSeeds++;
@@ -77,22 +77,22 @@ void exactSearchingForAll() {
                 if (mode.compare("min") == 0) {
                     seed = reverseRead.substr(startPosition, w);
 
-                    if (seed.size() < w) {
-                        startPosition += seed.size() - w;
+                    if (seed.length() < w) {
+                        startPosition += seed.length() - w;
                         seed = reverseRead.substr(startPosition, w);
                     }
                 } else {
                     seed = reverseRead.substr(startPosition, q);
 
-                    if (seed.size() < q) {
-                        startPosition += seed.size() - q;
+                    if (seed.length() < q) {
+                        startPosition += seed.length() - q;
                         seed = reverseRead.substr(startPosition, q);
                     }
                 }
 
                 vector<unsigned long long int> reverse;
 
-                exactSearchingPosition(seed, reverseRead, mode, q, k, reverse);
+                exactSearchingPosition(seed, mode, q, k, reverse);
 
                 if (reverse.size() > 0) {
                     tempAcceptedSeeds++;
@@ -127,11 +127,13 @@ void exactSearchingForAll() {
 
 void approximateSearchingForAll() {
     int i;
-    #pragma omp parallel for reduction(+:numAcceptedSeeds)
+    //#pragma omp parallel for reduction(+:numAcceptedSeeds)
     for (i = 0; i < reads.size(); i++) {
         string forwardRead(reads[i].readData);
         vector<unsigned long long int> totalPossibleLocations;
         unsigned int tempAcceptedSeeds = 0;
+
+        int minEditFound = INT_MAX;
 
         int k;
         for (k = 0; k < j; k++) {
@@ -142,22 +144,22 @@ void approximateSearchingForAll() {
             if (mode.compare("min") == 0) {
                 seed = forwardRead.substr(startPosition, w);
 
-                if (seed.size() < w) {
-                    startPosition += seed.size() - w;
+                if (seed.length() < w) {
+                    startPosition += seed.length() - w;
                     seed = forwardRead.substr(startPosition, w);
                 }
             } else {
                 seed = forwardRead.substr(startPosition, q);
 
-                if (seed.size() < q) {
-                    startPosition += seed.size() - q;
+                if (seed.length() < q) {
+                    startPosition += seed.length() - q;
                     seed = forwardRead.substr(startPosition, q);
                 }
             }
 
             vector<unsigned long long int> forward;
 
-            approximateSearchingPosition(seed, forwardRead, mode, q, k, forward);
+            approximateSearchingPosition(seed, mode, q, k, forward, &minEditFound);
 
             if (forward.size() > 0) {
                 tempAcceptedSeeds++;
@@ -165,7 +167,7 @@ void approximateSearchingForAll() {
             }
         }
 
-        if (tempAcceptedSeeds >= (j - e % j)) {
+        if (tempAcceptedSeeds == j && minEditFound <= allowableE) {
             sort(totalPossibleLocations.begin(), totalPossibleLocations.end());
             totalPossibleLocations.erase(unique(totalPossibleLocations.begin(), totalPossibleLocations.end()), totalPossibleLocations.end());
 
@@ -180,6 +182,8 @@ void approximateSearchingForAll() {
             tempAcceptedSeeds = 0;
             string reverseRead = reverseComplement(forwardRead);
 
+            int minEditFound = INT_MAX;
+
             int k;
             for (k = 0; k < j; k++) {
                 int startPosition = k * q;
@@ -189,22 +193,22 @@ void approximateSearchingForAll() {
                 if (mode.compare("min") == 0) {
                     seed = reverseRead.substr(startPosition, w);
 
-                    if (seed.size() < w) {
-                        startPosition += seed.size() - w;
+                    if (seed.length() < w) {
+                        startPosition += seed.length() - w;
                         seed = reverseRead.substr(startPosition, w);
                     }
                 } else {
                     seed = reverseRead.substr(startPosition, q);
 
-                    if (seed.size() < q) {
-                        startPosition += seed.size() - q;
+                    if (seed.length() < q) {
+                        startPosition += seed.length() - q;
                         seed = reverseRead.substr(startPosition, q);
                     }
                 }
 
                 vector<unsigned long long int> reverse;
 
-                approximateSearchingPosition(seed, reverseRead, mode, q, k, reverse);
+                approximateSearchingPosition(seed, mode, q, k, reverse, &minEditFound);
 
                 if (reverse.size() > 0) {
                     tempAcceptedSeeds++;
@@ -212,7 +216,7 @@ void approximateSearchingForAll() {
                 }
             }
 
-            if (tempAcceptedSeeds >= (j - e % j)) {
+            if (tempAcceptedSeeds == j && minEditFound <= allowableE) {
                 sort(totalPossibleLocations.begin(), totalPossibleLocations.end());
                 totalPossibleLocations.erase(unique(totalPossibleLocations.begin(), totalPossibleLocations.end()), totalPossibleLocations.end());
 
@@ -231,14 +235,8 @@ void approximateSearchingForAll() {
 }
 
 void searchingReadProcess() {
-    j = m / q;
-    allowableE = floor(e / j);
-
-//    bool isExactMatching = false;
-//
-//    if (allowableE == 0) {
-//        isExactMatching = true;
-//    }
+    j = ceil(m / (double) q);
+    allowableE = floor(e / (double) j);
 
     if (allowableE == 0) {
         exactSearchingForAll();
@@ -264,22 +262,22 @@ void exactSearchingForExit() {
             if (mode.compare("min") == 0) {
                 seed = forwardRead.substr(startPosition, w);
 
-                if (seed.size() < w) {
-                    startPosition += seed.size() - w;
+                if (seed.length() < w) {
+                    startPosition += seed.length() - w;
                     seed = forwardRead.substr(startPosition, w);
                 }
             } else {
                 seed = forwardRead.substr(startPosition, q);
 
-                if (seed.size() < q) {
-                    startPosition += seed.size() - q;
+                if (seed.length() < q) {
+                    startPosition += seed.length() - q;
                     seed = forwardRead.substr(startPosition, q);
                 }
             }
 
             vector<unsigned long long int> forward;
 
-            exactSearchingPosition(seed, forwardRead, mode, q, k, forward);
+            exactSearchingPosition(seed, mode, q, k, forward);
 
             if (forward.size() > 0) {
                 tempAcceptedSeeds++;
@@ -314,22 +312,22 @@ void exactSearchingForExit() {
                 if (mode.compare("min") == 0) {
                     seed = reverseRead.substr(startPosition, w);
 
-                    if (seed.size() < w) {
-                        startPosition += seed.size() - w;
+                    if (seed.length() < w) {
+                        startPosition += seed.length() - w;
                         seed = reverseRead.substr(startPosition, w);
                     }
                 } else {
                     seed = reverseRead.substr(startPosition, q);
 
-                    if (seed.size() < q) {
-                        startPosition += seed.size() - q;
+                    if (seed.length() < q) {
+                        startPosition += seed.length() - q;
                         seed = reverseRead.substr(startPosition, q);
                     }
                 }
 
                 vector<unsigned long long int> reverse;
 
-                exactSearchingPosition(seed, reverseRead, mode, q, k, reverse);
+                exactSearchingPosition(seed, mode, q, k, reverse);
 
                 if (reverse.size() > 0) {
                     tempAcceptedSeeds++;
@@ -364,6 +362,8 @@ void approximateSearchingForExit() {
         vector<unsigned long long int> totalPossibleLocations;
         unsigned int tempAcceptedSeeds = 0;
 
+        int minEditFound = INT_MAX;
+
         int k;
         for (k = 0; k < j; k++) {
             int startPosition = k * q;
@@ -373,22 +373,22 @@ void approximateSearchingForExit() {
             if (mode.compare("min") == 0) {
                 seed = forwardRead.substr(startPosition, w);
 
-                if (seed.size() < w) {
-                    startPosition += seed.size() - w;
+                if (seed.length() < w) {
+                    startPosition += seed.length() - w;
                     seed = forwardRead.substr(startPosition, w);
                 }
             } else {
                 seed = forwardRead.substr(startPosition, q);
 
-                if (seed.size() < q) {
-                    startPosition += seed.size() - q;
+                if (seed.length() < q) {
+                    startPosition += seed.length() - q;
                     seed = forwardRead.substr(startPosition, q);
                 }
             }
 
             vector<unsigned long long int> forward;
 
-            approximateSearchingPosition(seed, forwardRead, mode, q, k, forward);
+            approximateSearchingPosition(seed, mode, q, k, forward, &minEditFound);
 
             if (forward.size() > 0) {
                 tempAcceptedSeeds++;
@@ -413,6 +413,8 @@ void approximateSearchingForExit() {
             tempAcceptedSeeds = 0;
             string reverseRead = reverseComplement(forwardRead);
 
+            int minEditFound = INT_MAX;
+
             int k;
             for (k = 0; k < j; k++) {
                 int startPosition = k * q;
@@ -422,22 +424,22 @@ void approximateSearchingForExit() {
                 if (mode.compare("min") == 0) {
                     seed = reverseRead.substr(startPosition, w);
 
-                    if (seed.size() < w) {
-                        startPosition += seed.size() - w;
+                    if (seed.length() < w) {
+                        startPosition += seed.length() - w;
                         seed = reverseRead.substr(startPosition, w);
                     }
                 } else {
                     seed = reverseRead.substr(startPosition, q);
 
-                    if (seed.size() < q) {
-                        startPosition += seed.size() - q;
+                    if (seed.length() < q) {
+                        startPosition += seed.length() - q;
                         seed = reverseRead.substr(startPosition, q);
                     }
                 }
 
                 vector<unsigned long long int> reverse;
 
-                approximateSearchingPosition(seed, reverseRead, mode, q, k, reverse);
+                approximateSearchingPosition(seed, mode, q, k, reverse, &minEditFound);
 
                 if (reverse.size() > 0) {
                     tempAcceptedSeeds++;
@@ -464,14 +466,8 @@ void approximateSearchingForExit() {
 }
 
 void searchingReadFoundExitProcess() {
-    j = m / q;
-    allowableE = floor(e / j);
-
-//    bool isExactMatching = false;
-//
-//    if (allowableE == 0) {
-//        isExactMatching = true;
-//    }
+    j = ceil(m / (double) q);
+    allowableE = floor(e / (double) j);
 
     if (allowableE == 0) {
         exactSearchingForExit();
@@ -479,91 +475,3 @@ void searchingReadFoundExitProcess() {
         approximateSearchingForExit();
     }
 }
-
-/*
-void searchingReadFoundExitProcess() {
-    j = m / q;
-    allowableE = floor(e / j);
-
-    bool isCheckForApproximate = true;
-
-    if (allowableE == 0) {
-        isCheckForApproximate = false;
-    }
-
-    int i;
-    #pragma omp parallel for
-    for (i = 0; i < reads.size(); i++) {
-        string forwardRead(reads[i]);
-        unsigned int tempAcceptedSeeds = 0;
-        unsigned int tempReverseSeeds = 0;
-        bool isFound = false;
-
-        int k;
-        for (k = 0; k < j; k++) {
-            int startPosition = k * q;
-
-            string seed;
-
-            if (mode.compare("min") == 0) {
-                seed = forwardRead.substr(startPosition, w);
-
-                if (seed.size() < w) {
-                    startPosition = startPosition + seed.size() - w;
-                }
-            } else {
-                seed = forwardRead.substr(startPosition, q);
-
-                if (seed.size() < q) {
-                    startPosition = startPosition + seed.size() - q;
-                }
-            }
-
-            vector<unsigned long long int> forward;
-
-            searchingPosition(seed, forwardRead, mode, q, k, true, isCheckForApproximate, forward);
-
-            if (forward.size() > 0) {
-                tempAcceptedSeeds++;
-                isFound = true;
-                break;
-            }
-        }
-
-        if (!isFound) {
-            string reverseRead = reverseComplement(forwardRead);
-
-            int k;
-            for (k = 0; k < j; k++) {
-                tempReverseSeeds++;
-                int startPosition = k * q;
-
-                string seed;
-
-                if (mode.compare("min") == 0) {
-                    seed = reverseRead.substr(startPosition, w);
-                } else {
-                    seed = reverseRead.substr(startPosition, q);
-                }
-
-                if (seed.size() == w || seed.size() == q) {
-                    vector<unsigned long long int> reverse;
-
-                    searchingPosition(seed, reverseRead, mode, q, k, false, isCheckForApproximate, reverse);
-
-                    if (reverse.size() > 0) {
-                        tempAcceptedSeeds++;
-                    }
-                } else {
-                    break;
-                }
-            }
-        }
-
-        #pragma omp atomic
-        numAcceptedSeeds += tempAcceptedSeeds;
-        #pragma omp atomic
-        numSeeds += tempReverseSeeds;
-    }
-}
-*/

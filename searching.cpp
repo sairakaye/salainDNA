@@ -5,45 +5,32 @@
 #include "searching.h"
 #include "pigeonhole.h"
 
-void searchingUsingMinimizers(string seed, string read, int k, vector<unsigned long long int>& foundLocations,
-vector<unsigned long long int>& location) {
+void searchingUsingMinimizers(string seed, int k, vector<unsigned long long int>& foundLocations,
+    vector<unsigned long long int>& location) {
     int i;
     for (i = 0; i < location.size(); i++) {
         if (seed.compare(refGenome.genomeData.substr(location[i], q)) == 0) {
             if ((location[i] - (q * k)) >= 0 && (location[i] - (q * k)) < refGenome.genomeData.size()) {
-                //#pragma omp critical
-                //{
                     foundLocations.push_back(location[i] - (q * k));
-
-                    //if (isForwardStrand) {
-                    //    forwardReadsMap[read].push_back(location[i] - (q * k));
-                    //} else {
-                    //    reverseReadsMap[read].push_back(location[i] - (q * k));
-                   //}
-                //};
             }
         }
     }
 }
 
-void approximateSearchingUsingMinimizers(string seed, string read, int k, vector<unsigned long long int>& foundLocations,
-vector<unsigned long long int>& location) {
+void approximateSearchingUsingMinimizers(string seed, int k, vector<unsigned long long int>& foundLocations,
+    vector<unsigned long long int>& location, int *minEditFound) {
     int i;
     for (i = 0; i < location.size(); i++) {
-        EdlibAlignResult result = edlibAlign(refGenome.genomeData.substr(location[i], seed.length()).c_str(), seed.length(), seed.c_str(), seed.length(), edlibDefaultAlignConfig());
+        EdlibAlignResult result = edlibAlign(refGenome.genomeData.substr(location[i], seed.length()).c_str(), seed.length(),
+                seed.c_str(), seed.length(), edlibDefaultAlignConfig());
 
-        if (result.editDistance <= allowableE) {
+        if (result.editDistance <= e) {
             if ((location[i] - (q * k)) >= 0 && (location[i] - (q * k)) < refGenome.genomeData.size()) {
-                //#pragma omp critical
-                //{
                 foundLocations.push_back(location[i] - (q * k));
+            }
 
-                //if (isForwardStrand) {
-                //    forwardReadsMap[read].push_back(location[i] - (q * k));
-                //} else {
-                //    reverseReadsMap[read].push_back(location[i] - (q * k));
-                //}
-                //};
+            if (*(minEditFound) > result.editDistance) {
+                *(minEditFound) = result.editDistance;
             }
         }
 
@@ -51,57 +38,49 @@ vector<unsigned long long int>& location) {
     }
 }
 
-void searchingUsingDirectOrOpen(string seed, string read, unsigned long long int index, string mode, int k, vector<unsigned long long int>& foundLocations,
-vector<unsigned long long int>& location) {
+void searchingUsingDirectOrOpen(string seed, unsigned long long int index, string mode, int k, vector<unsigned long long int>& foundLocations,
+    vector<unsigned long long int>& location) {
     while (seed.compare(refGenome.genomeData.substr(posTable[index], seed.size())) == 0) {
         if ((posTable[index] - (q * k)) >= 0 && (posTable[index]- (q * k)) < refGenome.genomeData.size()) {
-            //#pragma omp critical
-            //{
             foundLocations.push_back(posTable[index] - (q * k));
-
-            //if (isForwardStrand) {
-            //    forwardReadsMap[read].push_back(posTable[index]  - (q * k));
-            //} else {
-            //    reverseReadsMap[read].push_back(posTable[index]  - (q * k));
-            //}
-            //};
         }
 
         index++;
     }
 }
 
-void approximateSearchingUsingDirectOrOpen(string seed, string read, unsigned long long int index, string mode, int k, vector<unsigned long long int>& foundLocations,
-vector<unsigned long long int>& location) {
+void approximateSearchingUsingDirectOrOpen(string seed, unsigned long long int index, string mode, int k, vector<unsigned long long int>& foundLocations,
+    vector<unsigned long long int>& location, int *minEditFound) {
     bool continueCompare = true;
 
     while (continueCompare) {
-        EdlibAlignResult result = edlibAlign(refGenome.genomeData.substr(posTable[index], seed.length()).c_str(), seed.length(), seed.c_str(), seed.length(), edlibDefaultAlignConfig());
+        if (index < posTable.size()) {
+            EdlibAlignResult result = edlibAlign(refGenome.genomeData.substr(posTable[index], seed.length()).c_str(),
+                                                 seed.length(), seed.c_str(), seed.length(), edlibDefaultAlignConfig());
 
-        if (result.editDistance <= allowableE) {
-            if ((posTable[index] - (q * k)) >= 0 && (posTable[index]- (q * k)) < refGenome.genomeData.size()) {
-                //#pragma omp critical
-                //{
-                foundLocations.push_back(posTable[index] - (q * k));
+            if (result.editDistance <= e) {
+                if ((posTable[index] - (q * k)) >= 0 && (posTable[index] - (q * k)) < refGenome.genomeData.size()) {
+                    foundLocations.push_back(posTable[index] - (q * k));
+                }
 
-                //if (isForwardStrand) {
-                //    forwardReadsMap[read].push_back(posTable[index]  - (q * k));
-                //} else {
-                //    reverseReadsMap[read].push_back(posTable[index]  - (q * k));
-                //}
-                //};
+                if (*(minEditFound) > result.editDistance) {
+                    *(minEditFound) = result.editDistance;
+                }
+
+                index++;
+            } else {
+                continueCompare = false;
             }
 
-            index++;
+            edlibFreeAlignResult(result);
         } else {
             continueCompare = false;
+            break;
         }
-
-        edlibFreeAlignResult(result);
     }
 }
 
-void exactSearchingPosition(string seed, string read, string mode, int q, int k, vector<unsigned long long int>& foundLocations) {
+void exactSearchingPosition(string seed, string mode, int q, int k, vector<unsigned long long int>& foundLocations) {
     vector<unsigned long long int> location;
 
     unsigned long long int rank;
@@ -112,7 +91,7 @@ void exactSearchingPosition(string seed, string read, string mode, int q, int k,
         location = minimizers[rank];
 
         if (location.size() > 0) {
-            searchingUsingMinimizers(seed.substr(0, q), read, k, foundLocations, location);
+            searchingUsingMinimizers(seed.substr(0, q), k, foundLocations, location);
         }
     } else if (mode.compare("dir") == 0 || mode.compare("open") == 0) {
         if (mode.compare("dir") == 0) {
@@ -122,7 +101,7 @@ void exactSearchingPosition(string seed, string read, string mode, int q, int k,
                 index = dirTable[rank];
 
                 if (index < posTable.size()) {
-                    searchingUsingDirectOrOpen(seed, read, index, mode, k, foundLocations, location);
+                    searchingUsingDirectOrOpen(seed, index, mode, k, foundLocations, location);
                 }
             }
         } else {
@@ -131,13 +110,13 @@ void exactSearchingPosition(string seed, string read, string mode, int q, int k,
             try {
                 index = dirTable[codeTable[rank]];
 
-                searchingUsingDirectOrOpen(seed, read, index, mode, k, foundLocations, location);
+                searchingUsingDirectOrOpen(seed, index, mode, k, foundLocations, location);
             } catch (exception& e) { }
         }
     }
 }
 
-void approximateSearchingPosition(string seed, string read, string mode, int q, int k, vector<unsigned long long int>& foundLocations) {
+void approximateSearchingPosition(string seed, string mode, int q, int k, vector<unsigned long long int>& foundLocations, int *minEditFound) {
     vector<unsigned long long int> location;
 
     unsigned long long int rank;
@@ -148,7 +127,7 @@ void approximateSearchingPosition(string seed, string read, string mode, int q, 
         location = minimizers[rank];
 
         if (location.size() > 0) {
-            approximateSearchingUsingMinimizers(seed.substr(0, q), read, k, foundLocations, location);
+            approximateSearchingUsingMinimizers(seed.substr(0, q), k, foundLocations, location, minEditFound);
         }
     } else if (mode.compare("dir") == 0 || mode.compare("open") == 0) {
         if (mode.compare("dir") == 0) {
@@ -158,7 +137,7 @@ void approximateSearchingPosition(string seed, string read, string mode, int q, 
                 index = dirTable[rank];
 
                 if (index < posTable.size()) {
-                    approximateSearchingUsingDirectOrOpen(seed, read, index, mode, k, foundLocations, location);
+                    approximateSearchingUsingDirectOrOpen(seed, index, mode, k, foundLocations, location, minEditFound);
                 }
             }
         } else {
@@ -167,7 +146,7 @@ void approximateSearchingPosition(string seed, string read, string mode, int q, 
             try {
                 index = dirTable[codeTable[rank]];
 
-                approximateSearchingUsingDirectOrOpen(seed, read, index, mode, k,foundLocations, location);
+                approximateSearchingUsingDirectOrOpen(seed, index, mode, k,foundLocations, location, minEditFound);
             } catch (exception& e) { }
         }
     }

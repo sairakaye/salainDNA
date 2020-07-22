@@ -132,7 +132,7 @@ int main(int argc, char *argv[]) {
     m = reads[0].readData.size();
 
     numReads = reads.size();
-    numSeeds = numReads * int(m / q);
+    numSeeds = numReads * ceil(m / (double) q);
 
     cout << "Doing searching process..." << endl << endl;
     auto start = omp_get_wtime();
