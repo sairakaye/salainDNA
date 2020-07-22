@@ -38,7 +38,7 @@ void outputPrealignmentResults() {
     cout << "There are " << numReads << " reads. " << numAcceptedReads << " are accepted for e = " + to_string(e) << "." << endl;
     cout << "Sequence Name: " << refGenome.genomeName << endl;
     cout << "Locations found by Seed Selector: " << numPossibleReadLocations << endl;
-    cout << "Locations found by Bit Matrix: " << numFilteredReadLocations << endl;
+    cout << "Locations accepted by Bit Matrix: " << numFilteredReadLocations << endl;
 }
 
 void outputSAMFile() {
