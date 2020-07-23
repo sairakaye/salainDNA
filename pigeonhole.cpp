@@ -125,7 +125,13 @@ void exactSearchingForAll() {
 }
 
 void approximateSearchingForAll() {
-    int acceptanceCriterion = j - (e / ceil((allowableE + 1))) - (e % (allowableE +1));
+    int acceptanceCriterion;
+
+    if (allowableE < q) {
+        acceptanceCriterion = j - ceil(e / (allowableE + 1));
+    } else {
+        acceptanceCriterion = j - ceil(e / allowableE);
+    }
 
     int i;
     #pragma omp parallel for reduction(+:numAcceptedSeeds)
@@ -350,7 +356,13 @@ void exactSearchingForExit() {
 }
 
 void approximateSearchingForExit() {
-    int acceptanceCriterion = j - (e / ceil((allowableE + 1))) - (e % (allowableE +1));
+    int acceptanceCriterion;
+
+    if (allowableE < q) {
+        acceptanceCriterion = j - ceil(e / (allowableE + 1));
+    } else {
+        acceptanceCriterion = j - ceil(e / allowableE);
+    }
 
     int i;
     #pragma omp parallel for reduction(+:numAcceptedSeeds)
