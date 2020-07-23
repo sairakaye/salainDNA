@@ -9,6 +9,6 @@
 #include "minimizers.h"
 
 void exactSearchingPosition(string seed, string mode, int q, int k, vector<unsigned long long int>& foundLocations);
-void approximateSearchingPosition(string seed, string mode, int q, int k, vector<unsigned long long int>& foundLocations, int *minEditFound);
+void approximateSearchingPosition(string seed, string mode, int q, int k, vector<unsigned long long int>& foundLocations);
 
 #endif //PH_INTEGRATION_SEARCHING_H

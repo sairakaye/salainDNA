@@ -61,7 +61,7 @@ void outputSAMFile() {
                 edlibFreeAlignResult(result);
 
                 SAMFile << reads[i].readName << "\t" << "0" << "\t" << refGenome.genomeName << "\t" << to_string(locations[j] + 1) << "\t" << to_string(255) << "\t";
-                SAMFile << cigarResult << "\t" << "*" << "\t" << "0" << "\t" << "0" << "\t" << read << "\t" << "*" << endl;
+                SAMFile << cigarResult << "\t" << "*" << "\t" << "0" << "\t" << "0" << "\t" << refGenome.genomeData.substr(locations[j], m) << "\t" << "*" << endl;
             }
         } else if (reads[i].reverseLocations.size() > 0) {
             string read(reads[i].readData);
@@ -75,7 +75,7 @@ void outputSAMFile() {
                 edlibFreeAlignResult(result);
 
                 SAMFile << reads[i].readName << "\t" << "16" << "\t" << refGenome.genomeName << "\t" << to_string(locations[j] + 1) << "\t" << to_string(255) << "\t";
-                SAMFile << cigarResult << "\t" << "*" << "\t" << "0" << "\t" << "0" << "\t" << read << "\t" << "*" << endl;
+                SAMFile << cigarResult << "\t" << "*" << "\t" << "0" << "\t" << "0" << "\t" << refGenome.genomeData.substr(locations[j], m) << "\t" << "*" << endl;
             }
         }
     }

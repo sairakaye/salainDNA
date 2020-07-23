@@ -3,28 +3,9 @@
 #include "bitmatrix.h"
 #include "indexing.h"
 #include "output.h"
-//#include "verification.h"
 
 Genome refGenome;
-//map<string, Read> readMap;
 vector<Read> reads;
-
-/*
-string genomeName;
-string refGenome;
-vector<string> reads;
-map<string, string> readsLabelMap;
-*/
-//map<string, vector<unsigned long long int>> forwardReadsMap;
-//map<string, vector<unsigned long long int>> reverseReadsMap;
-
-/*
-map<string, vector<unsigned long long int>> possibleReadsMap;
-map<string, vector<unsigned long long int>> filteredReadsMap;
-*/
-
-//vector<PossibleRead> possibleReadsVector;
-//vector<PossibleRead> filteredReadsVector;
 
 bool isReverseAccepted;
 
@@ -152,7 +133,7 @@ int main(int argc, char *argv[]) {
     outputSeedSelectorResults(mainName, timeTaken);
     //outputFileSeedSelectorResults(mainName, timeTaken);
 
-    //cout << "Starting Bit Matrix..." << endl;
+    cout << "Starting Bit Matrix..." << endl;
     multiThreadedMain();
     outputPrealignmentResults();
 
