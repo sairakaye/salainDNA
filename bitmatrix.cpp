@@ -74,13 +74,38 @@ vector<int> createMap (string P, string T, int E, vector<int> &locations){
     int E1 = E;
     int E2 = 1;
 
+
+
+    for(int i = 0; i < 2*E + 1; i++){
+        if(i < E){
+            for (int j = 0; j < E1; j++)
+            {
+                NMap.insert(NMap.begin() + locations[i], -1);
+                increment(i, locations);
+            }
+            E1--;
+        }
+        //hammingMap[i].erase(hammingMap[i].end() - E1, hammingMap[i].end());
+        else if (i > E ){
+            for (int j = 0; j < E2; j++){
+                NMap.insert(NMap.begin() + locations[i - 1] + 1, -1);
+                increment(i, locations);
+            }
+            //hammingMap[i].erase(hammingMap[i].end() - E1, hammingMap[i].end());
+            E2++;
+        }
+
+    }
+
+
+/*
     for (int i = 0; i < E; i++){
         for (int j = 0; j < E1; j++)
         {
-            /*  if(i == 0){
+            *//*  if(i == 0){
                   NMap.insert(NMap.begin(), -1);
                   increment(i, locations);
-              }*/
+              }*//*
 
             NMap.insert(NMap.begin() + locations[i], -1);
             increment(i, locations);
@@ -96,7 +121,7 @@ vector<int> createMap (string P, string T, int E, vector<int> &locations){
         //hammingMap[i].erase(hammingMap[i].end() - E1, hammingMap[i].end());
         E2++;
 
-    }
+    }*/
 
     return NMap;
 }
@@ -122,7 +147,7 @@ int countOnes(vector<int> toCount, unsigned int E){
     }
     else {
         for (int i = 0; i < toCount.size(); i++) {
-            if (toCount[i] == 1 && toCount[i] == 1) {
+            if (toCount[i] == 1 && toCount[i+1] == 1) {
                 ctr++;
                 i++;
             } else if (toCount[i] == 1) {
@@ -137,29 +162,39 @@ vector<int> checkDiagonals(int m, vector<int> NMap, int E, int w, int windowSize
     vector<int> currDiagonal;
 
     int bestZeroCount = 0;
+    int currZeroCount = 0;
     //int ctr = 0;
 
     //#pragma omp parallel for
     for(int i = 0; i < E * 2 + 1; i++){
         for(int j = 0; j < windowSize; j++){
-            //-currDiagonal.push_back(NMap[i][w+j]);
-
             if(i == 0){
-                currDiagonal.push_back(NMap[0 + j + ctr]);
+                if(NMap[0 + j + ctr] == 0){
+                    currZeroCount++;
+                }
             }
-            else{
-                currDiagonal.push_back(NMap[locations[i-1] + 1 + j + ctr]);
+            else {
+                if (NMap[locations[i - 1] + 1 + j + ctr] == 0) {
+                    currZeroCount++;
+                }
             }
         }
-        int currZeroCount = countZeroes(currDiagonal);
 
         if(currZeroCount >= bestZeroCount) {
             bestZeroCount = currZeroCount;
-            bestDiagonal = currDiagonal;
-        }
-        currDiagonal.clear();
-    }
+            bestDiagonal.clear();
+            for(int j = 0; j < windowSize; j++){
+                if(i == 0){
+                    bestDiagonal.push_back(NMap[0 + j + ctr]);
+                }
+                else{
+                    bestDiagonal.push_back(NMap[locations[i-1] + 1 + j + ctr]);
+                }
+            }
 
+        }
+        currZeroCount = 0;
+    }
     //bestDiagonalsArray[w] = bestDiagonal;
     return bestDiagonal;
 }
@@ -179,7 +214,6 @@ vector<int> slidingWindow(vector<int> NMap, int m, int E, vector<int> &locations
         }
 
     }
-
 
     if(NMap.empty()){
         return vector<int>();
@@ -201,52 +235,10 @@ vector<int> slidingWindow(vector<int> NMap, int m, int E, vector<int> &locations
                     l++;
                 }
             }
-
-
-
-/*
-*      vector<int> tempDiag;
-      vector<int> seedVector;
-      for (int i = w; i < windowSize + w; i++) {
-          if (i < m) {
-              seedVector.push_back(finalVector[i]);
-              tempDiag.push_back(mainDiagonal[i]);
-          }
-      }
-
-
-      vector<int> finalDiag;
-      vector<int> tempfinalVector = finalVector;
-      finalDiag = tempDiag;
-
-      if (windowSize >= 3) {
-          vector<int> finalDiag;
-          finalDiag = tempDiag;
-
-          if (countZeroes(tempDiag) < countZeroes(bestDiagonalinVector)) {
-              finalDiag = bestDiagonalinVector;
-          }
-
-
-          if (countZeroes(seedVector) > countZeroes(finalDiag)) {
-              finalDiag = seedVector;
-          }
-
-          int l = 0;
-          for (int i = w; i < windowSize + w; i++) {
-              if (i < m) {
-                  finalVector[i] = finalDiag[l];
-                  l++;
-              }
-
-          }
-      }*/
         }
     }
 
-    /* for(int i =0; i < finalVector.size(); i++){
-         cout << finalVector[i];
-     }*/
+
 
     return finalVector;
 
