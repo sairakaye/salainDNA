@@ -128,9 +128,9 @@ void approximateSearchingForAll() {
     int acceptanceCriterion;
 
     if (allowableE < q) {
-        acceptanceCriterion = j - ceil(e / (allowableE + 1));
+        acceptanceCriterion = j - floor(e / (allowableE + 1));
     } else {
-        acceptanceCriterion = j - ceil(e / allowableE);
+        acceptanceCriterion = j - floor(e / allowableE);
     }
 
     int i;
@@ -359,9 +359,9 @@ void approximateSearchingForExit() {
     int acceptanceCriterion;
 
     if (allowableE < q) {
-        acceptanceCriterion = j - ceil(e / (allowableE + 1));
+        acceptanceCriterion = j - floor(e / (allowableE + 1));
     } else {
-        acceptanceCriterion = j - ceil(e / allowableE);
+        acceptanceCriterion = j - floor(e / allowableE);
     }
 
     int i;
