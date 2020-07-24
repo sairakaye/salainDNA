@@ -9,8 +9,13 @@ void buildDirectAddressingTables(string stringDNA, string mainName, unsigned int
     ofstream outfile;
     outfile.open("dir_" + mainName + "_" + to_string(q) + ".txt", ios::out);
 
-    vector<unsigned long long int> dirTable(dirTableSize);
-    vector<unsigned long long int> posTable(posTableSize);
+    vector<unsigned long long int> initDirTable(dirTableSize);
+    vector<unsigned long long int> initPosTable(posTableSize);
+
+    dirTable = vector<unsigned long long int>(initDirTable.begin(), initDirTable.end());
+    initDirTable.clear();
+    posTable = vector<unsigned long long int>(initPosTable.begin(), initPosTable.end());
+    initPosTable.clear();
 
     fill(dirTable.begin(), dirTable.end(), 0);
     fill(posTable.begin(), posTable.end(), 0);

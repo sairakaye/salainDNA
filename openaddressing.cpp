@@ -9,11 +9,16 @@ void buildOpenAddressingTables(string stringDNA, string mainName, unsigned int m
     ofstream outfile;
     outfile.open( "open_" + mainName + "_" + to_string(q) + ".txt", ios::out);
 
-    vector<long long int> codeTable(codeTableSize);
-    vector<unsigned long long int> dirTable(dirTableSize);
-    vector<unsigned long long int> posTable(posTableSize);
+    vector<long long int> initCodeTable(codeTableSize);
+    vector<unsigned long long int> initDirTable(dirTableSize);
+    vector<unsigned long long int> initPosTable(posTableSize);
 
-    fill(codeTable.begin(), codeTable.end(), -1);
+    dirTable = vector<unsigned long long int>(initDirTable.begin(), initDirTable.end());
+    initDirTable.clear();
+    posTable = vector<unsigned long long int>(initPosTable.begin(), initPosTable.end());
+    initPosTable.clear();
+
+    fill(initCodeTable.begin(), initCodeTable.end(), -1);
     fill(dirTable.begin(), dirTable.end(), 0);
     fill(posTable.begin(), posTable.end(), 0);
 
@@ -29,22 +34,22 @@ void buildOpenAddressingTables(string stringDNA, string mainName, unsigned int m
         unsigned long long int hashValue = kMerIndexInGenome % (unsigned long long int)codeTableSize;
 
         omp_set_lock(&myLock);
-        if (codeTable.at(hashValue) != -1) {
+        if (initCodeTable.at(hashValue) != -1) {
             unsigned long long int j = hashValue;
             unsigned long long int k = 1;
 
-            while (codeTable.at(j) != -1 && codeTable.at(j) != kMerIndexInGenome) {
+            while (initCodeTable.at(j) != -1 && initCodeTable.at(j) != kMerIndexInGenome) {
                 j = (j + (k * k)) % (unsigned long long int) codeTableSize;
                 k = k + 1;
             }
-            codeTable.at(j) = kMerIndexInGenome;
+            initCodeTable.at(j) = kMerIndexInGenome;
             dirTable.at(j)++;
 
             omp_unset_lock(&myLock);
 
             codeTableIndices.at(i) = j;
         } else {
-            codeTable.at(hashValue) = kMerIndexInGenome;
+            initCodeTable.at(hashValue) = kMerIndexInGenome;
             dirTable.at(hashValue)++;
 
             omp_unset_lock(&myLock);
@@ -72,12 +77,14 @@ void buildOpenAddressingTables(string stringDNA, string mainName, unsigned int m
     }
 
     outfile << "code" << endl;
-    for (int i = 0; i < codeTable.size(); i++) {
-        if (codeTable.at(i) != -1) {
-            outfile << (unsigned long long int)codeTable.at(i) << " " << i << endl;
+    for (int i = 0; i < initCodeTable.size(); i++) {
+        if (initCodeTable.at(i) != -1) {
+            outfile << (unsigned long long int)initCodeTable.at(i) << " " << i << endl;
         } else {
-            outfile << codeTable.at(i) << " " << i << endl;
+            outfile << initCodeTable.at(i) << " " << i << endl;
         }
+
+        codeTable[i] = (unsigned long long int)initCodeTable.at(i);
     }
     outfile << endl << "dir" << endl;
     for (int i = 0; i < dirTable.size(); i++) {

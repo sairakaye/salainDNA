@@ -15,8 +15,18 @@ void readIndexFile(string indexFile,
         minimizers = getMinimizers(indexFile);
     } else if (mode.compare("dir") == 0) {
         getDirectAddressing(indexFile, dirTable, posTable);
+
+        if (posTable.size() < refGenome.genomeData.length() - q + 1) {
+            cout << "Mismatch size of position table." << endl;
+            exit(EXIT_FAILURE);
+        }
     } else if (mode.compare("open") == 0) {
         getOpenAddressing(indexFile, codeTable, dirTable, posTable);
+
+        if (posTable.size() < refGenome.genomeData.length() - q + 1) {
+            cout << "Mismatch size of position table." << endl;
+            exit(EXIT_FAILURE);
+        }
     } else {
         cout << "Mode not valid..." << endl;
         exit(EXIT_FAILURE);

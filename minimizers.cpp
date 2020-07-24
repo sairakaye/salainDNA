@@ -36,7 +36,7 @@ unsigned long long int getMinimizerRankWithoutWindow(string windowSeed, int q) {
     return finalMinHash;
 }
 
-multimap<vector<unsigned long long int>, unsigned long long int>  generateMinimizers(string stringDNA, string mainName, unsigned int q, unsigned int w, unsigned int m)
+multimap<vector<unsigned long long int>, unsigned long long int> generateMinimizers(string stringDNA, string mainName, unsigned int q, unsigned int w, unsigned int m)
 {
     ofstream outfile;
     string filename ("min_" + mainName + "_" + to_string(q) + ".txt");
@@ -45,7 +45,7 @@ multimap<vector<unsigned long long int>, unsigned long long int>  generateMinimi
     unsigned long int noOfKmers = m - q + 1;
     unsigned long int windowSize = w + q - 1;
 
-    map<unsigned long long int, vector<unsigned long long int>> minimizers;
+    map<unsigned long long int, vector<unsigned long long int>> initMinimizers;
     unsigned long long int mask = pow(4, q);
 
     unsigned int i;
@@ -74,7 +74,7 @@ multimap<vector<unsigned long long int>, unsigned long long int>  generateMinimi
         {
             unsigned long long int rankHashValue = extractRanking(finalMin);
             unsigned long long int finalMinHash = inthash_64(rankHashValue, mask - 1);
-            minimizers[finalMinHash].push_back(i);
+            initMinimizers[finalMinHash].push_back(i);
         }
     }
 
@@ -102,12 +102,12 @@ multimap<vector<unsigned long long int>, unsigned long long int>  generateMinimi
         {
             unsigned long long int rankHashValue = extractRanking(finalMin);
             unsigned long long int finalMinHash = inthash_64(rankHashValue, mask - 1);
-            minimizers[finalMinHash].push_back(stringDNA.length() - (w + i));
+            initMinimizers[finalMinHash].push_back(stringDNA.length() - (w + i));
         }
     }
 
     multimap<vector<unsigned long long int>, unsigned long long int> finalMinimizers;
-    for(auto const &kv : minimizers)
+    for(auto const &kv : initMinimizers)
         finalMinimizers.insert(make_pair(kv.second, kv.first));
 
     for (auto outerItr = finalMinimizers.begin(); outerItr != finalMinimizers.end(); outerItr++) {
@@ -115,6 +115,7 @@ multimap<vector<unsigned long long int>, unsigned long long int>  generateMinimi
 
         for (auto innerItr = outerItr->first.begin(); innerItr != outerItr->first.end(); innerItr++) {
             outfile << *innerItr << " ";
+            minimizers[outerItr->second].push_back(*innerItr);
         }
         outfile << endl;
     }
