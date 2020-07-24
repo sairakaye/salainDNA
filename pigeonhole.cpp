@@ -9,11 +9,6 @@ int allowableE;
 
 void exactSearchingForAll() {
     int acceptanceCriterion = (j - e);
-    /* For DEBUGGING only.
-    ofstream infoFile;
-    string infoFileName("testing_hatdog.txt");
-    infoFile.open(infoFileName.c_str(), ios::out);
-    */
 
     int i;
     #pragma omp parallel for reduction(+:numAcceptedSeeds)
@@ -111,17 +106,10 @@ void exactSearchingForAll() {
                     numAcceptedReads++;
                 };
             }
-        } else {
-            /*
-            #pragma omp critical
-            infoFile << ">" << reads[i].readName << "\n" << reads[i].readData << endl;
-            */
         }
 
         numAcceptedSeeds += tempAcceptedSeeds;
     }
-
-    //infoFile.close();
 }
 
 void approximateSearchingForAll() {
