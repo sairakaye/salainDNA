@@ -35,9 +35,9 @@ void helpCommands() {
     cout << "\t -h - view the commands" << endl;
     cout << "\t -v - view the version" << endl;
     cout << "\t -q - set the q-gram for the seed and the indexing (default is 12)" << endl;
-    cout << "\t -g - file path of the genome file" << endl;
+    cout << "\t -g - file path of the genome file for generating index" << endl;
     cout << "\t -ir - file path of the input reads for mapping" << endl;
-    cout << "\t -i - file path for the indexing file" << endl;
+    cout << "\t -i - file path for the index file" << endl;
     cout << "\t -m - mode of indexing (dir - direct addressing, open - open addressing, min - minimizers) (default is min)" << endl;
     cout << "\t -l - load factor for open addressing indexing mode (default is 0.9)" << endl;
     cout << "\t -e - error threshold (default is 0)" << endl;

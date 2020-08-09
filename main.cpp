@@ -55,6 +55,9 @@ int main(int argc, char *argv[]) {
 
     processingArguments(argc, argv, genomeFilePath, readsFilePath, indexFilePath, mainName);
 
+    cout << "Doing indexing process..." << endl << endl;
+    auto start = omp_get_wtime();
+
     if (genomeFilePath.length() == 0) {
         cout << "Input reference genome was not defined..." << endl;
         exit(EXIT_FAILURE);
@@ -101,6 +104,10 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    auto end = omp_get_wtime();
+    auto timeTaken = double(end - start);
+    cout << "Time taken by the indexing process is: " << to_string(timeTaken) << " sec" << endl << endl;
+
     if (readsFilePath.length() == 0) {
         cout << "File for reads is not specified..." << endl;
         exit(EXIT_FAILURE);
@@ -116,7 +123,7 @@ int main(int argc, char *argv[]) {
     numSeeds = numReads * ceil(m / (double) q);
 
     cout << "Doing searching process..." << endl << endl;
-    auto start = omp_get_wtime();
+    start = omp_get_wtime();
 
     if (searchMode.compare("all") == 0) {
         searchingReadProcess();
@@ -127,8 +134,8 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    auto end = omp_get_wtime();
-    auto timeTaken = double(end - start);
+    end = omp_get_wtime();
+    timeTaken = double(end - start);
 
     outputSeedSelectorResults(mainName, timeTaken);
     //outputFileSeedSelectorResults(mainName, timeTaken);

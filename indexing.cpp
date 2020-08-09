@@ -9,7 +9,7 @@ void readIndexFile(string indexFile,
                    map<long long, unsigned long long int>& codeTable,
                    vector<unsigned long long int>& dirTable,
                    vector<unsigned long long int>& posTable) {
-    cout << "Reading the indexing... " << endl << indexFile << endl << endl;
+    cout << "Reading the index file... " << endl << indexFile << endl << endl;
 
     if (mode.compare("min") == 0) {
         minimizers = getMinimizers(indexFile);
@@ -39,7 +39,7 @@ void buildIndex(string mainName, string indexFile,
                 vector<unsigned long long int>& dirTable,
                 vector<unsigned long long int>& posTable,
                 double loadFactor) {
-    cout << "Starting the indexing... " << endl << indexFile << endl << endl;
+    cout << "Generating the index file... " << endl << indexFile << endl << endl;
 
     if (mode.compare("min") == 0) {
         buildMinimizersIndexing(refGenome.genomeData, mainName);
