@@ -19,13 +19,14 @@ int FalseNeg = 0;
 unsigned int alignmentNeeded = 0;
 unsigned int notNeeded = 0;
 
-void increment(int i, vector<int> &locations){
-    for(int j = i; j < locations.size(); j++){
+void increment(int i, vector<int> &locations) {
+    for (int j = i; j < locations.size(); j++) {
         locations[j]++;
     }
 
 }
-vector<int> createMap (string P, string T, int E, vector<int> &locations){
+
+vector<int> createMap(string P, string T, int E, vector<int> &locations) {
     int m = T.size();
     int n = P.size();
     char t[m];
@@ -33,16 +34,16 @@ vector<int> createMap (string P, string T, int E, vector<int> &locations){
     int count;
 
     vector<int> NMap;
-    for(int i = 0; i < 2*E + 1; i++){
+    for (int i = 0; i < 2 * E + 1; i++) {
         NMap.push_back(2);
         locations.push_back(i);
     }
 
     int jE;
-    for(int i = 0; i<m; i++){
-        jE=0;
-        for(int j = i-E; j<i+E+1;j++){
-            if(jE <= 2*E) {
+    for (int i = 0; i < m; i++) {
+        jE = 0;
+        for (int j = i - E; j < i + E + 1; j++) {
+            if (jE <= 2 * E) {
                 if (T[j] != NULL && P[i] == T[j]) {
                     NMap.insert(NMap.begin() + locations[jE], 0);
                     increment(jE, locations);
@@ -52,8 +53,7 @@ vector<int> createMap (string P, string T, int E, vector<int> &locations){
                     increment(jE, locations);
                     jE++;
                     count++;
-                }
-                else{
+                } else {
                     jE++;
                 }
             }
@@ -75,19 +75,17 @@ vector<int> createMap (string P, string T, int E, vector<int> &locations){
     int E2 = 1;
 
 
-
-    for(int i = 0; i < 2*E + 1; i++){
-        if(i < E){
-            for (int j = 0; j < E1; j++)
-            {
+    for (int i = 0; i < 2 * E + 1; i++) {
+        if (i < E) {
+            for (int j = 0; j < E1; j++) {
                 NMap.insert(NMap.begin() + locations[i], -1);
                 increment(i, locations);
             }
             E1--;
         }
-        //hammingMap[i].erase(hammingMap[i].end() - E1, hammingMap[i].end());
-        else if (i > E ){
-            for (int j = 0; j < E2; j++){
+            //hammingMap[i].erase(hammingMap[i].end() - E1, hammingMap[i].end());
+        else if (i > E) {
+            for (int j = 0; j < E2; j++) {
                 NMap.insert(NMap.begin() + locations[i - 1] + 1, -1);
                 increment(i, locations);
             }
@@ -126,11 +124,11 @@ vector<int> createMap (string P, string T, int E, vector<int> &locations){
     return NMap;
 }
 
-int countZeroes(vector<int> toCount){
+int countZeroes(vector<int> toCount) {
     int ctr = 0;
 
-    for(int i : toCount){
-        if (i == 0){
+    for (int i : toCount) {
+        if (i == 0) {
             ctr++;
         }
     }
@@ -139,15 +137,14 @@ int countZeroes(vector<int> toCount){
 }
 
 
-int countOnes(vector<int> toCount, unsigned int E){
+int countOnes(vector<int> toCount, unsigned int E) {
     int ctr = 0;
 
-    if(toCount.empty()){
+    if (toCount.empty()) {
         return E + 1;
-    }
-    else {
+    } else {
         for (int i = 0; i < toCount.size(); i++) {
-            if (toCount[i] == 1 && toCount[i+1] == 1) {
+            if (toCount[i] == 1 && toCount[i + 1] == 1) {
                 ctr++;
                 i++;
             } else if (toCount[i] == 1) {
@@ -157,54 +154,66 @@ int countOnes(vector<int> toCount, unsigned int E){
     }
     return ctr;
 }
-vector<int> checkDiagonals(int m, vector<int> NMap, int E, int w, int windowSize, vector<int> &locations, int ctr){
-    vector<int> bestDiagonal = {1,1,1,1};
-    vector<int> currDiagonal;
+
+vector<int> checkDiagonals(int m, vector<int> NMap, int E, int w, int windowSize, vector<int> &locations, int ctr) {
+    vector<int> bestDiagonal = {-1, -1, -1, -1};
+    //vector<int> currDiagonal
 
     int bestZeroCount = 0;
     int currZeroCount = 0;
-    //int ctr = 0;
 
+    int index = 0;
     //#pragma omp parallel for
-    for(int i = 0; i < E * 2 + 1; i++){
-        for(int j = 0; j < windowSize; j++){
-            if(i == 0){
-                if(NMap[0 + j + ctr] == 0){
+    for (int i = 0; i < E * 2 + 1; i++) {
+
+        for (int j = 0; j < windowSize; j++) {
+            if (i == 0) {
+                if (NMap[0 + j + ctr] == 0) {
                     currZeroCount++;
                 }
-            }
-            else {
+            } else {
                 if (NMap[locations[i - 1] + 1 + j + ctr] == 0) {
                     currZeroCount++;
                 }
             }
         }
 
-        if(currZeroCount >= bestZeroCount) {
+        if (currZeroCount >= bestZeroCount) {
             bestZeroCount = currZeroCount;
-            bestDiagonal.clear();
-            for(int j = 0; j < windowSize; j++){
-                if(i == 0){
-                    bestDiagonal.push_back(NMap[0 + j + ctr]);
-                }
-                else{
-                    bestDiagonal.push_back(NMap[locations[i-1] + 1 + j + ctr]);
-                }
+            if (i > 0) {
+                //bestDiagonal.push_back(NMap[0 + j + ctr]);
+                index = i;
             }
 
         }
         currZeroCount = 0;
     }
+
+
+    for (int j = 0; j < windowSize; j++) {
+        if (index == 0) {
+            bestDiagonal[j] = NMap[0 + j + ctr];
+        } else {
+            bestDiagonal[j] = NMap[locations[index - 1] + 1 + j + ctr];
+        }
+    }
+
     //bestDiagonalsArray[w] = bestDiagonal;
     return bestDiagonal;
 }
 
-vector<int> slidingWindow(vector<int> NMap, int m, int E, vector<int> &locations) {
+vector<int> slidingWindow(int E, vector<int> &locations, string P, string T) {
     int windowSize = 4;
-    vector<int> finalVector;
+    vector<int> finalVector(m, 1);
+    int m = T.size();
+    int n = P.size();
+    char t[m];
+    char p[n];
+    int count;
+
     //vector<int> mainDiagonal;
     //vector<thread> threadArray;
-
+/*
     for(int i = 0; i < m; i++){
         if(E == 0){
             finalVector.push_back(NMap[i]);
@@ -213,31 +222,129 @@ vector<int> slidingWindow(vector<int> NMap, int m, int E, vector<int> &locations
             finalVector.push_back(NMap[locations[E-1] + 1 + i]);
         }
 
+    }*/
+
+    /*  if(NMap.empty()){
+          return vector<int>();
+      }*/
+
+
+    vector<int> NMap;
+    for (int i = 0; i < 2 * E + 1; i++) {
+        NMap.push_back(2);
+        locations.push_back(i);
     }
-
-    if(NMap.empty()){
-        return vector<int>();
-    }
-    else {
-        int ctr = 0;
-        for (int w = 0; w < m; w++) {
-            if (w + windowSize > m) {
-                windowSize = m - w;
-            }
-
-            vector<int> bestDiagonalinVector = checkDiagonals(m, NMap, E, w, windowSize, locations, ctr);
-            ctr++;
-
-            int l = 0;
-            for (int i = w; i < windowSize + w; i++) {
-                if (i < m) {
-                    finalVector[i] = bestDiagonalinVector[l];
-                    l++;
+    int jE;
+    for (int i = 0; i < m; i++) {
+        jE = 0;
+        for (int j = i - E; j < i + E + 1; j++) {
+            if (jE <= 2 * E) {
+                if (T[j] != NULL && P[i] == T[j]) {
+                    NMap.insert(NMap.begin() + locations[jE], 0);
+                    increment(jE, locations);
+                    jE++;
+                } else if (T[j] != NULL && P[i] != T[j]) {
+                    NMap.insert(NMap.begin() + locations[jE], 1);
+                    increment(jE, locations);
+                    jE++;
+                    count++;
+                } else {
+                    jE++;
                 }
             }
         }
     }
+    /*cout << "\n";
+    for(int j = 0; j < NMap.size();j++) {
+        if(NMap[j] == 2){
+            cout << NMap[j];
+            cout << "\n";
+        }
+        else{
+            cout << NMap[j];
+        }
 
+    }*/
+
+    int E1 = E;
+    int E2 = 1;
+
+    for (int i = 0; i < 2 * E + 1; i++) {
+        if (i < E) {
+            for (int j = 0; j < E1; j++) {
+                NMap.insert(NMap.begin() + locations[i], -1);
+                increment(i, locations);
+            }
+            E1--;
+        }
+            //hammingMap[i].erase(hammingMap[i].end() - E1, hammingMap[i].end());
+        else if (i > E) {
+            for (int j = 0; j < E2; j++) {
+                NMap.insert(NMap.begin() + locations[i - 1] + 1, -1);
+                increment(i, locations);
+            }
+            //hammingMap[i].erase(hammingMap[i].end() - E1, hammingMap[i].end());
+            E2++;
+        }
+
+    }
+
+    int ctr = 0;
+    for (int w = 0; w < m; w++) {
+        if (w + windowSize > m) {
+            windowSize = m - w;
+        }
+
+
+        //vector<int> bestDiagonalinVector = checkDiagonals(m, NMap, E, w, windowSize, locations, ctr);
+
+        vector<int> bestDiagonal = {-1, -1, -1, -1};
+        //vector<int> currDiagonal
+
+        int bestZeroCount = 0;
+        int currZeroCount = 0;
+
+        int index = 0;
+        //#pragma omp parallel for
+        for (int i = 0; i < E * 2 + 1; i++) {
+
+            for (int j = 0; j < windowSize; j++) {
+                if (i == 0) {
+                    if (NMap[0 + j + ctr] == 0) {
+                        currZeroCount++;
+                    }
+                } else {
+                    if (NMap[locations[i - 1] + 1 + j + ctr] == 0) {
+                        currZeroCount++;
+                    }
+                }
+            }
+
+            if (currZeroCount >= bestZeroCount) {
+                bestZeroCount = currZeroCount;
+                if (i > 0) {
+                    //bestDiagonal.push_back(NMap[0 + j + ctr]);
+                    index = i;
+                }
+
+            }
+            currZeroCount = 0;
+        }
+
+        ctr++;
+
+        int l = 0;
+        for (int i = w; i < windowSize + w; i++) {
+            if (i < m) {
+                if (index == 0) {
+                    finalVector[i] = NMap[0 + l + ctr];
+                    l++;
+                } else {
+                    finalVector[i] = NMap[locations[index - 1] + 1 + l + ctr];
+                }
+            }
+        }
+    }
 
 
     return finalVector;
@@ -245,23 +352,167 @@ vector<int> slidingWindow(vector<int> NMap, int m, int E, vector<int> &locations
 
 }
 
-vector<int> threadFunc(int E, string read, string reference){
+vector<int> BitMatrixAlgorithm(int E, string read, string reference) {
 
-    unsigned int m = reference.length();
-    unsigned int n = read.length();
+    vector<int> locations(2 * E + 1);
+    int windowSize = 4;
+    vector<int> finalVector(m, 1);
+    int m = reference.size();
+    int n = read.size();
+/*    char t[m];
+    char p[n];*/
+    int count = 0;
+
+    vector<int> NMap((2*E+1) * m + (2*E+1));
+    vector<int> bestDiagonal = {-1, -1, -1, -1};
+    vector<int> movingLocation;
 
 
-    vector<int> shouji(m);
-    vector<int> locations;
-    //vector<vector<int>> nmap;
-    shouji = slidingWindow(createMap(read, reference, E,locations),m, E, locations);
 
-    return shouji;
-    /*if (countOnes(shouji) <= E) {
-        alignmentNeeded++;
-    } else {
-        notNeeded++;
-    }*/
+    //NEIGHBORHOOD MAP
+    int p = 0;
+    for (int i = 0; i < 2 * E + 1; i++) {
+        locations[i] = p;
+        NMap[p] = 2;
+        p += m + 1 ;
+    }
+    movingLocation = locations;
+
+    int jE;
+    for (int i = 0; i < m; i++) {
+        jE = 0;
+        for (int j = i - E; j < i + E + 1; j++) {
+            if (jE <= 2 * E) {
+                if ((reference[j] == 'A' || reference[j] == 'C'||reference[j] == 'G'||reference[j] == 'T') && read[i] == reference[j]) {
+                    //NMap.insert(NMap.begin() + locations[jE], 0);
+                    NMap[movingLocation[jE] + 1] = 0;
+                    movingLocation[jE] += 1;
+                    /*for (int j = jE; j < locations.size(); j++) {
+                        locations[j]++;
+                    }*/
+                    jE++;
+                } else if ((reference[j] == 'A' ||reference[j] == 'C'||reference[j] == 'G'||reference[j] == 'T') && read[i] != reference[j]) {
+                    //NMap.insert(NMap.begin() + locations[jE], 1);
+                    NMap[movingLocation[jE]+ 1] = 1;
+                    movingLocation[jE] += 1;
+                    /*for (int j = jE; j < locations.size(); j++) {
+                        locations[j]++;
+                    }*/
+                    jE++;
+                } else {
+                    movingLocation[jE] += 1;
+                    jE++;
+                }
+            }
+        }
+    }
+  /*  int E1 = E;
+    int E2 = 1;
+    for (int i = 0; i < 2 * E + 1; i++) {
+        if (i < E) {
+            for (int j = 0; j < E1; j++) {
+                //NMap.insert(NMap.begin() + locations[i], -1);
+                NMap[movingLocation[i]] = -1;
+                movingLocation[i]++;
+                //increment(i, locations);
+              *//*  for (int j = i; j < locations.size(); j++) {
+                    locations[j]++;
+                }*//*
+            }
+            E1--;
+        }
+            //hammingMap[i].erase(hammingMap[i].end() - E1, hammingMap[i].end());
+        else if (i > E) {
+            for (int j = 0; j < E2; j++) {
+                //NMap.insert(NMap.begin() + locations[i - 1] + 1, -1);
+                NMap[movingLocation[i]] = -1;
+                movingLocation[i]++;
+                //increment(i, locations);
+                *//*for (int j = i; j < locations.size(); j++) {
+                    locations[j]++;
+                }*//*
+            }
+            //hammingMap[i].erase(hammingMap[i].end() - E1, hammingMap[i].end());
+            E2++;
+        }
+
+    }
+*/
+/*    cout << "\n";
+      for(int j = 0; j < NMap.size();j++) {
+          if(NMap[j+1] == 2){
+              cout << NMap[j];
+              cout << "\n";
+          }
+          else{
+              cout << NMap[j];
+          }
+
+      }
+    cout << "\n";*/
+
+    // END OF NEIGHBORHOOD MAP
+    // SLIDING WINDOW
+    int ctr = 0;
+    for (int w = 0; w < m; w++) {
+        if (w + windowSize > m) {
+            windowSize = m - w;
+        }
+
+        //BEST DIAGONAL
+        int bestZeroCount = 0;
+        int currZeroCount = 0;
+        int index = 0;
+
+        //#pragma omp parallel for
+        for (int i = 0; i < E * 2 + 1; i++) {
+
+            for (int j = 0; j < windowSize; j++) {
+               /* if (i == 0) {
+                    if (NMap[0 + j + ctr] == 0) {
+                        currZeroCount++;
+                    }
+                } else {
+                    if (NMap[locations[i - 1] + 1 + j + ctr] == 0) {
+                        currZeroCount++;
+                    }
+                }*/
+                if (NMap[locations[i] + 1 + j + ctr] == 0) {
+                    currZeroCount++;
+                }
+            }
+            if (currZeroCount >= bestZeroCount) {
+                bestZeroCount = currZeroCount;
+                if (i > 0) {
+                    //bestDiagonal.push_back(NMap[0 + j + ctr]);
+                    index = i;
+                }
+
+            }
+            currZeroCount = 0;
+        }
+        //END OF BEST DIAGONAL
+        ctr++;
+        int l = 0;
+        for (int i = w; i < windowSize + w; i++) {
+            if (i < m) {
+               /* if (index == 0) {
+                    finalVector[i] = NMap[0 + l + ctr];
+                    l++;
+                } else {
+                    finalVector[i] = NMap[locations[index - 1] + 1 + l + ctr];
+                    l++;
+                }*/
+
+                finalVector[i] = NMap[locations[index] + 1 + l + ctr];
+                l++;
+
+            }
+        }
+    }
+    //END OF SLIDING WINDOW
+
+    return finalVector;
 
 }
 
@@ -306,21 +557,45 @@ void multiThreadedMain() {
 
     //int E = e;
 
+
     auto start = std::chrono::high_resolution_clock::now();
 
     int i;
     #pragma omp parallel for reduction(+:notNeeded, alignmentNeeded)
-    for(i = 0; i < reads.size(); i++) {
+    for (i = 0; i < reads.size(); i++) {
         string read(reads[i].readData);
         vector<unsigned long long int> tempAcceptedLocations;
 
         if (reads[i].forwardLocations.size() > 0) {
-            vector<unsigned long long int>& locations = reads[i].forwardLocations;
+            vector<unsigned long long int> &locations = reads[i].forwardLocations;
 
             int j;
             for (j = 0; j < locations.size(); j++) {
                 if (refGenome.genomeData.substr(locations[j], m).size() == m) {
-                    if (countOnes(threadFunc(e, read, refGenome.genomeData.substr(locations[j], m)), e) <= e) {
+                    if (countOnes(BitMatrixAlgorithm(e, read, refGenome.genomeData.substr(locations[j], m)), e) <= e) {
+                        #pragma omp critical
+                        tempAcceptedLocations.push_back(locations[j]);
+                        alignmentNeeded++;
+                    } else {
+                        notNeeded++;
+                    }
+                } else {
+                    notNeeded++;
+                }
+                auto end = std::chrono::high_resolution_clock::now();
+
+
+            }
+
+            #pragma omp critical
+            reads[i].forwardLocations = vector<unsigned long long int>(tempAcceptedLocations);
+        } else if (reads[i].reverseLocations.size() > 0) {
+            vector<unsigned long long int> &locations = reads[i].reverseLocations;
+
+            int j;
+            for (j = 0; j < locations.size(); j++) {
+                if (refGenome.genomeData.substr(locations[j], m).size() == m) {
+                    if (countOnes(BitMatrixAlgorithm(e, read, refGenome.genomeData.substr(locations[j], m)), e) <= e) {
                         #pragma omp critical
                         tempAcceptedLocations.push_back(locations[j]);
                         alignmentNeeded++;
@@ -331,28 +606,7 @@ void multiThreadedMain() {
                     notNeeded++;
                 }
             }
-
-            #pragma omp critical
-            reads[i].forwardLocations = vector<unsigned long long int>(tempAcceptedLocations);
-        } else if (reads[i].reverseLocations.size() > 0) {
-            vector<unsigned long long int>& locations = reads[i].reverseLocations;
-
-            int j;
-            for (j = 0; j < locations.size(); j++) {
-                if (refGenome.genomeData.substr(locations[j], m).size() == m) {
-                    if (countOnes(threadFunc(e, read, refGenome.genomeData.substr(locations[j], m)), e) <= e) {
-                    #pragma omp critical
-                        tempAcceptedLocations.push_back(locations[j]);
-                        alignmentNeeded++;
-                    } else {
-                        notNeeded++;
-                    }
-                } else {
-                    notNeeded++;
-                }
-            }
-
-            #pragma omp critical
+             #pragma omp critical
             reads[i].reverseLocations = vector<unsigned long long int>(tempAcceptedLocations);
         }
     }
@@ -386,10 +640,9 @@ void multiThreadedMain() {
         filteredReadsMap[read] = vector<unsigned long long int>(tempAcceptedLocations);
     }
     */
-
     auto end = std::chrono::high_resolution_clock::now();
 
-    chrono::duration<double> diff = end-start;
+    chrono::duration<double> diff = end - start;
 
     numFilteredReadLocations = alignmentNeeded;
     cout << diff.count() << "\t" << e << "\t" << alignmentNeeded << "\t" << notNeeded << endl << endl;
@@ -454,62 +707,62 @@ void checkResultswithEdlib(){
              cout << "\n" << "Size: ";
              cout << shouji.size();*/
 
-            /*
-            if (countOnes(shouji, E) <= E) {
-                ShoujiAccept = true;
-            } else {
-                ShoujiAccept = false;
-            }
+/*
+if (countOnes(shouji, E) <= E) {
+    ShoujiAccept = true;
+} else {
+    ShoujiAccept = false;
+}
 
 
 
 
-            const char* const edlibRead = read[i].c_str();
+const char* const edlibRead = read[i].c_str();
 
 
-            EdlibAlignResult resultEdlib = edlibAlign(reference[i].c_str(), m, edlibRead, m, edlibNewAlignConfig(E, EDLIB_MODE_NW, EDLIB_TASK_PATH, NULL, 0));
-            edlibFreeAlignResult(resultEdlib);
-            if (resultEdlib.editDistance!= -1)
-                EdlibAccept = true;
-            else
-                EdlibAccept =false;
+EdlibAlignResult resultEdlib = edlibAlign(reference[i].c_str(), m, edlibRead, m, edlibNewAlignConfig(E, EDLIB_MODE_NW, EDLIB_TASK_PATH, NULL, 0));
+edlibFreeAlignResult(resultEdlib);
+if (resultEdlib.editDistance!= -1)
+    EdlibAccept = true;
+else
+    EdlibAccept =false;
 
 
-            if(ShoujiAccept && EdlibAccept){
-                TruePos++;
-            }
-            else if(!ShoujiAccept && !EdlibAccept){
-                TrueNeg++;
-            }
-            else if(ShoujiAccept && !EdlibAccept){
-                FalsePos++;
-            }
-            else if(!ShoujiAccept && EdlibAccept){
-                FalseNeg++;
-            }
+if(ShoujiAccept && EdlibAccept){
+    TruePos++;
+}
+else if(!ShoujiAccept && !EdlibAccept){
+    TrueNeg++;
+}
+else if(ShoujiAccept && !EdlibAccept){
+    FalsePos++;
+}
+else if(!ShoujiAccept && EdlibAccept){
+    FalseNeg++;
+}
 
-            //}
+//}
 
-            //}
-            end = clock();
+//}
+end = clock();
 
-            finalTime += double(end - start) / double(CLOCKS_PER_SEC);
-        }
-        cout << "\n";
-        cout << finalTime << "\t" <<E<<"\t"<<TruePos<<"\t"<<TrueNeg<<"\t"<<FalsePos<<"\t"<<FalseNeg;
-    }
+finalTime += double(end - start) / double(CLOCKS_PER_SEC);
+}
+cout << "\n";
+cout << finalTime << "\t" <<E<<"\t"<<TruePos<<"\t"<<TrueNeg<<"\t"<<FalsePos<<"\t"<<FalseNeg;
+}
 }
 
 
 int main(void){
-    //fixedInputMain();
-    //multipleInputMain();
+//fixedInputMain();
+//multipleInputMain();
 
-    multiThreadedMain();
+multiThreadedMain();
 
-    //checkResultswithEdlib();
+//checkResultswithEdlib();
 
-    return 0;
+return 0;
 }
 */
 
