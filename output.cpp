@@ -4,6 +4,28 @@
 
 #include "output.h"
 
+void outputPairReads(string& mainName) {
+    ofstream pairReadsFile;
+    string pairReadsFileName(mode + "_pair_reads_" + mainName + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + searchMode + ".txt");
+    pairReadsFile.open(pairReadsFileName.c_str(), ios::out);
+
+    for (int i = 0; i < reads.size(); i++) {
+        string mainRead = reads[i].readData;
+
+        vector<unsigned long long int>& forwardLocations = reads[i].forwardLocations;
+        for (int j = 0; j < forwardLocations.size(); j++) {
+            pairReadsFile << mainRead << "\t" << refGenome.genomeData.substr(forwardLocations[j], m) << endl;
+        }
+
+        vector<unsigned long long int>& reverseLocations = reads[i].reverseLocations;
+        for (int j = 0; j < reverseLocations.size(); j++) {
+            pairReadsFile << mainRead << "\t" << refGenome.genomeData.substr(reverseLocations[j], m) << endl;
+        }
+    }
+
+    pairReadsFile.close();
+}
+
 void outputSeedSelectorResults(string& mainName, double timeTaken) {
     cout << "Time taken by the pigeonhole process is: " << to_string(timeTaken) << " sec" << endl << endl;
 

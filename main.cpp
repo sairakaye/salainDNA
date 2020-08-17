@@ -113,7 +113,7 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    cout << "Reading the reads... " << endl << readsFilePath << endl << endl;
+    cout << "Rading the reads... " << endl << readsFilePath << endl << endl;
     readReadsFile(readsFilePath);
 
     w = q + q - 1;
@@ -140,6 +140,8 @@ int main(int argc, char *argv[]) {
     outputSeedSelectorResults(mainName, timeTaken);
     //outputFileSeedSelectorResults(mainName, timeTaken);
 
+    /* Uncomment the line below for the pair reads output. */
+    //outputPairReads(mainName);
     cout << "Starting Bit Matrix..." << endl;
     multiThreadedMain();
     outputPrealignmentResults();

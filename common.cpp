@@ -48,6 +48,10 @@ Genome readGenomeFile(string filename) {
                 continue;
             }
 
+            if (!line.empty() && (line[line.length()-1] == '\n' || line[line.length()-1] == '\r')) {
+                line.erase(line.length()-1);
+            }
+
             genomeData.append(line);
         }
 

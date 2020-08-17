@@ -7,8 +7,7 @@
 
 #include "common.h"
 
-void outputPossibleReads(string& mainName);
-void outputPossibleLocations(string& mainName);
+void outputPairReads(string& mainName);
 void outputSeedSelectorResults(string& mainName, double timeTaken);
 void outputFileSeedSelectorResults(string& mainName, double timeTaken);
 void outputPrealignmentResults();
