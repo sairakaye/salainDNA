@@ -28,7 +28,7 @@ void exactSearchingForAll() {
                 seed = forwardRead.substr(startPosition, w);
 
                 if (seed.length() < w) {
-                    adjustmentValue = startPosition - seed.length() - 1;
+                    adjustmentValue = startPosition - (w - seed.length());
                     startPosition += seed.length() - w;
                     seed = forwardRead.substr(startPosition, w);
                 }
@@ -36,7 +36,7 @@ void exactSearchingForAll() {
                 seed = forwardRead.substr(startPosition, q);
 
                 if (seed.length() < q) {
-                    adjustmentValue = startPosition - seed.length();
+                    adjustmentValue = startPosition - (q - seed.length());
                     startPosition += seed.length() - q;
                     seed = forwardRead.substr(startPosition, q);
                 }
@@ -77,7 +77,7 @@ void exactSearchingForAll() {
                     seed = reverseRead.substr(startPosition, w);
 
                     if (seed.length() < w) {
-                        adjustmentValue = startPosition - seed.length();
+                        adjustmentValue = startPosition - (w - seed.length());
                         startPosition += seed.length() - w;
                         seed = reverseRead.substr(startPosition, w);
                     }
@@ -85,7 +85,7 @@ void exactSearchingForAll() {
                     seed = reverseRead.substr(startPosition, q);
 
                     if (seed.length() < q) {
-                        adjustmentValue = startPosition - seed.length();
+                        adjustmentValue = startPosition - (q - seed.length());
                         startPosition += seed.length() - q;
                         seed = reverseRead.substr(startPosition, q);
                     }
@@ -145,7 +145,7 @@ void approximateSearchingForAll() {
                 seed = forwardRead.substr(startPosition, w);
 
                 if (seed.length() < w) {
-                    adjustmentValue = startPosition - seed.length();
+                    adjustmentValue = startPosition - (w - seed.length());
                     startPosition += seed.length() - w;
                     seed = forwardRead.substr(startPosition, w);
                 }
@@ -153,7 +153,7 @@ void approximateSearchingForAll() {
                 seed = forwardRead.substr(startPosition, q);
 
                 if (seed.length() < q) {
-                    adjustmentValue = startPosition - seed.length();
+                    adjustmentValue = startPosition - (q - seed.length());
                     startPosition += seed.length() - q;
                     seed = forwardRead.substr(startPosition, q);
                 }
@@ -194,7 +194,7 @@ void approximateSearchingForAll() {
                     seed = reverseRead.substr(startPosition, w);
 
                     if (seed.length() < w) {
-                        adjustmentValue = startPosition - seed.length();
+                        adjustmentValue = startPosition - (w - seed.length());
                         startPosition += seed.length() - w;
                         seed = reverseRead.substr(startPosition, w);
                     }
@@ -202,7 +202,7 @@ void approximateSearchingForAll() {
                     seed = reverseRead.substr(startPosition, q);
 
                     if (seed.length() < q) {
-                        adjustmentValue = startPosition - seed.length();
+                        adjustmentValue = startPosition - (q - seed.length());
                         startPosition += seed.length() - q;
                         seed = reverseRead.substr(startPosition, q);
                     }
@@ -267,7 +267,7 @@ void exactSearchingForExit() {
                 seed = forwardRead.substr(startPosition, w);
 
                 if (seed.length() < w) {
-                    adjustmentValue = startPosition - seed.length();
+                    adjustmentValue = startPosition - (w - seed.length());
                     startPosition += seed.length() - w;
                     seed = forwardRead.substr(startPosition, w);
                 }
@@ -275,7 +275,7 @@ void exactSearchingForExit() {
                 seed = forwardRead.substr(startPosition, q);
 
                 if (seed.length() < q) {
-                    adjustmentValue = startPosition - seed.length();
+                    adjustmentValue = startPosition - (q - seed.length());
                     startPosition += seed.length() - q;
                     seed = forwardRead.substr(startPosition, q);
                 }
@@ -319,7 +319,7 @@ void exactSearchingForExit() {
                     seed = reverseRead.substr(startPosition, w);
 
                     if (seed.length() < w) {
-                        adjustmentValue = startPosition - seed.length();
+                        adjustmentValue = startPosition - (w - seed.length());
                         startPosition += seed.length() - w;
                         seed = reverseRead.substr(startPosition, w);
                     }
@@ -327,7 +327,7 @@ void exactSearchingForExit() {
                     seed = reverseRead.substr(startPosition, q);
 
                     if (seed.length() < q) {
-                        adjustmentValue = startPosition - seed.length();
+                        adjustmentValue = startPosition - (q - seed.length());
                         startPosition += seed.length() - q;
                         seed = reverseRead.substr(startPosition, q);
                     }
@@ -388,7 +388,7 @@ void approximateSearchingForExit() {
                 seed = forwardRead.substr(startPosition, w);
 
                 if (seed.length() < w) {
-                    adjustmentValue = startPosition - seed.length();
+                    adjustmentValue = startPosition - (w - seed.length());
                     startPosition += seed.length() - w;
                     seed = forwardRead.substr(startPosition, w);
                 }
@@ -396,7 +396,7 @@ void approximateSearchingForExit() {
                 seed = forwardRead.substr(startPosition, q);
 
                 if (seed.length() < q) {
-                    adjustmentValue = startPosition - seed.length();
+                    adjustmentValue = startPosition - (q - seed.length());
                     startPosition += seed.length() - q;
                     seed = forwardRead.substr(startPosition, q);
                 }
@@ -439,7 +439,7 @@ void approximateSearchingForExit() {
                     seed = reverseRead.substr(startPosition, w);
 
                     if (seed.length() < w) {
-                        adjustmentValue = startPosition - seed.length();
+                        adjustmentValue = startPosition - (w - seed.length());
                         startPosition += seed.length() - w;
                         seed = reverseRead.substr(startPosition, w);
                     }
@@ -447,7 +447,7 @@ void approximateSearchingForExit() {
                     seed = reverseRead.substr(startPosition, q);
 
                     if (seed.length() < q) {
-                        adjustmentValue = startPosition - seed.length();
+                        adjustmentValue = startPosition - (q - seed.length());
                         startPosition += seed.length() - q;
                         seed = reverseRead.substr(startPosition, q);
                     }
