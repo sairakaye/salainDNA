@@ -20,6 +20,7 @@ void exactSearchingForAll() {
         int k;
         for (k = 0; k < j; k++) {
             int startPosition = k * q;
+            int adjustmentValue = startPosition;
 
             string seed;
 
@@ -27,6 +28,7 @@ void exactSearchingForAll() {
                 seed = forwardRead.substr(startPosition, w);
 
                 if (seed.length() < w) {
+                    adjustmentValue = startPosition - seed.length() - 1;
                     startPosition += seed.length() - w;
                     seed = forwardRead.substr(startPosition, w);
                 }
@@ -34,6 +36,7 @@ void exactSearchingForAll() {
                 seed = forwardRead.substr(startPosition, q);
 
                 if (seed.length() < q) {
+                    adjustmentValue = startPosition - seed.length();
                     startPosition += seed.length() - q;
                     seed = forwardRead.substr(startPosition, q);
                 }
@@ -41,7 +44,7 @@ void exactSearchingForAll() {
 
             vector<unsigned long long int> forward;
 
-            exactSearchingPosition(seed, mode, q, k, forward);
+            exactSearchingPosition(seed, mode, adjustmentValue, k, forward);
 
             if (forward.size() > 0) {
                 tempAcceptedSeeds++;
@@ -66,6 +69,7 @@ void exactSearchingForAll() {
             int k;
             for (k = 0; k < j; k++) {
                 int startPosition = k * q;
+                int adjustmentValue = startPosition;
 
                 string seed;
 
@@ -73,6 +77,7 @@ void exactSearchingForAll() {
                     seed = reverseRead.substr(startPosition, w);
 
                     if (seed.length() < w) {
+                        adjustmentValue = startPosition - seed.length();
                         startPosition += seed.length() - w;
                         seed = reverseRead.substr(startPosition, w);
                     }
@@ -80,6 +85,7 @@ void exactSearchingForAll() {
                     seed = reverseRead.substr(startPosition, q);
 
                     if (seed.length() < q) {
+                        adjustmentValue = startPosition - seed.length();
                         startPosition += seed.length() - q;
                         seed = reverseRead.substr(startPosition, q);
                     }
@@ -87,7 +93,7 @@ void exactSearchingForAll() {
 
                 vector<unsigned long long int> reverse;
 
-                exactSearchingPosition(seed, mode, q, k, reverse);
+                exactSearchingPosition(seed, mode, adjustmentValue, k, reverse);
 
                 if (reverse.size() > 0) {
                     tempAcceptedSeeds++;
@@ -131,6 +137,7 @@ void approximateSearchingForAll() {
         int k;
         for (k = 0; k < j; k++) {
             int startPosition = k * q;
+            int adjustmentValue = startPosition;
 
             string seed;
 
@@ -138,6 +145,7 @@ void approximateSearchingForAll() {
                 seed = forwardRead.substr(startPosition, w);
 
                 if (seed.length() < w) {
+                    adjustmentValue = startPosition - seed.length();
                     startPosition += seed.length() - w;
                     seed = forwardRead.substr(startPosition, w);
                 }
@@ -145,6 +153,7 @@ void approximateSearchingForAll() {
                 seed = forwardRead.substr(startPosition, q);
 
                 if (seed.length() < q) {
+                    adjustmentValue = startPosition - seed.length();
                     startPosition += seed.length() - q;
                     seed = forwardRead.substr(startPosition, q);
                 }
@@ -152,7 +161,7 @@ void approximateSearchingForAll() {
 
             vector<unsigned long long int> forward;
 
-            approximateSearchingPosition(seed, mode, q, k, forward);
+            approximateSearchingPosition(seed, mode, adjustmentValue, k, forward);
 
             if (forward.size() > 0) {
                 tempAcceptedSeeds++;
@@ -177,6 +186,7 @@ void approximateSearchingForAll() {
             int k;
             for (k = 0; k < j; k++) {
                 int startPosition = k * q;
+                int adjustmentValue = startPosition;
 
                 string seed;
 
@@ -184,6 +194,7 @@ void approximateSearchingForAll() {
                     seed = reverseRead.substr(startPosition, w);
 
                     if (seed.length() < w) {
+                        adjustmentValue = startPosition - seed.length();
                         startPosition += seed.length() - w;
                         seed = reverseRead.substr(startPosition, w);
                     }
@@ -191,6 +202,7 @@ void approximateSearchingForAll() {
                     seed = reverseRead.substr(startPosition, q);
 
                     if (seed.length() < q) {
+                        adjustmentValue = startPosition - seed.length();
                         startPosition += seed.length() - q;
                         seed = reverseRead.substr(startPosition, q);
                     }
@@ -198,7 +210,7 @@ void approximateSearchingForAll() {
 
                 vector<unsigned long long int> reverse;
 
-                approximateSearchingPosition(seed, mode, q, k, reverse);
+                approximateSearchingPosition(seed, mode, adjustmentValue, k, reverse);
 
                 if (reverse.size() > 0) {
                     tempAcceptedSeeds++;
@@ -247,6 +259,7 @@ void exactSearchingForExit() {
         int k;
         for (k = 0; k < j; k++) {
             int startPosition = k * q;
+            int adjustmentValue = startPosition;
 
             string seed;
 
@@ -254,6 +267,7 @@ void exactSearchingForExit() {
                 seed = forwardRead.substr(startPosition, w);
 
                 if (seed.length() < w) {
+                    adjustmentValue = startPosition - seed.length();
                     startPosition += seed.length() - w;
                     seed = forwardRead.substr(startPosition, w);
                 }
@@ -261,6 +275,7 @@ void exactSearchingForExit() {
                 seed = forwardRead.substr(startPosition, q);
 
                 if (seed.length() < q) {
+                    adjustmentValue = startPosition - seed.length();
                     startPosition += seed.length() - q;
                     seed = forwardRead.substr(startPosition, q);
                 }
@@ -268,7 +283,7 @@ void exactSearchingForExit() {
 
             vector<unsigned long long int> forward;
 
-            exactSearchingPosition(seed, mode, q, k, forward);
+            exactSearchingPosition(seed, mode, adjustmentValue, k, forward);
 
             if (forward.size() > 0) {
                 tempAcceptedSeeds++;
@@ -296,6 +311,7 @@ void exactSearchingForExit() {
             int k;
             for (k = 0; k < j; k++) {
                 int startPosition = k * q;
+                int adjustmentValue = startPosition;
 
                 string seed;
 
@@ -303,6 +319,7 @@ void exactSearchingForExit() {
                     seed = reverseRead.substr(startPosition, w);
 
                     if (seed.length() < w) {
+                        adjustmentValue = startPosition - seed.length();
                         startPosition += seed.length() - w;
                         seed = reverseRead.substr(startPosition, w);
                     }
@@ -310,6 +327,7 @@ void exactSearchingForExit() {
                     seed = reverseRead.substr(startPosition, q);
 
                     if (seed.length() < q) {
+                        adjustmentValue = startPosition - seed.length();
                         startPosition += seed.length() - q;
                         seed = reverseRead.substr(startPosition, q);
                     }
@@ -317,7 +335,7 @@ void exactSearchingForExit() {
 
                 vector<unsigned long long int> reverse;
 
-                exactSearchingPosition(seed, mode, q, k, reverse);
+                exactSearchingPosition(seed, mode, adjustmentValue, k, reverse);
 
                 if (reverse.size() > 0) {
                     tempAcceptedSeeds++;
@@ -362,6 +380,7 @@ void approximateSearchingForExit() {
         int k;
         for (k = 0; k < j; k++) {
             int startPosition = k * q;
+            int adjustmentValue = startPosition;
 
             string seed;
 
@@ -369,6 +388,7 @@ void approximateSearchingForExit() {
                 seed = forwardRead.substr(startPosition, w);
 
                 if (seed.length() < w) {
+                    adjustmentValue = startPosition - seed.length();
                     startPosition += seed.length() - w;
                     seed = forwardRead.substr(startPosition, w);
                 }
@@ -376,6 +396,7 @@ void approximateSearchingForExit() {
                 seed = forwardRead.substr(startPosition, q);
 
                 if (seed.length() < q) {
+                    adjustmentValue = startPosition - seed.length();
                     startPosition += seed.length() - q;
                     seed = forwardRead.substr(startPosition, q);
                 }
@@ -383,7 +404,7 @@ void approximateSearchingForExit() {
 
             vector<unsigned long long int> forward;
 
-            approximateSearchingPosition(seed, mode, q, k, forward);
+            approximateSearchingPosition(seed, mode, adjustmentValue, k, forward);
 
             if (forward.size() > 0) {
                 tempAcceptedSeeds++;
@@ -410,6 +431,7 @@ void approximateSearchingForExit() {
             int k;
             for (k = 0; k < j; k++) {
                 int startPosition = k * q;
+                int adjustmentValue = startPosition;
 
                 string seed;
 
@@ -417,6 +439,7 @@ void approximateSearchingForExit() {
                     seed = reverseRead.substr(startPosition, w);
 
                     if (seed.length() < w) {
+                        adjustmentValue = startPosition - seed.length();
                         startPosition += seed.length() - w;
                         seed = reverseRead.substr(startPosition, w);
                     }
@@ -424,6 +447,7 @@ void approximateSearchingForExit() {
                     seed = reverseRead.substr(startPosition, q);
 
                     if (seed.length() < q) {
+                        adjustmentValue = startPosition - seed.length();
                         startPosition += seed.length() - q;
                         seed = reverseRead.substr(startPosition, q);
                     }
@@ -431,7 +455,7 @@ void approximateSearchingForExit() {
 
                 vector<unsigned long long int> reverse;
 
-                approximateSearchingPosition(seed, mode, q, k, reverse);
+                approximateSearchingPosition(seed, mode, adjustmentValue, k, reverse);
 
                 if (reverse.size() > 0) {
                     tempAcceptedSeeds++;

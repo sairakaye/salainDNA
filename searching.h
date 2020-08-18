@@ -8,7 +8,7 @@
 #include "common.h"
 #include "minimizers.h"
 
-void exactSearchingPosition(string seed, string mode, int q, int k, vector<unsigned long long int>& foundLocations);
-void approximateSearchingPosition(string seed, string mode, int q, int k, vector<unsigned long long int>& foundLocations);
+void exactSearchingPosition(string seed, string mode, int adjustmentValue, int k, vector<unsigned long long int>& foundLocations);
+void approximateSearchingPosition(string seed, string mode, int adjustmentValue, int k, vector<unsigned long long int>& foundLocations);
 
 #endif //PH_INTEGRATION_SEARCHING_H

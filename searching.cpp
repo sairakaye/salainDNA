@@ -5,19 +5,19 @@
 #include "searching.h"
 #include "pigeonhole.h"
 
-void searchingUsingMinimizers(string seed, int k, vector<unsigned long long int>& foundLocations,
+void searchingUsingMinimizers(string seed, int adjustmentValue, int k, vector<unsigned long long int>& foundLocations,
     vector<unsigned long long int>& location) {
     int i;
     for (i = 0; i < location.size(); i++) {
         if (seed.compare(refGenome.genomeData.substr(location[i], q)) == 0) {
-            if ((location[i] - (q * k)) >= 0 && (location[i] - (q * k)) < refGenome.genomeData.size()) {
-                    foundLocations.push_back(location[i] - (q * k));
+            if ((location[i] - adjustmentValue) >= 0 && (location[i] - adjustmentValue) < refGenome.genomeData.size()) {
+                    foundLocations.push_back(location[i] - adjustmentValue);
             }
         }
     }
 }
 
-void approximateSearchingUsingMinimizers(string seed, int k, vector<unsigned long long int>& foundLocations,
+void approximateSearchingUsingMinimizers(string seed, int adjustmentValue, int k, vector<unsigned long long int>& foundLocations,
     vector<unsigned long long int>& location) {
     int i;
     for (i = 0; i < location.size(); i++) {
@@ -25,8 +25,8 @@ void approximateSearchingUsingMinimizers(string seed, int k, vector<unsigned lon
                 seed.c_str(), seed.length(), edlibDefaultAlignConfig());
 
         if (result.editDistance <= allowableE) {
-            if ((location[i] - (q * k)) >= 0 && (location[i] - (q * k)) < refGenome.genomeData.size()) {
-                foundLocations.push_back(location[i] - (q * k));
+            if ((location[i] - adjustmentValue) >= 0 && (location[i] - adjustmentValue) < refGenome.genomeData.size()) {
+                foundLocations.push_back(location[i] - adjustmentValue);
             }
         }
 
@@ -34,18 +34,18 @@ void approximateSearchingUsingMinimizers(string seed, int k, vector<unsigned lon
     }
 }
 
-void searchingUsingDirectOrOpen(string seed, unsigned long long int index, string mode, int k, vector<unsigned long long int>& foundLocations,
-    vector<unsigned long long int>& location) {
+void searchingUsingDirectOrOpen(string seed, unsigned long long int index, string mode, int adjustmentValue, int k, vector<unsigned long long int>& foundLocations,
+                                vector<unsigned long long int>& location) {
     while (seed.compare(refGenome.genomeData.substr(posTable[index], q)) == 0) {
-        if ((posTable[index] - (q * k)) >= 0 && (posTable[index] - (q * k)) < refGenome.genomeData.size()) {
-            foundLocations.push_back(posTable[index] - (q * k));
+        if ((posTable[index] - adjustmentValue) >= 0 && (posTable[index] - adjustmentValue) < refGenome.genomeData.size()) {
+            foundLocations.push_back(posTable[index] - adjustmentValue);
         }
 
         index++;
     }
 }
 
-void approximateSearchingUsingDirectOrOpen(string seed, unsigned long long int index, string mode, int k, vector<unsigned long long int>& foundLocations,
+void approximateSearchingUsingDirectOrOpen(string seed, unsigned long long int index, string mode, int adjustmentValue, int k, vector<unsigned long long int>& foundLocations,
     vector<unsigned long long int>& location) {
     bool continueCompare = true;
 
@@ -55,8 +55,8 @@ void approximateSearchingUsingDirectOrOpen(string seed, unsigned long long int i
                                                  q, seed.c_str(), seed.length(), edlibDefaultAlignConfig());
 
             if (result.editDistance <= allowableE) {
-                if ((posTable[index] - (q * k)) >= 0 && (posTable[index] - (q * k)) < refGenome.genomeData.size()) {
-                    foundLocations.push_back(posTable[index] - (q * k));
+                if ((posTable[index] - adjustmentValue) >= 0 && (posTable[index] - adjustmentValue) < refGenome.genomeData.size()) {
+                    foundLocations.push_back(posTable[index] - adjustmentValue);
                 }
 
                 index++;
@@ -71,7 +71,7 @@ void approximateSearchingUsingDirectOrOpen(string seed, unsigned long long int i
     }
 }
 
-void exactSearchingPosition(string seed, string mode, int q, int k, vector<unsigned long long int>& foundLocations) {
+void exactSearchingPosition(string seed, string mode, int adjustmentValue, int k, vector<unsigned long long int>& foundLocations) {
     vector<unsigned long long int> location;
 
     unsigned long long int rank;
@@ -82,7 +82,7 @@ void exactSearchingPosition(string seed, string mode, int q, int k, vector<unsig
         location = minimizers[rank];
 
         if (location.size() > 0) {
-            searchingUsingMinimizers(seed.substr(0, q), k, foundLocations, location);
+            searchingUsingMinimizers(seed.substr(0, q), adjustmentValue, k, foundLocations, location);
         }
     } else if (mode.compare("dir") == 0 || mode.compare("open") == 0) {
         if (mode.compare("dir") == 0) {
@@ -92,7 +92,7 @@ void exactSearchingPosition(string seed, string mode, int q, int k, vector<unsig
                 index = dirTable[rank];
 
                 if (index < posTable.size()) {
-                    searchingUsingDirectOrOpen(seed, index, mode, k, foundLocations, location);
+                    searchingUsingDirectOrOpen(seed, index, mode, adjustmentValue, k, foundLocations, location);
                 }
             }
         } else {
@@ -101,13 +101,13 @@ void exactSearchingPosition(string seed, string mode, int q, int k, vector<unsig
             try {
                 index = dirTable[codeTable[rank]];
 
-                searchingUsingDirectOrOpen(seed, index, mode, k, foundLocations, location);
+                searchingUsingDirectOrOpen(seed, index, mode, adjustmentValue, k, foundLocations, location);
             } catch (exception& e) { }
         }
     }
 }
 
-void approximateSearchingPosition(string seed, string mode, int q, int k, vector<unsigned long long int>& foundLocations) {
+void approximateSearchingPosition(string seed, string mode, int adjustmentValue, int k, vector<unsigned long long int>& foundLocations) {
     vector<unsigned long long int> location;
 
     unsigned long long int rank;
@@ -118,7 +118,7 @@ void approximateSearchingPosition(string seed, string mode, int q, int k, vector
         location = minimizers[rank];
 
         if (location.size() > 0) {
-            approximateSearchingUsingMinimizers(seed.substr(0, q), k, foundLocations, location);
+            approximateSearchingUsingMinimizers(seed.substr(0, q), adjustmentValue, k, foundLocations, location);
         }
     } else if (mode.compare("dir") == 0 || mode.compare("open") == 0) {
         if (mode.compare("dir") == 0) {
@@ -128,7 +128,7 @@ void approximateSearchingPosition(string seed, string mode, int q, int k, vector
                 index = dirTable[rank];
 
                 if (index < posTable.size()) {
-                    approximateSearchingUsingDirectOrOpen(seed, index, mode, k, foundLocations, location);
+                    approximateSearchingUsingDirectOrOpen(seed, index, mode, adjustmentValue, k, foundLocations, location);
                 }
             }
         } else {
@@ -137,7 +137,7 @@ void approximateSearchingPosition(string seed, string mode, int q, int k, vector
             try {
                 index = dirTable[codeTable[rank]];
 
-                approximateSearchingUsingDirectOrOpen(seed, index, mode, k,foundLocations, location);
+                approximateSearchingUsingDirectOrOpen(seed, index, mode, adjustmentValue, k,foundLocations, location);
             } catch (exception& e) { }
         }
     }
