@@ -9,9 +9,11 @@
 
 //#include <zconf.h>
 
+
+extern int truePos;
+extern int trueNeg;
+
 /*
-extern int TruePos;
-extern int TrueNeg;
 extern int FalsePos;
 extern int FalseNeg;
 */
@@ -21,5 +23,6 @@ extern unsigned int notNeeded;
 
 //void multiThreadedMain(map<string, vector<unsigned long long int>>& forwardReadsMap, map<string, vector<unsigned long long int>>& reverseReadsMap);
 void multiThreadedMain();
+void verifyWthEdlib();
 
 #endif //MULTICORE_RM_BITMATRIX_H

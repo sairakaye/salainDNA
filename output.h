@@ -12,5 +12,6 @@ void outputSeedSelectorResults(string& mainName, double timeTaken);
 void outputFileSeedSelectorResults(string& mainName, double timeTaken);
 void outputPrealignmentResults();
 void outputSAMFile();
+void outputEdlibResults();
 
 #endif //MULTICORE_RM_OUTPUT_H

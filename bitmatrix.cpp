@@ -16,6 +16,9 @@ int FalsePos = 0;
 int FalseNeg = 0;
 */
 
+int truePos;
+int trueNeg;
+
 unsigned int alignmentNeeded = 0;
 unsigned int notNeeded = 0;
 
@@ -583,8 +586,6 @@ void multiThreadedMain() {
                     notNeeded++;
                 }
                 auto end = std::chrono::high_resolution_clock::now();
-
-
             }
 
             #pragma omp critical
@@ -646,6 +647,77 @@ void multiThreadedMain() {
 
     numFilteredReadLocations = alignmentNeeded;
     cout << diff.count() << "\t" << e << "\t" << alignmentNeeded << "\t" << notNeeded << endl << endl;
+}
+
+
+void verifyWthEdlib() {
+    cout << "Edlib:\nTime\tE\tAccepted\tRejected" << endl;
+
+    auto start = std::chrono::high_resolution_clock::now();
+    int i;
+    for (i = 0; i < reads.size(); i++) {
+        string read(reads[i].readData);
+        vector<unsigned long long int> tempAcceptedLocations;
+
+        if (reads[i].forwardLocations.size() > 0) {
+            vector<unsigned long long int> &locations = reads[i].forwardLocations;
+
+            int j;
+            for (j = 0; j < locations.size(); j++) {
+                if (refGenome.genomeData.substr(locations[j], m).size() == m) {
+                    EdlibAlignResult resultEdlib;
+                    const char* const pRef = refGenome.genomeData.substr(locations[j], m).c_str();
+                    const char* const pRead = read.c_str();
+                    resultEdlib = edlibAlign(pRef, m, pRead, m,
+                                             edlibNewAlignConfig(e, EDLIB_MODE_NW, EDLIB_TASK_PATH, NULL, 0));
+                    edlibFreeAlignResult(resultEdlib);
+                    if (resultEdlib.editDistance!= -1) {
+                        tempAcceptedLocations.push_back(locations[j]);
+                        truePos++;
+//                        EdlibAccept = true;
+                    } else {
+//                        EdlibAccept = false;
+                        trueNeg++;
+                    }
+                } else {
+                    trueNeg++;
+                }
+//                auto end = std::chrono::high_resolution_clock::now();
+            }
+            reads[i].forwardLocations = vector<unsigned long long int>(tempAcceptedLocations);
+        } else if (reads[i].reverseLocations.size() > 0) {
+            vector<unsigned long long int> &locations = reads[i].reverseLocations;
+
+            int j;
+            for (j = 0; j < locations.size(); j++) {
+                if (refGenome.genomeData.substr(locations[j], m).size() == m) {
+                    EdlibAlignResult resultEdlib;
+                    const char* const pRef = refGenome.genomeData.substr(locations[j], m).c_str();
+                    const char* const pRead = read.c_str();
+                    resultEdlib = edlibAlign(pRef, m, pRead, m,
+                                             edlibNewAlignConfig(e, EDLIB_MODE_NW, EDLIB_TASK_PATH, NULL, 0));
+                    edlibFreeAlignResult(resultEdlib);
+                    if (resultEdlib.editDistance!= -1) {
+                        tempAcceptedLocations.push_back(locations[j]);
+                        truePos++;
+//                        EdlibAccept = true;
+                    } else {
+//                        EdlibAccept = false;
+                        trueNeg++;
+                    }
+                } else {
+                    trueNeg++;
+                }
+//                auto end = std::chrono::high_resolution_clock::now();
+            }
+            reads[i].reverseLocations = vector<unsigned long long int>(tempAcceptedLocations);
+        }
+    }
+    numVerifiedReadLocations = truePos;
+
+    auto end = std::chrono::high_resolution_clock::now();
+    chrono::duration<double> diff = end - start;
+    cout << diff.count() << "\t" << e << "\t" << truePos << "\t" << trueNeg << endl << endl;
 }
 
 /*

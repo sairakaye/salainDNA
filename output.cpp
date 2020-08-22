@@ -63,6 +63,10 @@ void outputPrealignmentResults() {
     cout << "Locations accepted by Bit Matrix: " << numFilteredReadLocations << endl;
 }
 
+void outputEdlibResults() {
+    cout << "Locations accepted by Edlib: " << numVerifiedReadLocations << endl;
+}
+
 void outputSAMFile() {
     ofstream SAMFile;
     SAMFile.open(SAMFileName.c_str(), ios::out);

@@ -20,6 +20,7 @@ unsigned int numAcceptedSeeds;
 unsigned int numAcceptedReads;
 unsigned int numPossibleReadLocations;
 unsigned int numFilteredReadLocations;
+unsigned int numVerifiedReadLocations;
 
 string mode;
 string searchMode;
@@ -144,7 +145,9 @@ int main(int argc, char *argv[]) {
     //outputPairReads(mainName);
     cout << "Starting Bit Matrix..." << endl;
     multiThreadedMain();
+    verifyWthEdlib();
     outputPrealignmentResults();
+    outputEdlibResults();
 
     if (SAMFileName.length() > 0) {
         outputSAMFile();

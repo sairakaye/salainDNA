@@ -1,3 +1,4 @@
-ToolSet: 1.0 (local)Options: 
+ToolSet: w64 3.4 (local)@C:\Program Files (x86)\Dev-Cpp\MinGW64
+Options: 
 
 Options:
