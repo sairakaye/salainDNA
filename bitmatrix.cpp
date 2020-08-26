@@ -615,9 +615,9 @@ void multiThreadedMain() {
                 } else {
                     notNeeded++;
                 }
-                #pragma omp critical
-                reads[i].forwardLocations = vector<unsigned long long int>(tempAcceptedLocations);
             }
+            #pragma omp critical
+            reads[i].forwardLocations = vector<unsigned long long int>(tempAcceptedLocations);
         } else if (reads[i].reverseLocations.size() > 0) {
             vector<unsigned long long int> &locations = reads[i].reverseLocations;
 
