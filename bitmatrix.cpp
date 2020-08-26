@@ -675,6 +675,7 @@ void multiThreadedMain() {
     auto end = std::chrono::high_resolution_clock::now();
 
     chrono::duration<double> diff = end - start;
+    bmRunTime = diff.count();
 
     numFilteredReadLocations = alignmentNeeded;
     cout << diff.count() << "\t" << E << "\t" << alignmentNeeded << "\t" << notNeeded << endl;

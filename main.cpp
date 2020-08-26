@@ -32,6 +32,10 @@ unsigned int m;
 unsigned int e;
 double loadFactor;
 
+double indexRunTime;
+double ssRunTime;
+double bmRunTime;
+
 int main(int argc, char *argv[]) {
     string genomeFilePath;
     string readsFilePath;
@@ -107,13 +111,14 @@ int main(int argc, char *argv[]) {
     auto end = omp_get_wtime();
     auto timeTaken = double(end - start);
     cout << "Time taken by the indexing process is: " << to_string(timeTaken) << " sec" << endl << endl;
+    indexRunTime = timeTaken;
 
     if (readsFilePath.length() == 0) {
         cout << "File for reads is not specified..." << endl;
         exit(EXIT_FAILURE);
     }
 
-    cout << "Rading the reads... " << endl << readsFilePath << endl << endl;
+    cout << "Reading the reads... " << endl << readsFilePath << endl << endl;
     readReadsFile(readsFilePath);
 
     w = q + q - 1;
@@ -136,6 +141,7 @@ int main(int argc, char *argv[]) {
 
     end = omp_get_wtime();
     timeTaken = double(end - start);
+    ssRunTime = timeTaken;
 
     outputSeedSelectorResults(mainName, timeTaken);
     //outputFileSeedSelectorResults(mainName, timeTaken);
@@ -145,6 +151,7 @@ int main(int argc, char *argv[]) {
     cout << "Starting Bit Matrix..." << endl;
     multiThreadedMain();
     outputPrealignmentResults();
+    outputRunTimeResults(mainName, indexRunTime, ssRunTime, bmRunTime);
 
     if (SAMFileName.length() > 0) {
         outputSAMFile();

@@ -8,6 +8,7 @@
 #include "common.h"
 
 void outputPairReads(string& mainName);
+void outputRunTimeResults(string& mainName, double indexTimeTaken, double ssTimeTaken, double bmTimeTaken);
 void outputSeedSelectorResults(string& mainName, double timeTaken);
 void outputFileSeedSelectorResults(string& mainName, double timeTaken);
 void outputPrealignmentResults();
