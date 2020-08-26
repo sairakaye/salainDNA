@@ -147,10 +147,7 @@ int countOnes(vector<int> toCount, unsigned int E) {
         return E + 1;
     } else {
         for (int i = 0; i < toCount.size(); i++) {
-            if (toCount[i] == 1 && toCount[i + 1] == 1) {
-                ctr++;
-                i++;
-            } else if (toCount[i] == 1) {
+            if (toCount[i] == 1) {
                 ctr++;
             }
         }
@@ -359,14 +356,17 @@ vector<int> BitMatrixAlgorithm(int E, string read, string reference) {
 
     vector<int> locations(2 * E + 1);
     int windowSize = 4;
-    vector<int> finalVector(m, 1);
+    vector<int> finalVector(m);
     int m = reference.size();
     int n = read.size();
 /*    char t[m];
     char p[n];*/
     int count = 0;
+    int shiftLeftCount = 0;
+    int shiftRightCount = 0;
+    int diagLoc = 0;
 
-    vector<int> NMap((2*E+1) * m + (2*E+1));
+    vector<int> NMap((2 * E + 1) * m + (2 * E + 1));
     vector<int> bestDiagonal = {-1, -1, -1, -1};
     vector<int> movingLocation;
 
@@ -377,7 +377,7 @@ vector<int> BitMatrixAlgorithm(int E, string read, string reference) {
     for (int i = 0; i < 2 * E + 1; i++) {
         locations[i] = p;
         NMap[p] = 2;
-        p += m + 1 ;
+        p += m + 1;
     }
     movingLocation = locations;
 
@@ -386,17 +386,31 @@ vector<int> BitMatrixAlgorithm(int E, string read, string reference) {
         jE = 0;
         for (int j = i - E; j < i + E + 1; j++) {
             if (jE <= 2 * E) {
-                if ((reference[j] == 'A' || reference[j] == 'C'||reference[j] == 'G'||reference[j] == 'T') && read[i] == reference[j]) {
+                if ((reference[j] == 'A' || reference[j] == 'C' || reference[j] == 'G' || reference[j] == 'T') &&
+                    read[i] == reference[j]) {
                     //NMap.insert(NMap.begin() + locations[jE], 0);
                     NMap[movingLocation[jE] + 1] = 0;
+
+                    if (jE == E + 1) {
+                        finalVector[diagLoc] = 0;
+                        diagLoc++;
+                    }
                     movingLocation[jE] += 1;
                     /*for (int j = jE; j < locations.size(); j++) {
                         locations[j]++;
                     }*/
                     jE++;
-                } else if ((reference[j] == 'A' ||reference[j] == 'C'||reference[j] == 'G'||reference[j] == 'T') && read[i] != reference[j]) {
+                } else if ((reference[j] == 'A' || reference[j] == 'C' || reference[j] == 'G' || reference[j] == 'T') &&
+                           read[i] != reference[j]) {
                     //NMap.insert(NMap.begin() + locations[jE], 1);
-                    NMap[movingLocation[jE]+ 1] = 1;
+                    NMap[movingLocation[jE] + 1] = 1;
+
+                    if (jE == E + 1) {
+                        finalVector[diagLoc] = 1;
+                        diagLoc++;
+                        count++;
+                    }
+
                     movingLocation[jE] += 1;
                     /*for (int j = jE; j < locations.size(); j++) {
                         locations[j]++;
@@ -409,16 +423,16 @@ vector<int> BitMatrixAlgorithm(int E, string read, string reference) {
             }
         }
     }
-  /*  int E1 = E;
-    int E2 = 1;
-    for (int i = 0; i < 2 * E + 1; i++) {
-        if (i < E) {
-            for (int j = 0; j < E1; j++) {
-                //NMap.insert(NMap.begin() + locations[i], -1);
-                NMap[movingLocation[i]] = -1;
-                movingLocation[i]++;
-                //increment(i, locations);
-              *//*  for (int j = i; j < locations.size(); j++) {
+    /*  int E1 = E;
+      int E2 = 1;
+      for (int i = 0; i < 2 * E + 1; i++) {
+          if (i < E) {
+              for (int j = 0; j < E1; j++) {
+                  //NMap.insert(NMap.begin() + locations[i], -1);
+                  NMap[movingLocation[i]] = -1;
+                  movingLocation[i]++;
+                  //increment(i, locations);
+                *//*  for (int j = i; j < locations.size(); j++) {
                     locations[j]++;
                 }*//*
             }
@@ -454,62 +468,63 @@ vector<int> BitMatrixAlgorithm(int E, string read, string reference) {
       }
     cout << "\n";*/
 
-    // END OF NEIGHBORHOOD MAP
-    // SLIDING WINDOW
-    int ctr = 0;
-    for (int w = 0; w < m; w++) {
-        if (w + windowSize > m) {
-            windowSize = m - w;
-        }
-
-        //BEST DIAGONAL
-        int bestZeroCount = 0;
-        int currZeroCount = 0;
-        int index = 0;
-
-        //#pragma omp parallel for
-        for (int i = 0; i < E * 2 + 1; i++) {
-
-            for (int j = 0; j < windowSize; j++) {
-               /* if (i == 0) {
-                    if (NMap[0 + j + ctr] == 0) {
-                        currZeroCount++;
-                    }
-                } else {
-                    if (NMap[locations[i - 1] + 1 + j + ctr] == 0) {
-                        currZeroCount++;
-                    }
-                }*/
-                if (NMap[locations[i] + 1 + j + ctr] == 0) {
-                    currZeroCount++;
-                }
+    if (E == 0 || count <= E) {
+        finalVector = NMap;
+    } else {
+        // END OF NEIGHBORHOOD MAP
+        // SLIDING WINDOW
+        int ctr = 0;
+        for (int w = 0; w < m; w++) {
+            if (w + windowSize > m) {
+                windowSize = m - w;
             }
-            if (currZeroCount >= bestZeroCount) {
-                bestZeroCount = currZeroCount;
-                if (i > 0) {
+
+            //BEST DIAGONAL
+            int bestZeroCount = 0;
+            int currZeroCount = 0;
+            int index = 0;
+
+            //#pragma omp parallel for
+            for (int i = 0; i < E * 2 + 1; i++) {
+
+                for (int j = 0; j < windowSize; j++) {
+                    /* if (i == 0) {
+                         if (NMap[0 + j + ctr] == 0) {
+                             currZeroCount++;
+                         }
+                     } else {
+                         if (NMap[locations[i - 1] + 1 + j + ctr] == 0) {
+                             currZeroCount++;
+                         }
+                     }*/
+                    if (NMap[locations[i] + 1 + j + ctr] == 0) {
+                        currZeroCount++;
+                    }
+                }
+                if (currZeroCount >= bestZeroCount) {
+                    bestZeroCount = currZeroCount;
                     //bestDiagonal.push_back(NMap[0 + j + ctr]);
                     index = i;
                 }
-
+                currZeroCount = 0;
             }
-            currZeroCount = 0;
-        }
-        //END OF BEST DIAGONAL
-        ctr++;
-        int l = 0;
-        for (int i = w; i < windowSize + w; i++) {
-            if (i < m) {
-               /* if (index == 0) {
-                    finalVector[i] = NMap[0 + l + ctr];
-                    l++;
-                } else {
-                    finalVector[i] = NMap[locations[index - 1] + 1 + l + ctr];
-                    l++;
-                }*/
+            //END OF BEST DIAGONAL
+            ctr++;
+            int l = 0;
+            for (int i = w; i < windowSize + w; i++) {
+                if (i < m) {
+                    /* if (index == 0) {
+                         finalVector[i] = NMap[0 + l + ctr];
+                         l++;
+                     } else {
+                         finalVector[i] = NMap[locations[index - 1] + 1 + l + ctr];
+                         l++;
+                     }*/
 
-                finalVector[i] = NMap[locations[index] + 1 + l + ctr];
-                l++;
+                    finalVector[i] = NMap[locations[index] + 1 + l + ctr];
+                    l++;
 
+                }
             }
         }
     }
@@ -548,8 +563,8 @@ void multiThreadedMain() {
     //int refcount = refs.size();
     //int readcount = reads.size();
 
-    alignmentNeeded = 0;
-    notNeeded = 0;
+    //alignmentNeeded = 0;
+    //notNeeded = 0;
 
     /*
     TruePos = 0;
@@ -558,8 +573,18 @@ void multiThreadedMain() {
     FalseNeg = 0;
     */
 
-    //int E = e;
+    int E = e;
 
+    //vector<int> location(2*e+1);
+/*    ofstream pairReadsFile;
+    string pairReadsFileName(to_string(e));
+    pairReadsFile.open(pairReadsFileName.c_str(), ios::out);*/
+
+    alignmentNeeded = 0;
+    notNeeded = 0;
+    ofstream pairReadsFile;
+    string pairReadsFileName(to_string(E));
+    pairReadsFile.open(pairReadsFileName.c_str(), ios::out);
 
     auto start = std::chrono::high_resolution_clock::now();
 
@@ -575,9 +600,14 @@ void multiThreadedMain() {
             int j;
             for (j = 0; j < locations.size(); j++) {
                 if (refGenome.genomeData.substr(locations[j], m).size() == m) {
-                    if (countOnes(BitMatrixAlgorithm(e, read, refGenome.genomeData.substr(locations[j], m)), e) <= e) {
+                    if (countOnes(BitMatrixAlgorithm(E, read, refGenome.genomeData.substr(locations[j], m)), E) <= E) {
+
                         #pragma omp critical
                         tempAcceptedLocations.push_back(locations[j]);
+
+
+                        //pairReadsFile << read << "\t" << refGenome.genomeData.substr(locations[j], m) << endl;
+
                         alignmentNeeded++;
                     } else {
                         notNeeded++;
@@ -585,21 +615,23 @@ void multiThreadedMain() {
                 } else {
                     notNeeded++;
                 }
-                auto end = std::chrono::high_resolution_clock::now();
+                #pragma omp critical
+                reads[i].forwardLocations = vector<unsigned long long int>(tempAcceptedLocations);
             }
-
-            #pragma omp critical
-            reads[i].forwardLocations = vector<unsigned long long int>(tempAcceptedLocations);
         } else if (reads[i].reverseLocations.size() > 0) {
             vector<unsigned long long int> &locations = reads[i].reverseLocations;
 
             int j;
             for (j = 0; j < locations.size(); j++) {
                 if (refGenome.genomeData.substr(locations[j], m).size() == m) {
-                    if (countOnes(BitMatrixAlgorithm(e, read, refGenome.genomeData.substr(locations[j], m)), e) <= e) {
+                    if (countOnes(BitMatrixAlgorithm(E, read, refGenome.genomeData.substr(locations[j], m)), E) <=
+                        E) {
                         #pragma omp critical
                         tempAcceptedLocations.push_back(locations[j]);
                         alignmentNeeded++;
+
+                        //pairReadsFile << read << "\t" << refGenome.genomeData.substr(locations[j], m) << endl;
+
                     } else {
                         notNeeded++;
                     }
@@ -607,10 +639,12 @@ void multiThreadedMain() {
                     notNeeded++;
                 }
             }
-             #pragma omp critical
+
+            #pragma omp critical
             reads[i].reverseLocations = vector<unsigned long long int>(tempAcceptedLocations);
         }
     }
+    pairReadsFile.close();
 
     /*
     int i;
@@ -644,9 +678,10 @@ void multiThreadedMain() {
     auto end = std::chrono::high_resolution_clock::now();
 
     chrono::duration<double> diff = end - start;
+    bmRunTime = diff.count();
 
     numFilteredReadLocations = alignmentNeeded;
-    cout << diff.count() << "\t" << e << "\t" << alignmentNeeded << "\t" << notNeeded << endl << endl;
+    cout << diff.count() << "\t" << E << "\t" << alignmentNeeded << "\t" << notNeeded << endl;
 }
 
 

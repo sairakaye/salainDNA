@@ -86,6 +86,10 @@ extern unsigned int numPossibleReadLocations;
 extern unsigned int numFilteredReadLocations;
 extern unsigned int numVerifiedReadLocations;
 
+extern double indexRunTime;
+extern double ssRunTime;
+extern double bmRunTime;
+
 unsigned long long int extractRanking(string kMer);
 uint64_t inthash_64(uint64_t key, uint64_t mask);
 Genome readGenomeFile(string filename);
