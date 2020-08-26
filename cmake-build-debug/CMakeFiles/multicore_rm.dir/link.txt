@@ -1,3 +1,0 @@
-"C:\Program Files\JetBrains\CLion 2020.1\bin\cmake\win\bin\cmake.exe" -E rm -f CMakeFiles\multicore_rm.dir/objects.a
-C:\PROGRA~2\Dev-Cpp\MinGW64\bin\ar.exe cr CMakeFiles\multicore_rm.dir/objects.a @CMakeFiles\multicore_rm.dir\objects1.rsp
-C:\PROGRA~2\Dev-Cpp\MinGW64\bin\g++.exe  -std=c++11 -fopenmp -g   -Wl,--whole-archive CMakeFiles\multicore_rm.dir/objects.a -Wl,--no-whole-archive  -o multicore_rm.exe -Wl,--out-implib,libmulticore_rm.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\multicore_rm.dir\linklibs.rsp
