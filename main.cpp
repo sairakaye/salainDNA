@@ -149,7 +149,7 @@ int main(int argc, char *argv[]) {
 
     /* Uncomment the line below for the pair reads output. */
     //outputPairReads(mainName);
-    cout << "Stzarting Bit Matrix..." << endl;
+    cout << "Starting Bit Matrix..." << endl;
     multiThreadedMain();
     verifyWthEdlib();
     outputPrealignmentResults();

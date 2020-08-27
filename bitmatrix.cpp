@@ -703,60 +703,69 @@ void verifyWthEdlib() {
     int i;
     for (i = 0; i < reads.size(); i++) {
         string read(reads[i].readData);
-        vector<unsigned long long int> tempAcceptedLocations;
+        //vector<unsigned long long int> tempAcceptedLocations;
 
         if (reads[i].forwardLocations.size() > 0) {
-            vector<unsigned long long int> &locations = reads[i].forwardLocations;
+            //vector<unsigned long long int> &locations = reads[i].forwardLocations;
 
             int j;
-            for (j = 0; j < locations.size(); j++) {
-                if (refGenome.genomeData.substr(locations[j], m).size() == m) {
+            for (j = 0; j < reads[i].forwardLocations.size(); j++) {
+                if (refGenome.genomeData.substr(reads[i].forwardLocations[j], m).size() == m) {
                     EdlibAlignResult resultEdlib;
-                    const char* const pRef = refGenome.genomeData.substr(locations[j], m).c_str();
+                    const char* const pRef = refGenome.genomeData.substr(reads[i].forwardLocations[j], m).c_str();
                     const char* const pRead = read.c_str();
                     resultEdlib = edlibAlign(pRef, m, pRead, m,
                                              edlibNewAlignConfig(e, EDLIB_MODE_NW, EDLIB_TASK_PATH, NULL, 0));
                     edlibFreeAlignResult(resultEdlib);
-                    if (resultEdlib.editDistance!= -1) {
-                        tempAcceptedLocations.push_back(locations[j]);
+                    if (resultEdlib.editDistance != -1) {
+                        //tempAcceptedLocations.push_back(locations[j]);
                         truePos++;
 //                        EdlibAccept = true;
                     } else {
 //                        EdlibAccept = false;
                         trueNeg++;
+                        reads[i].forwardLocations.erase(reads[i].forwardLocations.begin() + j);
+                        j--;
+
                     }
                 } else {
                     trueNeg++;
+                    reads[i].forwardLocations.erase(reads[i].forwardLocations.begin() + j);
+                    j--;
                 }
 //                auto end = std::chrono::high_resolution_clock::now();
             }
-            reads[i].forwardLocations = vector<unsigned long long int>(tempAcceptedLocations);
+            //reads[i].forwardLocations = vector<unsigned long long int>(tempAcceptedLocations);
         } else if (reads[i].reverseLocations.size() > 0) {
-            vector<unsigned long long int> &locations = reads[i].reverseLocations;
+            //vector<unsigned long long int> &locations = reads[i].reverseLocations;
 
             int j;
-            for (j = 0; j < locations.size(); j++) {
-                if (refGenome.genomeData.substr(locations[j], m).size() == m) {
+            for (j = 0; j < reads[i].reverseLocations.size(); j++) {
+                if (refGenome.genomeData.substr(reads[i].reverseLocations[j], m).size() == m) {
                     EdlibAlignResult resultEdlib;
-                    const char* const pRef = refGenome.genomeData.substr(locations[j], m).c_str();
+                    const char* const pRef = refGenome.genomeData.substr(reads[i].reverseLocations[j], m).c_str();
                     const char* const pRead = read.c_str();
                     resultEdlib = edlibAlign(pRef, m, pRead, m,
                                              edlibNewAlignConfig(e, EDLIB_MODE_NW, EDLIB_TASK_PATH, NULL, 0));
                     edlibFreeAlignResult(resultEdlib);
                     if (resultEdlib.editDistance!= -1) {
-                        tempAcceptedLocations.push_back(locations[j]);
+                        //tempAcceptedLocations.push_back(locations[j]);
                         truePos++;
 //                        EdlibAccept = true;
                     } else {
 //                        EdlibAccept = false;
                         trueNeg++;
+                        reads[i].reverseLocations.erase(reads[i].reverseLocations.begin() + j);
+                        j--;
                     }
                 } else {
                     trueNeg++;
+                    reads[i].reverseLocations.erase(reads[i].reverseLocations.begin() + j);
+                    j--;
                 }
 //                auto end = std::chrono::high_resolution_clock::now();
             }
-            reads[i].reverseLocations = vector<unsigned long long int>(tempAcceptedLocations);
+            //reads[i].reverseLocations = vector<unsigned long long int>(tempAcceptedLocations);
         }
     }
     numVerifiedReadLocations = truePos;
