@@ -592,56 +592,67 @@ void multiThreadedMain() {
     #pragma omp parallel for reduction(+:notNeeded, alignmentNeeded)
     for (i = 0; i < reads.size(); i++) {
         string read(reads[i].readData);
-        vector<unsigned long long int> tempAcceptedLocations;
+        //vector<unsigned long long int> tempAcceptedLocations;
 
         if (reads[i].forwardLocations.size() > 0) {
-            vector<unsigned long long int> &locations = reads[i].forwardLocations;
+            //vector<unsigned long long int> &locations = reads[i].forwardLocations;
 
             int j;
-            for (j = 0; j < locations.size(); j++) {
-                if (refGenome.genomeData.substr(locations[j], m).size() == m) {
-                    if (countOnes(BitMatrixAlgorithm(E, read, refGenome.genomeData.substr(locations[j], m)), E) <= E) {
-
-                        #pragma omp critical
-                        tempAcceptedLocations.push_back(locations[j]);
-
-
+            for (j = 0; j < reads[i].forwardLocations.size(); j++) {
+                if (refGenome.genomeData.substr(reads[i].forwardLocations[j], m).size() == m) {
+                    if (countOnes(BitMatrixAlgorithm(E, read, refGenome.genomeData.substr(reads[i].forwardLocations[j], m)), E) <= E) {
                         //pairReadsFile << read << "\t" << refGenome.genomeData.substr(locations[j], m) << endl;
 
                         alignmentNeeded++;
                     } else {
                         notNeeded++;
+                        #pragma omp critical
+                        reads[i].forwardLocations.erase(reads[i].forwardLocations.begin() + j);
+                        j--;
                     }
                 } else {
                     notNeeded++;
+                    #pragma omp critical
+                    reads[i].forwardLocations.erase(reads[i].forwardLocations.begin() + j);
+                    j--;
                 }
             }
+            /*
             #pragma omp critical
             reads[i].forwardLocations = vector<unsigned long long int>(tempAcceptedLocations);
+            */
         } else if (reads[i].reverseLocations.size() > 0) {
-            vector<unsigned long long int> &locations = reads[i].reverseLocations;
+            //vector<unsigned long long int> &locations = reads[i].reverseLocations;
 
             int j;
-            for (j = 0; j < locations.size(); j++) {
-                if (refGenome.genomeData.substr(locations[j], m).size() == m) {
-                    if (countOnes(BitMatrixAlgorithm(E, read, refGenome.genomeData.substr(locations[j], m)), E) <=
+            for (j = 0; j < reads[i].reverseLocations.size(); j++) {
+                if (refGenome.genomeData.substr(reads[i].reverseLocations[j], m).size() == m) {
+                    if (countOnes(BitMatrixAlgorithm(E, read, refGenome.genomeData.substr(reads[i].reverseLocations[j], m)), E) <=
                         E) {
                         #pragma omp critical
-                        tempAcceptedLocations.push_back(locations[j]);
+                        //tempAcceptedLocations.push_back(locations[j]);
                         alignmentNeeded++;
 
                         //pairReadsFile << read << "\t" << refGenome.genomeData.substr(locations[j], m) << endl;
 
                     } else {
                         notNeeded++;
+                        #pragma omp critical
+                        reads[i].reverseLocations.erase(reads[i].reverseLocations.begin() + j);
+                        j--;
                     }
                 } else {
                     notNeeded++;
+                    #pragma omp critical
+                    reads[i].reverseLocations.erase(reads[i].reverseLocations.begin() + j);
+                    j--;
                 }
             }
 
+            /*
             #pragma omp critical
             reads[i].reverseLocations = vector<unsigned long long int>(tempAcceptedLocations);
+            */
         }
     }
     pairReadsFile.close();
