@@ -26,7 +26,7 @@ void outputPairReads(string& mainName) {
     pairReadsFile.close();
 }
 
-void outputRunTimeResults(string& mainName, double indexTimeTaken, double ssTimeTaken, double bmTimeTaken) {
+void outputRunTimeResults(string& mainName, double indexTimeTaken, double ssTimeTaken, double bmTimeTaken, double totalTimeTaken) {
     ofstream runTimeFile;
     string runTimeFileName(mode + "_end2end_" + mainName + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + to_string(e) + searchMode + ".txt");
     runTimeFile.open(runTimeFileName.c_str(), ios::out);
@@ -34,6 +34,7 @@ void outputRunTimeResults(string& mainName, double indexTimeTaken, double ssTime
     runTimeFile << "Indexing: " << to_string(indexTimeTaken) + " sec" << endl;
     runTimeFile << "Seed Selector: " << to_string(ssTimeTaken) + " sec" << endl;
     runTimeFile << "Bit Matrix: " << to_string(bmTimeTaken) + " sec" << endl;
+    runTimeFile << "Total time (start to bottom): " << to_string(totalTimeTaken) + " sec" << endl;
 
     runTimeFile.close();
 }

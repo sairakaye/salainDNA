@@ -128,6 +128,7 @@ int main(int argc, char *argv[]) {
     numReads = reads.size();
     numSeeds = numReads * ceil(m / (double) q);
 
+    auto filterTimeStart = omp_get_wtime();
     cout << "Doing searching process..." << endl << endl;
     start = omp_get_wtime();
 
@@ -151,10 +152,14 @@ int main(int argc, char *argv[]) {
     //outputPairReads(mainName);
     cout << "Starting Bit Matrix..." << endl;
     multiThreadedMain();
+    auto filterTimeEnd = omp_get_wtime();
+
+    double totalFilterTime = double(filterTimeEnd - filterTimeStart);
+    outputRunTimeResults(mainName, indexRunTime, ssRunTime, bmRunTime, totalFilterTime);
+
     verifyWthEdlib();
     outputPrealignmentResults();
     outputEdlibResults();
-    outputRunTimeResults(mainName, indexRunTime, ssRunTime, bmRunTime);
 
     if (SAMFileName.length() > 0) {
         outputSAMFile();
