@@ -712,7 +712,8 @@ void verifyWthEdlib() {
             for (j = 0; j < reads[i].forwardLocations.size(); j++) {
                 if (refGenome.genomeData.substr(reads[i].forwardLocations[j], m).size() == m) {
                     EdlibAlignResult resultEdlib;
-                    const char* const pRef = refGenome.genomeData.substr(reads[i].forwardLocations[j], m).c_str();
+                    string c = refGenome.genomeData.substr(reads[i].forwardLocations[j], m);
+                    const char* const pRef = c.c_str();
                     const char* const pRead = read.c_str();
                     resultEdlib = edlibAlign(pRef, m, pRead, m,
                                              edlibNewAlignConfig(e, EDLIB_MODE_NW, EDLIB_TASK_PATH, NULL, 0));
