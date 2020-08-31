@@ -8,150 +8,152 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="D:/THESIS/Github/multicore-rm/cmake-build-debug"/>
+				<Option working_dir="/home/raph/verifier/multicore-rm/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/PROGRA~2/Dev-Cpp/MinGW64/bin/mingw32-make.exe -f &quot;D:/THESIS/Github/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="C:/PROGRA~2/Dev-Cpp/MinGW64/bin/mingw32-make.exe -f &quot;D:/THESIS/Github/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~2/Dev-Cpp/MinGW64/bin/mingw32-make.exe -f &quot;D:/THESIS/Github/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~2/Dev-Cpp/MinGW64/bin/mingw32-make.exe -f &quot;D:/THESIS/Github/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="multicore_rm">
-				<Option output="D:/THESIS/Github/multicore-rm/cmake-build-debug/multicore_rm.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="D:/THESIS/Github/multicore-rm/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="C:/Program Files (x86)/Dev-Cpp/MinGW64/bin/../lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"/>
-					<Add directory="C:/Program Files (x86)/Dev-Cpp/MinGW64/bin/../lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/x86_64-w64-mingw32"/>
-					<Add directory="C:/Program Files (x86)/Dev-Cpp/MinGW64/bin/../lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/backward"/>
-					<Add directory="C:/Program Files (x86)/Dev-Cpp/MinGW64/bin/../lib/gcc/x86_64-w64-mingw32/4.9.2/include"/>
-					<Add directory="C:/Program Files (x86)/Dev-Cpp/MinGW64/bin/../lib/gcc/x86_64-w64-mingw32/4.9.2/../../../../include"/>
-					<Add directory="C:/Program Files (x86)/Dev-Cpp/MinGW64/bin/../lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed"/>
-					<Add directory="C:/Program Files (x86)/Dev-Cpp/MinGW64/bin/../lib/gcc/x86_64-w64-mingw32/4.9.2/../../../../x86_64-w64-mingw32/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="C:/PROGRA~2/Dev-Cpp/MinGW64/bin/mingw32-make.exe -f &quot;D:/THESIS/Github/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 multicore_rm"/>
-					<CompileFile command="C:/PROGRA~2/Dev-Cpp/MinGW64/bin/mingw32-make.exe -f &quot;D:/THESIS/Github/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~2/Dev-Cpp/MinGW64/bin/mingw32-make.exe -f &quot;D:/THESIS/Github/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~2/Dev-Cpp/MinGW64/bin/mingw32-make.exe -f &quot;D:/THESIS/Github/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="multicore_rm/fast">
-				<Option output="D:/THESIS/Github/multicore-rm/cmake-build-debug/multicore_rm.exe" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="D:/THESIS/Github/multicore-rm/cmake-build-debug"/>
-				<Option object_output="./"/>
-				<Option type="1"/>
-				<Option compiler="gcc"/>
-				<Compiler>
-					<Add directory="C:/Program Files (x86)/Dev-Cpp/MinGW64/bin/../lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"/>
-					<Add directory="C:/Program Files (x86)/Dev-Cpp/MinGW64/bin/../lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/x86_64-w64-mingw32"/>
-					<Add directory="C:/Program Files (x86)/Dev-Cpp/MinGW64/bin/../lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++/backward"/>
-					<Add directory="C:/Program Files (x86)/Dev-Cpp/MinGW64/bin/../lib/gcc/x86_64-w64-mingw32/4.9.2/include"/>
-					<Add directory="C:/Program Files (x86)/Dev-Cpp/MinGW64/bin/../lib/gcc/x86_64-w64-mingw32/4.9.2/../../../../include"/>
-					<Add directory="C:/Program Files (x86)/Dev-Cpp/MinGW64/bin/../lib/gcc/x86_64-w64-mingw32/4.9.2/include-fixed"/>
-					<Add directory="C:/Program Files (x86)/Dev-Cpp/MinGW64/bin/../lib/gcc/x86_64-w64-mingw32/4.9.2/../../../../x86_64-w64-mingw32/include"/>
-				</Compiler>
-				<MakeCommands>
-					<Build command="C:/PROGRA~2/Dev-Cpp/MinGW64/bin/mingw32-make.exe -f &quot;D:/THESIS/Github/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 multicore_rm/fast"/>
-					<CompileFile command="C:/PROGRA~2/Dev-Cpp/MinGW64/bin/mingw32-make.exe -f &quot;D:/THESIS/Github/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~2/Dev-Cpp/MinGW64/bin/mingw32-make.exe -f &quot;D:/THESIS/Github/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~2/Dev-Cpp/MinGW64/bin/mingw32-make.exe -f &quot;D:/THESIS/Github/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/raph/verifier/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/raph/verifier/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/raph/verifier/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/raph/verifier/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="D:/THESIS/Github/multicore-rm/cmake-build-debug"/>
+				<Option working_dir="/home/raph/verifier/multicore-rm/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/PROGRA~2/Dev-Cpp/MinGW64/bin/mingw32-make.exe -f &quot;D:/THESIS/Github/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="C:/PROGRA~2/Dev-Cpp/MinGW64/bin/mingw32-make.exe -f &quot;D:/THESIS/Github/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~2/Dev-Cpp/MinGW64/bin/mingw32-make.exe -f &quot;D:/THESIS/Github/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~2/Dev-Cpp/MinGW64/bin/mingw32-make.exe -f &quot;D:/THESIS/Github/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/raph/verifier/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/raph/verifier/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/raph/verifier/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/raph/verifier/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="D:/THESIS/Github/multicore-rm/cmake-build-debug"/>
+				<Option working_dir="/home/raph/verifier/multicore-rm/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="C:/PROGRA~2/Dev-Cpp/MinGW64/bin/mingw32-make.exe -f &quot;D:/THESIS/Github/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="C:/PROGRA~2/Dev-Cpp/MinGW64/bin/mingw32-make.exe -f &quot;D:/THESIS/Github/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="C:/PROGRA~2/Dev-Cpp/MinGW64/bin/mingw32-make.exe -f &quot;D:/THESIS/Github/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="C:/PROGRA~2/Dev-Cpp/MinGW64/bin/mingw32-make.exe -f &quot;D:/THESIS/Github/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/raph/verifier/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/raph/verifier/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/raph/verifier/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/raph/verifier/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="multicore_rm">
+				<Option output="/home/raph/verifier/multicore-rm/cmake-build-debug/multicore_rm" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/raph/verifier/multicore-rm/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/raph/verifier/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 multicore_rm"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/raph/verifier/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/raph/verifier/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/raph/verifier/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="multicore_rm/fast">
+				<Option output="/home/raph/verifier/multicore-rm/cmake-build-debug/multicore_rm" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/raph/verifier/multicore-rm/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/raph/verifier/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 multicore_rm/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/raph/verifier/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/raph/verifier/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/raph/verifier/multicore-rm/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="D:/THESIS/Github/multicore-rm/bitmatrix.cpp">
+		<Unit filename="/home/raph/verifier/multicore-rm/bitmatrix.cpp">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/bitmatrix.h">
+		<Unit filename="/home/raph/verifier/multicore-rm/bitmatrix.h">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/command.cpp">
+		<Unit filename="/home/raph/verifier/multicore-rm/command.cpp">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/command.h">
+		<Unit filename="/home/raph/verifier/multicore-rm/command.h">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/common.cpp">
+		<Unit filename="/home/raph/verifier/multicore-rm/common.cpp">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/common.h">
+		<Unit filename="/home/raph/verifier/multicore-rm/common.h">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/directaddressing.cpp">
+		<Unit filename="/home/raph/verifier/multicore-rm/directaddressing.cpp">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/directaddressing.h">
+		<Unit filename="/home/raph/verifier/multicore-rm/directaddressing.h">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/edlib.cpp">
+		<Unit filename="/home/raph/verifier/multicore-rm/edlib.cpp">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/edlib.h">
+		<Unit filename="/home/raph/verifier/multicore-rm/edlib.h">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/indexing.cpp">
+		<Unit filename="/home/raph/verifier/multicore-rm/indexing.cpp">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/indexing.h">
+		<Unit filename="/home/raph/verifier/multicore-rm/indexing.h">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/main.cpp">
+		<Unit filename="/home/raph/verifier/multicore-rm/main.cpp">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/minimizers.cpp">
+		<Unit filename="/home/raph/verifier/multicore-rm/minimizers.cpp">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/minimizers.h">
+		<Unit filename="/home/raph/verifier/multicore-rm/minimizers.h">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/openaddressing.cpp">
+		<Unit filename="/home/raph/verifier/multicore-rm/openaddressing.cpp">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/openaddressing.h">
+		<Unit filename="/home/raph/verifier/multicore-rm/openaddressing.h">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/output.cpp">
+		<Unit filename="/home/raph/verifier/multicore-rm/output.cpp">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/output.h">
+		<Unit filename="/home/raph/verifier/multicore-rm/output.h">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/pigeonhole.cpp">
+		<Unit filename="/home/raph/verifier/multicore-rm/pigeonhole.cpp">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/pigeonhole.h">
+		<Unit filename="/home/raph/verifier/multicore-rm/pigeonhole.h">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/searching.cpp">
+		<Unit filename="/home/raph/verifier/multicore-rm/searching.cpp">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/searching.h">
+		<Unit filename="/home/raph/verifier/multicore-rm/searching.h">
 			<Option target="multicore_rm"/>
 		</Unit>
-		<Unit filename="D:/THESIS/Github/multicore-rm/CMakeLists.txt">
+		<Unit filename="/home/raph/verifier/multicore-rm/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

@@ -148,11 +148,12 @@ int main(int argc, char *argv[]) {
     //outputFileSeedSelectorResults(mainName, timeTaken);
 
     /* Uncomment the line below for the pair reads output. */
-    //outputPairReads(mainName);
+    outputPairReads(mainName);
+    preCheckWthEdlib();
     cout << "Starting Bit Matrix..." << endl;
     multiThreadedMain();
     verifyWthEdlib();
-    outputPrealignmentResults();
+//    outputPrealignmentResults();
     outputEdlibResults();
     outputRunTimeResults(mainName, indexRunTime, ssRunTime, bmRunTime);
 

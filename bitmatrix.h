@@ -24,5 +24,6 @@ extern unsigned int notNeeded;
 //void multiThreadedMain(map<string, vector<unsigned long long int>>& forwardReadsMap, map<string, vector<unsigned long long int>>& reverseReadsMap);
 void multiThreadedMain();
 void verifyWthEdlib();
+void preCheckWthEdlib();
 
 #endif //MULTICORE_RM_BITMATRIX_H
