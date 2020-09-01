@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
     mode = "open";
     searchMode = "exit";
 
-    q = 12;
+    q = 20;
     e = 0;
     loadFactor = 0.9;
 

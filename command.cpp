@@ -34,7 +34,7 @@ void helpCommands() {
     cout << "Arguments:" << endl;
     cout << "\t -h - view the commands" << endl;
     cout << "\t -v - view the version" << endl;
-    cout << "\t -q - set the q-gram for the seed and the indexing (default is 12)" << endl;
+    cout << "\t -q - set the q-gram for the seed and the indexing (default is 20)" << endl;
     cout << "\t -g - file path of the genome file for generating index" << endl;
     cout << "\t -ir - file path of the input reads for mapping" << endl;
     cout << "\t -i - file path for the index file" << endl;
