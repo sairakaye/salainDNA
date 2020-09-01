@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
     string indexFilePath;
     string mainName;
 
-    mode = "min";
+    mode = "open";
     searchMode = "exit";
 
     q = 12;

@@ -38,10 +38,11 @@ void helpCommands() {
     cout << "\t -g - file path of the genome file for generating index" << endl;
     cout << "\t -ir - file path of the input reads for mapping" << endl;
     cout << "\t -i - file path for the index file" << endl;
-    cout << "\t -m - mode of indexing (dir - direct addressing, open - open addressing, min - minimizers) (default is min)" << endl;
+    cout << "\t -m - mode of indexing (dir - direct addressing, open - open addressing, min - minimizers) (default is open)" << endl;
     cout << "\t -l - load factor for open addressing indexing mode (default is 0.9)" << endl;
     cout << "\t -e - error threshold (default is 0)" << endl;
-    cout << "\t -s - search mode for seed selector (all - find locations in each seed, exit - when a location is found in the seed, immediately exit" << endl;
+    cout << "\t -s - search mode for seed selector (all - find locations in each seed, exit - when a location is found in the seed, immediately exit)" << endl;
+    cout << "\t -rev - find using reverse complement (0 - false, 1 - true) (default is 0)" << endl;
     cout << "\t -out - output file for the SAM file" << endl;
 }
 
