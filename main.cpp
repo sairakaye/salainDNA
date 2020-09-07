@@ -145,19 +145,19 @@ int main(int argc, char *argv[]) {
     timeTaken = double(end - start);
     ssRunTime = timeTaken;
 
-    outputSeedSelectorResults(mainName, timeTaken);
+    //outputSeedSelectorResults(mainName, timeTaken);
     //outputFileSeedSelectorResults(mainName, timeTaken);
 
     /* Uncomment the line below for the pair reads output. */
     //outputPairReads(mainName);
     /* Uncomment the line below to check seed selector reads with Edlib. */
-    preCheckWithEdlib();
+    //preCheckWithEdlib();
     cout << "Starting Bit Matrix..." << endl;
     bitMatrixFilterProcess();
     auto filterTimeEnd = omp_get_wtime();
 
     double totalFilterTime = double(filterTimeEnd - filterTimeStart);
-    outputRunTimeResults(mainName, indexRunTime, ssRunTime, bmRunTime, totalFilterTime);
+    //outputRunTimeResults(mainName, indexRunTime, ssRunTime, bmRunTime, totalFilterTime);
 
     verifyWithEdlib();
     outputPrealignmentResults();
