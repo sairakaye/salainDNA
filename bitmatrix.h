@@ -23,7 +23,7 @@ extern unsigned int notNeeded;
 
 //void bitMatrixFilterProcess(map<string, vector<unsigned long long int>>& forwardReadsMap, map<string, vector<unsigned long long int>>& reverseReadsMap);
 void bitMatrixFilterProcess();
-void verifyWthEdlib();
-void preCheckWthEdlib();
+void verifyWithEdlib();
+void preCheckWithEdlib();
 
 #endif //MULTICORE_RM_BITMATRIX_H

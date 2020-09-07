@@ -696,7 +696,7 @@ void bitMatrixFilterProcess() {
 }
 
 
-void verifyWthEdlib() {
+void verifyWithEdlib() {
     cout << "Edlib:\nTime\tE\tAccepted\tRejected" << endl;
 
     auto start = std::chrono::high_resolution_clock::now();
@@ -776,7 +776,7 @@ void verifyWthEdlib() {
     cout << diff.count() << "\t" << e << "\t" << truePos << "\t" << trueNeg << endl << endl;
 }
 
-void preCheckWthEdlib() {
+void preCheckWithEdlib() {
     cout << "Pre-Edlib:\nTime\tE\tAccepted\tRejected" << endl;
 
     int pos = 0;

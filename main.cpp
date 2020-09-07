@@ -151,7 +151,7 @@ int main(int argc, char *argv[]) {
     /* Uncomment the line below for the pair reads output. */
     //outputPairReads(mainName);
     /* Uncomment the line below to check seed selector reads with Edlib. */
-    preCheckWthEdlib();
+    preCheckWithEdlib();
     cout << "Starting Bit Matrix..." << endl;
     bitMatrixFilterProcess();
     auto filterTimeEnd = omp_get_wtime();
@@ -159,7 +159,7 @@ int main(int argc, char *argv[]) {
     double totalFilterTime = double(filterTimeEnd - filterTimeStart);
     outputRunTimeResults(mainName, indexRunTime, ssRunTime, bmRunTime, totalFilterTime);
 
-    verifyWthEdlib();
+    verifyWithEdlib();
     outputPrealignmentResults();
     outputEdlibResults();
 
