@@ -2,8 +2,8 @@
 // Created by saimanalili on 25/02/2020.
 //
 
-#ifndef PH_INTEGRATION_SEARCHING_H
-#define PH_INTEGRATION_SEARCHING_H
+#ifndef SALAINDNA_SEARCHING_H
+#define SALAINDNA_SEARCHING_H
 
 #include "common.h"
 #include "minimizers.h"
@@ -11,4 +11,4 @@
 void exactSearchingPosition(string seed, string mode, int adjustmentValue, int k, vector<unsigned long long int>& foundLocations);
 void approximateSearchingPosition(string seed, string mode, int adjustmentValue, int k, vector<unsigned long long int>& foundLocations);
 
-#endif //PH_INTEGRATION_SEARCHING_H
+#endif //SALAINDNA_SEARCHING_H

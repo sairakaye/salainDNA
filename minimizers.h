@@ -2,8 +2,8 @@
 // Created by saimanalili on 25/02/2020.
 //
 
-#ifndef PH_INTEGRATION_MINIMIZERS_H
-#define PH_INTEGRATION_MINIMIZERS_H
+#ifndef SALAINDNA_MINIMIZERS_H
+#define SALAINDNA_MINIMIZERS_H
 
 #include "common.h"
 

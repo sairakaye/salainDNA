@@ -2,8 +2,8 @@
 // Created by saimanalili on 25/02/2020.
 //
 
-#ifndef MULTICORE_RM_COMMON_H
-#define MULTICORE_RM_COMMON_H
+#ifndef SALAINDNA_COMMON_H
+#define SALAINDNA_COMMON_H
 
 #include <iostream>
 #include <fstream>
@@ -100,4 +100,4 @@ void getOpenAddressing(string filename, map<long long, unsigned long long int>& 
 map<unsigned long long int, vector<unsigned long long int>> getMinimizers(string filename);
 //void processingPossibleReadsForBitmatrix();
 
-#endif //MULTICORE_RM_COMMON_H
+#endif //SALAINDNA_COMMON_H

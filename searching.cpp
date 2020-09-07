@@ -3,7 +3,7 @@
 //
 
 #include "searching.h"
-#include "pigeonhole.h"
+#include "seedselector.h"
 
 void searchingUsingMinimizers(string seed, int adjustmentValue, int k, vector<unsigned long long int>& foundLocations,
     vector<unsigned long long int>& location) {

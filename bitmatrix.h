@@ -2,8 +2,8 @@
 // Created by saimanalili on 29/03/2020.
 //
 
-#ifndef MULTICORE_RM_BITMATRIX_H
-#define MULTICORE_RM_BITMATRIX_H
+#ifndef SALAINDNA_BITMATRIX_H
+#define SALAINDNA_BITMATRIX_H
 
 #include "common.h"
 
@@ -26,4 +26,4 @@ void bitMatrixFilterProcess();
 void verifyWithEdlib();
 void preCheckWithEdlib();
 
-#endif //MULTICORE_RM_BITMATRIX_H
+#endif //SALAINDNA_BITMATRIX_H

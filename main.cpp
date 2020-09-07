@@ -1,5 +1,5 @@
 #include "command.h"
-#include "pigeonhole.h"
+#include "seedselector.h"
 #include "bitmatrix.h"
 #include "indexing.h"
 #include "output.h"

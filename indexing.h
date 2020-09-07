@@ -2,8 +2,8 @@
 // Created by saimanalili on 13/04/2020.
 //
 
-#ifndef MULTICORE_RM_INDEXING_H
-#define MULTICORE_RM_INDEXING_H
+#ifndef SALAINDNA_INDEXING_H
+#define SALAINDNA_INDEXING_H
 
 #include "common.h"
 #include "directaddressing.h"
@@ -23,4 +23,4 @@ void buildIndex(string mainName, string indexFile,
                 vector<unsigned long long int>& posTable,
                 double loadFactor);
 
-#endif //MULTICORE_RM_INDEXING_H
+#endif //SALAINDNA_INDEXING_H

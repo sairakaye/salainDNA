@@ -2,8 +2,8 @@
 // Created by saimanalili on 17/04/2020.
 //
 
-#ifndef MULTICORE_RM_OUTPUT_H
-#define MULTICORE_RM_OUTPUT_H
+#ifndef SALAINDNA_OUTPUT_H
+#define SALAINDNA_OUTPUT_H
 
 #include "common.h"
 
@@ -15,4 +15,4 @@ void outputPrealignmentResults();
 void outputSAMFile();
 void outputEdlibResults();
 
-#endif //MULTICORE_RM_OUTPUT_H
+#endif //SALAINDNA_OUTPUT_H

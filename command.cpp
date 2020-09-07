@@ -21,12 +21,12 @@ string getFileName(string filePath) {
 }
 
 void generalDetails() {
-    cout << "A Pre-alignment Filter for DNA Read Mapping on a Multi-core Environment" << endl << endl;
+    cout << "SalainDNA: A Pre-alignment Filter for DNA Read Mapping on a Multi-core Environment" << endl << endl;
 
     cout << "The program contains:" << endl;
     cout << "\t - Indexing (Direct Addressing, Open Addressing, Minimizers)" << endl;
-    cout << "\t - Seed Selector using Pigeonhole" << endl;
-    cout << "\t - Bit-matrix for further filteration" << endl;
+    cout << "\t - Seed Selector using Generalized Pigeonhole Principle" << endl;
+    cout << "\t - Bit Matrix for further filteration" << endl;
     cout << "\t - Edlib for Verification" << endl;
 }
 
