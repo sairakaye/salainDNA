@@ -153,7 +153,7 @@ int main(int argc, char *argv[]) {
     /* Uncomment the line below to check seed selector reads with Edlib. */
     preCheckWthEdlib();
     cout << "Starting Bit Matrix..." << endl;
-    multiThreadedMain();
+    bitMatrixFilterProcess();
     auto filterTimeEnd = omp_get_wtime();
 
     double totalFilterTime = double(filterTimeEnd - filterTimeStart);

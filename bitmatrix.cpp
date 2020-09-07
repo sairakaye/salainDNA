@@ -535,7 +535,7 @@ vector<int> BitMatrixAlgorithm(int E, string read, string reference) {
 }
 
 
-void multiThreadedMain() {
+void bitMatrixFilterProcess() {
 
     // string readString, referenceString;
     //double finalTime;
@@ -970,7 +970,7 @@ int main(void){
 //fixedInputMain();
 //multipleInputMain();
 
-multiThreadedMain();
+bitMatrixFilterProcess();
 
 //checkResultswithEdlib();
 

@@ -21,8 +21,8 @@ extern int FalseNeg;
 extern unsigned int alignmentNeeded;
 extern unsigned int notNeeded;
 
-//void multiThreadedMain(map<string, vector<unsigned long long int>>& forwardReadsMap, map<string, vector<unsigned long long int>>& reverseReadsMap);
-void multiThreadedMain();
+//void bitMatrixFilterProcess(map<string, vector<unsigned long long int>>& forwardReadsMap, map<string, vector<unsigned long long int>>& reverseReadsMap);
+void bitMatrixFilterProcess();
 void verifyWthEdlib();
 void preCheckWthEdlib();
 

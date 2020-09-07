@@ -85,7 +85,7 @@ void outputSAMFile() {
     SAMFile.open(SAMFileName.c_str(), ios::out);
     SAMFile << "@HD\tVN:1.4" << endl;
     SAMFile << "@SQ\tSN:" + refGenome.genomeName + "\tLN:" + to_string(refGenome.genomeData.size()) << endl;
-    SAMFile << "@PG\tID:multicore-rm\tPN:multicore-rm\tVN:1.0" << endl;
+    SAMFile << "@PG\tID:salainDNA\tPN:salainDNA\tVN:1.0" << endl;
 
     for (int i = 0; i < reads.size(); i++) {
         if (reads[i].forwardLocations.size() > 0) {
@@ -98,6 +98,8 @@ void outputSAMFile() {
                                                      edlibNewAlignConfig(-1, EDLIB_MODE_NW, EDLIB_TASK_PATH, NULL, 0));
                 string cigarResult(edlibAlignmentToCigar(result.alignment, result.alignmentLength, EDLIB_CIGAR_STANDARD));
                 edlibFreeAlignResult(result);
+
+                int flag;
 
                 SAMFile << reads[i].readName << "\t" << "0" << "\t" << refGenome.genomeName << "\t" << to_string(locations[j] + 1) << "\t" << to_string(255) << "\t";
                 SAMFile << cigarResult << "\t" << "*" << "\t" << "0" << "\t" << "0" << "\t" << refGenome.genomeData.substr(locations[j], m) << "\t" << "*" << endl;
