@@ -40,7 +40,7 @@ void outputRunTimeResults(string& mainName, double indexTimeTaken, double ssTime
 }
 
 void outputSeedSelectorResults(string& mainName, double timeTaken) {
-    cout << "Time taken by the pigeonhole process is: " << to_string(timeTaken) << " sec" << endl << endl;
+    cout << "Time taken by the Seed Selector process is: " << to_string(timeTaken) << " sec" << endl << endl;
 
     cout << "Number of seeds checked: " << to_string(numSeeds) << endl;
     cout << "Number of reads checked: " << to_string(numReads) << endl << endl;

@@ -145,7 +145,7 @@ int main(int argc, char *argv[]) {
     timeTaken = double(end - start);
     ssRunTime = timeTaken;
 
-    //outputSeedSelectorResults(mainName, timeTaken);
+    outputSeedSelectorResults(mainName, timeTaken);
     //outputFileSeedSelectorResults(mainName, timeTaken);
 
     /* Uncomment the line below for the pair reads output. */
@@ -159,6 +159,7 @@ int main(int argc, char *argv[]) {
     double totalFilterTime = double(filterTimeEnd - filterTimeStart);
     //outputRunTimeResults(mainName, indexRunTime, ssRunTime, bmRunTime, totalFilterTime);
 
+    cout << "Starting Edlib..." << endl;
     verifyWithEdlib();
     outputPrealignmentResults();
     outputEdlibResults();

@@ -548,7 +548,6 @@ void bitMatrixFilterProcess() {
 
     //vector<string> fileNames;
     //vector<thread> threadArray;
-    cout << "Time\tE\tNeeded\tNotNeeded" << endl;
 
     /*
     while (infile >> readString >> referenceString) {
@@ -582,9 +581,9 @@ void bitMatrixFilterProcess() {
 
     alignmentNeeded = 0;
     notNeeded = 0;
-    ofstream pairReadsFile;
-    string pairReadsFileName(to_string(E));
-    pairReadsFile.open(pairReadsFileName.c_str(), ios::out);
+    //ofstream pairReadsFile;
+    //string pairReadsFileName(to_string(E));
+    //pairReadsFile.open(pairReadsFileName.c_str(), ios::out);
 
     auto start = std::chrono::high_resolution_clock::now();
 
@@ -655,7 +654,7 @@ void bitMatrixFilterProcess() {
             */
         }
     }
-    pairReadsFile.close();
+    //pairReadsFile.close();
 
     /*
     int i;
@@ -692,12 +691,16 @@ void bitMatrixFilterProcess() {
     bmRunTime = diff.count();
 
     numFilteredReadLocations = alignmentNeeded;
-    cout << diff.count() << "\t" << E << "\t" << alignmentNeeded << "\t" << notNeeded << endl;
+    //cout << diff.count() << "\t" << E << "\t" << alignmentNeeded << "\t" << notNeeded << endl;
+
+    cout << "Time taken by the Bit Matrix filter process is: " << to_string(bmRunTime) << " sec" << endl;
+    cout << "Number of needed locations: " << to_string(alignmentNeeded) << endl;
+    cout << "Number of not needed locations: " << to_string(notNeeded) << endl << endl;
 }
 
 
 void verifyWithEdlib() {
-    cout << "Edlib:\nTime\tE\tAccepted\tRejected" << endl;
+    //cout << "Edlib:\nTime\tE\tAccepted\tRejected" << endl;
 
     auto start = std::chrono::high_resolution_clock::now();
     int i;
@@ -773,7 +776,11 @@ void verifyWithEdlib() {
 
     auto end = std::chrono::high_resolution_clock::now();
     chrono::duration<double> diff = end - start;
-    cout << diff.count() << "\t" << e << "\t" << truePos << "\t" << trueNeg << endl << endl;
+    //cout << diff.count() << "\t" << e << "\t" << truePos << "\t" << trueNeg << endl << endl;
+
+    cout << "Time taken by Edlib is: " << to_string(diff.count()) << " sec" << endl;
+    cout << "Number of accepted locations: " << to_string(truePos) << endl;
+    cout << "Number of rejected locations: " << to_string(notNeeded) << endl << endl;
 }
 
 void preCheckWithEdlib() {
