@@ -693,7 +693,7 @@ void bitMatrixFilterProcess() {
     numFilteredReadLocations = alignmentNeeded;
     //cout << diff.count() << "\t" << E << "\t" << alignmentNeeded << "\t" << notNeeded << endl;
 
-    cout << "Time taken by the Bit Matrix filter process is: " << to_string(bmRunTime) << " sec" << endl;
+    cout << "Time taken by the Bit Matrix is: " << to_string(bmRunTime) << " sec" << endl;
     cout << "Number of needed locations: " << to_string(alignmentNeeded) << endl;
     cout << "Number of not needed locations: " << to_string(notNeeded) << endl << endl;
 }
@@ -780,7 +780,7 @@ void verifyWithEdlib() {
 
     cout << "Time taken by Edlib is: " << to_string(diff.count()) << " sec" << endl;
     cout << "Number of accepted locations: " << to_string(truePos) << endl;
-    cout << "Number of rejected locations: " << to_string(notNeeded) << endl << endl;
+    cout << "Number of rejected locations: " << to_string(trueNeg) << endl << endl;
 }
 
 void preCheckWithEdlib() {
