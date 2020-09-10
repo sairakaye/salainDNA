@@ -62,7 +62,7 @@ void exactSearchingForAll() {
                 reads[i].forwardLocations = vector<unsigned long long int>(totalPossibleLocations);
                 numAcceptedReads++;
             };
-        } else if (tempAcceptedSeeds == 0 && isReverseAccepted) {
+        } else if (tempAcceptedSeeds < acceptanceCriterion && isReverseAccepted) {
             tempAcceptedSeeds = 0;
             string reverseRead = reverseComplement(forwardRead);
 
@@ -179,7 +179,7 @@ void approximateSearchingForAll() {
                 reads[i].forwardLocations = vector<unsigned long long int>(totalPossibleLocations);
                 numAcceptedReads++;
             };
-        } else if (tempAcceptedSeeds == 0 && isReverseAccepted) {
+        } else if (tempAcceptedSeeds < acceptanceCriterion && isReverseAccepted) {
             tempAcceptedSeeds = 0;
             string reverseRead = reverseComplement(forwardRead);
 
@@ -304,7 +304,7 @@ void exactSearchingForExit() {
             }
         }
 
-        if (tempAcceptedSeeds == 0 && isReverseAccepted) {
+        if (tempAcceptedSeeds < acceptanceCriterion && isReverseAccepted) {
             tempAcceptedSeeds = 0;
             string reverseRead = reverseComplement(forwardRead);
 
@@ -424,7 +424,7 @@ void approximateSearchingForExit() {
             }
         }
 
-        if (tempAcceptedSeeds == 0 && isReverseAccepted) {
+        if (tempAcceptedSeeds < acceptanceCriterion && isReverseAccepted) {
             tempAcceptedSeeds = 0;
             string reverseRead = reverseComplement(forwardRead);
 
