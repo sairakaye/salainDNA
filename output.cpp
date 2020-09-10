@@ -103,7 +103,9 @@ void outputSAMFile() {
                 SAMFile << cigarResult << "\t" << "*" << "\t" << "0" << "\t" << "0" << "\t" << refGenome.genomeData.substr(locations[j], m) << "\t" << "*" << "\t";
                 SAMFile << "NM:i:0" << "\t" << "MD:Z:" << m << endl;
             }
-        } else if (reads[i].reverseLocations.size() > 0) {
+        }
+
+        if (reads[i].reverseLocations.size() > 0) {
             string read(reverseComplement(reads[i].readData));
             vector<unsigned long long int>& locations = reads[i].reverseLocations;
 

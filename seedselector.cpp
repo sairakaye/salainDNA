@@ -246,7 +246,7 @@ void searchingReadProcess() {
     }
 }
 
-void exactSearchingForExit() {
+void forwardSearchingExit() {
     int acceptanceCriterion = (j - e);
 
     int i;
@@ -304,60 +304,77 @@ void exactSearchingForExit() {
             }
         }
 
-        if (tempAcceptedSeeds < acceptanceCriterion && isReverseAccepted) {
-            tempAcceptedSeeds = 0;
-            string reverseRead(reverseComplement(forwardRead));
+        numAcceptedSeeds += tempAcceptedSeeds;
+    }
+}
 
-            int k;
-            for (k = 0; k < j; k++) {
-                int startPosition = k * q;
-                int adjustmentValue = startPosition;
+void reverseSearchingExit() {
+    int acceptanceCriterion = (j - e);
 
-                string seed;
+    int i;
+    //#pragma omp parallel for reduction(+:numAcceptedSeeds)
+    for (i = 0; i < reads.size(); i++) {
+        string reverseRead(reverseComplement(reads[i].readData));
+        vector<unsigned long long int> totalPossibleLocations;
+        unsigned int tempAcceptedSeeds = 0;
 
-                if (mode.compare("min") == 0) {
+        int k;
+        for (k = 0; k < j; k++) {
+            int startPosition = k * q;
+            int adjustmentValue = startPosition;
+
+            string seed;
+
+            if (mode.compare("min") == 0) {
+                seed = reverseRead.substr(startPosition, w);
+
+                if (seed.length() < w) {
+                    adjustmentValue = startPosition - (w - seed.length());
+                    startPosition += seed.length() - w;
                     seed = reverseRead.substr(startPosition, w);
-
-                    if (seed.length() < w) {
-                        adjustmentValue = startPosition - (w - seed.length());
-                        startPosition += seed.length() - w;
-                        seed = reverseRead.substr(startPosition, w);
-                    }
-                } else {
-                    seed = reverseRead.substr(startPosition, q);
-
-                    if (seed.length() < q) {
-                        adjustmentValue = startPosition - (q - seed.length());
-                        startPosition += seed.length() - q;
-                        seed = reverseRead.substr(startPosition, q);
-                    }
                 }
+            } else {
+                seed = reverseRead.substr(startPosition, q);
 
-                vector<unsigned long long int> reverse;
+                if (seed.length() < q) {
+                    adjustmentValue = startPosition - (q - seed.length());
+                    startPosition += seed.length() - q;
+                    seed = reverseRead.substr(startPosition, q);
+                }
+            }
 
-                exactSearchingPosition(seed, mode, adjustmentValue, k, reverse);
+            vector<unsigned long long int> reverse;
 
-                if (reverse.size() > 0) {
-                    tempAcceptedSeeds++;
-                    totalPossibleLocations.insert(totalPossibleLocations.end(), reverse.begin(), reverse.end());
+            exactSearchingPosition(seed, mode, adjustmentValue, k, reverse);
 
-                    if (tempAcceptedSeeds == acceptanceCriterion) {
-                        sort(totalPossibleLocations.begin(), totalPossibleLocations.end());
-                        totalPossibleLocations.erase(unique(totalPossibleLocations.begin(), totalPossibleLocations.end()), totalPossibleLocations.end());
+            if (reverse.size() > 0) {
+                tempAcceptedSeeds++;
+                totalPossibleLocations.insert(totalPossibleLocations.end(), reverse.begin(), reverse.end());
 
-                        #pragma omp critical
-                        {
-                            numPossibleReadLocations += totalPossibleLocations.size();
-                            reads[i].reverseLocations = vector<unsigned long long int>(totalPossibleLocations);
-                            numAcceptedReads++;
-                        };
-                        break;
-                    }
+                if (tempAcceptedSeeds == acceptanceCriterion) {
+                    sort(totalPossibleLocations.begin(), totalPossibleLocations.end());
+                    totalPossibleLocations.erase(unique(totalPossibleLocations.begin(), totalPossibleLocations.end()), totalPossibleLocations.end());
+
+                    #pragma omp critical
+                    {
+                        numPossibleReadLocations += totalPossibleLocations.size();
+                        reads[i].reverseLocations = vector<unsigned long long int>(totalPossibleLocations);
+                        numAcceptedReads++;
+                    };
+                    break;
                 }
             }
         }
 
         numAcceptedSeeds += tempAcceptedSeeds;
+    }
+}
+
+void exactSearchingForExit() {
+    forwardSearchingExit();
+
+    if (isReverseAccepted) {
+        reverseSearchingExit();
     }
 }
 

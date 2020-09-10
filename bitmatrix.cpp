@@ -620,7 +620,9 @@ void bitMatrixFilterProcess() {
             #pragma omp critical
             reads[i].forwardLocations = vector<unsigned long long int>(tempAcceptedLocations);
             */
-        } else if (reads[i].reverseLocations.size() > 0) {
+        }
+
+        if (reads[i].reverseLocations.size() > 0) {
             //vector<unsigned long long int> &locations = reads[i].reverseLocations;
             string reverseRead(reverseComplement(read));
 
@@ -741,7 +743,9 @@ void verifyWithEdlib() {
 //                auto end = std::chrono::high_resolution_clock::now();
             }
             //reads[i].forwardLocations = vector<unsigned long long int>(tempAcceptedLocations);
-        } else if (reads[i].reverseLocations.size() > 0) {
+        }
+
+        if (reads[i].reverseLocations.size() > 0) {
             //vector<unsigned long long int> &locations = reads[i].reverseLocations;
             string reverseRead(reverseComplement(read));
 
