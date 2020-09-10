@@ -622,11 +622,12 @@ void bitMatrixFilterProcess() {
             */
         } else if (reads[i].reverseLocations.size() > 0) {
             //vector<unsigned long long int> &locations = reads[i].reverseLocations;
+            string reverseRead(read);
 
             int j;
             for (j = 0; j < reads[i].reverseLocations.size(); j++) {
                 if (refGenome.genomeData.substr(reads[i].reverseLocations[j], m).size() == m) {
-                    if (countOnes(BitMatrixAlgorithm(E, read, refGenome.genomeData.substr(reads[i].reverseLocations[j], m)), E) <=
+                    if (countOnes(BitMatrixAlgorithm(E, reverseRead, refGenome.genomeData.substr(reads[i].reverseLocations[j], m)), E) <=
                         E) {
                         #pragma omp critical
                         //tempAcceptedLocations.push_back(locations[j]);
@@ -742,13 +743,14 @@ void verifyWithEdlib() {
             //reads[i].forwardLocations = vector<unsigned long long int>(tempAcceptedLocations);
         } else if (reads[i].reverseLocations.size() > 0) {
             //vector<unsigned long long int> &locations = reads[i].reverseLocations;
+            string reverseRead(read);
 
             int j;
             for (j = 0; j < reads[i].reverseLocations.size(); j++) {
                 if (refGenome.genomeData.substr(reads[i].reverseLocations[j], m).size() == m) {
                     EdlibAlignResult resultEdlib;
                     const char* const pRef = refGenome.genomeData.substr(reads[i].reverseLocations[j], m).c_str();
-                    const char* const pRead = read.c_str();
+                    const char* const pRead = reverseRead.c_str();
                     resultEdlib = edlibAlign(pRef, m, pRead, m,
                                              edlibNewAlignConfig(e, EDLIB_MODE_NW, EDLIB_TASK_PATH, NULL, 0));
                     edlibFreeAlignResult(resultEdlib);
