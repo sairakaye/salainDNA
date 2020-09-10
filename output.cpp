@@ -104,7 +104,7 @@ void outputSAMFile() {
                 SAMFile << "NM:i:0" << "\t" << "MD:Z:" << m << endl;
             }
         } else if (reads[i].reverseLocations.size() > 0) {
-            string read(reads[i].readData);
+            string read(reverseComplement(reads[i].readData));
             vector<unsigned long long int>& locations = reads[i].reverseLocations;
 
             for (int j = 0; j < locations.size(); j++) {
