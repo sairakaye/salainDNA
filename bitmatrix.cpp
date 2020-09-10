@@ -622,7 +622,7 @@ void bitMatrixFilterProcess() {
             */
         } else if (reads[i].reverseLocations.size() > 0) {
             //vector<unsigned long long int> &locations = reads[i].reverseLocations;
-            string reverseRead(read);
+            string reverseRead(reverseComplement(read));
 
             int j;
             for (j = 0; j < reads[i].reverseLocations.size(); j++) {
@@ -743,7 +743,7 @@ void verifyWithEdlib() {
             //reads[i].forwardLocations = vector<unsigned long long int>(tempAcceptedLocations);
         } else if (reads[i].reverseLocations.size() > 0) {
             //vector<unsigned long long int> &locations = reads[i].reverseLocations;
-            string reverseRead(read);
+            string reverseRead(reverseComplement(read));
 
             int j;
             for (j = 0; j < reads[i].reverseLocations.size(); j++) {

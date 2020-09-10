@@ -64,7 +64,7 @@ void exactSearchingForAll() {
             };
         } else if (tempAcceptedSeeds < acceptanceCriterion && isReverseAccepted) {
             tempAcceptedSeeds = 0;
-            string reverseRead = reverseComplement(forwardRead);
+            string reverseRead(reverseComplement(forwardRead));
 
             int k;
             for (k = 0; k < j; k++) {
@@ -181,7 +181,7 @@ void approximateSearchingForAll() {
             };
         } else if (tempAcceptedSeeds < acceptanceCriterion && isReverseAccepted) {
             tempAcceptedSeeds = 0;
-            string reverseRead = reverseComplement(forwardRead);
+            string reverseRead(reverseComplement(forwardRead));
 
             int k;
             for (k = 0; k < j; k++) {
@@ -306,7 +306,7 @@ void exactSearchingForExit() {
 
         if (tempAcceptedSeeds < acceptanceCriterion && isReverseAccepted) {
             tempAcceptedSeeds = 0;
-            string reverseRead = reverseComplement(forwardRead);
+            string reverseRead(reverseComplement(forwardRead));
 
             int k;
             for (k = 0; k < j; k++) {
@@ -426,7 +426,7 @@ void approximateSearchingForExit() {
 
         if (tempAcceptedSeeds < acceptanceCriterion && isReverseAccepted) {
             tempAcceptedSeeds = 0;
-            string reverseRead = reverseComplement(forwardRead);
+            string reverseRead(reverseComplement(forwardRead));
 
             int k;
             for (k = 0; k < j; k++) {
