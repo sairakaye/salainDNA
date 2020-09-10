@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
     e = 0;
     loadFactor = 0.9;
 
-    isReverseAccepted = false;
+    isReverseAccepted = true;
 
     numSeeds = 0;
     numReads = 0;
@@ -128,6 +128,11 @@ int main(int argc, char *argv[]) {
     numReads = reads.size();
     numSeeds = numReads * ceil(m / (double) q);
 
+    if (isReverseAccepted) {
+        numAcceptedReads *= 2;
+        numSeeds *= 2;
+    }
+
     auto filterTimeStart = omp_get_wtime();
     cout << "Doing searching process..." << endl << endl;
     start = omp_get_wtime();
@@ -157,7 +162,7 @@ int main(int argc, char *argv[]) {
     auto filterTimeEnd = omp_get_wtime();
 
     double totalFilterTime = double(filterTimeEnd - filterTimeStart);
-    //outputRunTimeResults(mainName, indexRunTime, ssRunTime, bmRunTime, totalFilterTime);
+    outputRunTimeResults(mainName, indexRunTime, ssRunTime, bmRunTime, totalFilterTime);
 
     cout << "Starting Edlib..." << endl;
     verifyWithEdlib();

@@ -7,13 +7,11 @@
 int j;
 int allowableE;
 
-void exactSearchingForAll() {
-    int acceptanceCriterion = (j - e);
-
+void exactForwardSearchingAll(int acceptanceCriterion) {
     int i;
     #pragma omp parallel for reduction(+:numAcceptedSeeds)
     for (i = 0; i < reads.size(); i++) {
-        string forwardRead(reads[i].readData);
+        string forwardRead = reads[i].readData;
         vector<unsigned long long int> totalPossibleLocations;
         unsigned int tempAcceptedSeeds = 0;
 
@@ -62,75 +60,86 @@ void exactSearchingForAll() {
                 reads[i].forwardLocations = vector<unsigned long long int>(totalPossibleLocations);
                 numAcceptedReads++;
             };
-        } else if (tempAcceptedSeeds < acceptanceCriterion && isReverseAccepted) {
-            tempAcceptedSeeds = 0;
-            string reverseRead(reverseComplement(forwardRead));
-
-            int k;
-            for (k = 0; k < j; k++) {
-                int startPosition = k * q;
-                int adjustmentValue = startPosition;
-
-                string seed;
-
-                if (mode.compare("min") == 0) {
-                    seed = reverseRead.substr(startPosition, w);
-
-                    if (seed.length() < w) {
-                        adjustmentValue = startPosition - (w - seed.length());
-                        startPosition += seed.length() - w;
-                        seed = reverseRead.substr(startPosition, w);
-                    }
-                } else {
-                    seed = reverseRead.substr(startPosition, q);
-
-                    if (seed.length() < q) {
-                        adjustmentValue = startPosition - (q - seed.length());
-                        startPosition += seed.length() - q;
-                        seed = reverseRead.substr(startPosition, q);
-                    }
-                }
-
-                vector<unsigned long long int> reverse;
-
-                exactSearchingPosition(seed, mode, adjustmentValue, k, reverse);
-
-                if (reverse.size() > 0) {
-                    tempAcceptedSeeds++;
-                    totalPossibleLocations.insert(totalPossibleLocations.end(), reverse.begin(), reverse.end());
-                }
-            }
-
-            if (tempAcceptedSeeds >= acceptanceCriterion) {
-                sort(totalPossibleLocations.begin(), totalPossibleLocations.end());
-                totalPossibleLocations.erase(unique(totalPossibleLocations.begin(), totalPossibleLocations.end()), totalPossibleLocations.end());
-
-                #pragma omp critical
-                {
-                    numPossibleReadLocations += totalPossibleLocations.size();
-                    reads[i].reverseLocations = vector<unsigned long long int>(totalPossibleLocations);
-                    numAcceptedReads++;
-                };
-            }
         }
 
         numAcceptedSeeds += tempAcceptedSeeds;
     }
 }
 
-void approximateSearchingForAll() {
-    int acceptanceCriterion;
+void exactReverseSearchingAll(int acceptanceCriterion) {
+    int i;
+#pragma omp parallel for reduction(+:numAcceptedSeeds)
+    for (i = 0; i < reads.size(); i++) {
+        string reverseRead = reverseComplement(reads[i].readData);
+        vector<unsigned long long int> totalPossibleLocations;
+        unsigned int tempAcceptedSeeds = 0;
 
-    if (allowableE < q) {
-        acceptanceCriterion = j - floor(e / (allowableE + 1));
-    } else {
-        acceptanceCriterion = j - floor(e / allowableE);
+        int k;
+        for (k = 0; k < j; k++) {
+            int startPosition = k * q;
+            int adjustmentValue = startPosition;
+
+            string seed;
+
+            if (mode.compare("min") == 0) {
+                seed = reverseRead.substr(startPosition, w);
+
+                if (seed.length() < w) {
+                    adjustmentValue = startPosition - (w - seed.length());
+                    startPosition += seed.length() - w;
+                    seed = reverseRead.substr(startPosition, w);
+                }
+            } else {
+                seed = reverseRead.substr(startPosition, q);
+
+                if (seed.length() < q) {
+                    adjustmentValue = startPosition - (q - seed.length());
+                    startPosition += seed.length() - q;
+                    seed = reverseRead.substr(startPosition, q);
+                }
+            }
+
+            vector<unsigned long long int> reverse;
+
+            exactSearchingPosition(seed, mode, adjustmentValue, k, reverse);
+
+            if (reverse.size() > 0) {
+                tempAcceptedSeeds++;
+                totalPossibleLocations.insert(totalPossibleLocations.end(), reverse.begin(), reverse.end());
+            }
+        }
+
+        if (tempAcceptedSeeds >= acceptanceCriterion) {
+            sort(totalPossibleLocations.begin(), totalPossibleLocations.end());
+            totalPossibleLocations.erase(unique(totalPossibleLocations.begin(), totalPossibleLocations.end()), totalPossibleLocations.end());
+
+            #pragma omp critical
+            {
+                numPossibleReadLocations += totalPossibleLocations.size();
+                reads[i].reverseLocations = vector<unsigned long long int>(totalPossibleLocations);
+                numAcceptedReads++;
+            };
+        }
+
+        numAcceptedSeeds += tempAcceptedSeeds;
     }
+}
 
+void exactSearchingForAll() {
+    int acceptanceCriterion = (j - e);
+
+    exactForwardSearchingAll(acceptanceCriterion);
+
+    if (isReverseAccepted) {
+        exactReverseSearchingAll(acceptanceCriterion);
+    }
+}
+
+void approximateForwardSearchingAll(int acceptanceCriterion) {
     int i;
     #pragma omp parallel for reduction(+:numAcceptedSeeds)
     for (i = 0; i < reads.size(); i++) {
-        string forwardRead(reads[i].readData);
+        string forwardRead = reads[i].readData;
         vector<unsigned long long int> totalPossibleLocations;
         unsigned int tempAcceptedSeeds = 0;
 
@@ -179,59 +188,84 @@ void approximateSearchingForAll() {
                 reads[i].forwardLocations = vector<unsigned long long int>(totalPossibleLocations);
                 numAcceptedReads++;
             };
-        } else if (tempAcceptedSeeds < acceptanceCriterion && isReverseAccepted) {
-            tempAcceptedSeeds = 0;
-            string reverseRead(reverseComplement(forwardRead));
-
-            int k;
-            for (k = 0; k < j; k++) {
-                int startPosition = k * q;
-                int adjustmentValue = startPosition;
-
-                string seed;
-
-                if (mode.compare("min") == 0) {
-                    seed = reverseRead.substr(startPosition, w);
-
-                    if (seed.length() < w) {
-                        adjustmentValue = startPosition - (w - seed.length());
-                        startPosition += seed.length() - w;
-                        seed = reverseRead.substr(startPosition, w);
-                    }
-                } else {
-                    seed = reverseRead.substr(startPosition, q);
-
-                    if (seed.length() < q) {
-                        adjustmentValue = startPosition - (q - seed.length());
-                        startPosition += seed.length() - q;
-                        seed = reverseRead.substr(startPosition, q);
-                    }
-                }
-
-                vector<unsigned long long int> reverse;
-
-                approximateSearchingPosition(seed, mode, adjustmentValue, k, reverse);
-
-                if (reverse.size() > 0) {
-                    tempAcceptedSeeds++;
-                    totalPossibleLocations.insert(totalPossibleLocations.end(), reverse.begin(), reverse.end());
-                }
-            }
-
-            if (tempAcceptedSeeds >= acceptanceCriterion) {
-                sort(totalPossibleLocations.begin(), totalPossibleLocations.end());
-                totalPossibleLocations.erase(unique(totalPossibleLocations.begin(), totalPossibleLocations.end()), totalPossibleLocations.end());
-
-                #pragma omp critical
-                {
-                    numPossibleReadLocations += totalPossibleLocations.size();
-                    reads[i].reverseLocations = vector<unsigned long long int>(totalPossibleLocations);
-                    numAcceptedReads++;
-                };
-            }
         }
 
         numAcceptedSeeds += tempAcceptedSeeds;
+    }
+}
+
+void approximateReverseSearchingAll(int acceptanceCriterion) {
+    int i;
+#pragma omp parallel for reduction(+:numAcceptedSeeds)
+    for (i = 0; i < reads.size(); i++) {
+        string reverseRead = reverseComplement(reads[i].readData);
+        vector<unsigned long long int> totalPossibleLocations;
+        unsigned int tempAcceptedSeeds = 0;
+
+        int k;
+        for (k = 0; k < j; k++) {
+            int startPosition = k * q;
+            int adjustmentValue = startPosition;
+
+            string seed;
+
+            if (mode.compare("min") == 0) {
+                seed = reverseRead.substr(startPosition, w);
+
+                if (seed.length() < w) {
+                    adjustmentValue = startPosition - (w - seed.length());
+                    startPosition += seed.length() - w;
+                    seed = reverseRead.substr(startPosition, w);
+                }
+            } else {
+                seed = reverseRead.substr(startPosition, q);
+
+                if (seed.length() < q) {
+                    adjustmentValue = startPosition - (q - seed.length());
+                    startPosition += seed.length() - q;
+                    seed = reverseRead.substr(startPosition, q);
+                }
+            }
+
+            vector<unsigned long long int> reverse;
+
+            approximateSearchingPosition(seed, mode, adjustmentValue, k, reverse);
+
+            if (reverse.size() > 0) {
+                tempAcceptedSeeds++;
+                totalPossibleLocations.insert(totalPossibleLocations.end(), reverse.begin(), reverse.end());
+            }
+        }
+
+        if (tempAcceptedSeeds >= acceptanceCriterion) {
+            sort(totalPossibleLocations.begin(), totalPossibleLocations.end());
+            totalPossibleLocations.erase(unique(totalPossibleLocations.begin(), totalPossibleLocations.end()), totalPossibleLocations.end());
+
+            #pragma omp critical
+            {
+                numPossibleReadLocations += totalPossibleLocations.size();
+                reads[i].reverseLocations = vector<unsigned long long int>(totalPossibleLocations);
+                numAcceptedReads++;
+            };
+        }
+
+        numAcceptedSeeds += tempAcceptedSeeds;
+    }
+}
+
+void approximateSearchingForAll() {
+    int acceptanceCriterion;
+
+    if (allowableE < q) {
+        acceptanceCriterion = j - floor(e / (allowableE + 1));
+    } else {
+        acceptanceCriterion = j - floor(e / allowableE);
+    }
+
+    approximateForwardSearchingAll(acceptanceCriterion);
+
+    if (isReverseAccepted) {
+        approximateReverseSearchingAll(acceptanceCriterion);
     }
 }
 
@@ -246,13 +280,11 @@ void searchingReadProcess() {
     }
 }
 
-void forwardSearchingExit() {
-    int acceptanceCriterion = (j - e);
-
+void exactForwardSearchingExit(int acceptanceCriterion) {
     int i;
     #pragma omp parallel for reduction(+:numAcceptedSeeds)
     for (i = 0; i < reads.size(); i++) {
-        string forwardRead(reads[i].readData);
+        string forwardRead = reads[i].readData;
         vector<unsigned long long int> totalPossibleLocations;
         unsigned int tempAcceptedSeeds = 0;
 
@@ -308,13 +340,11 @@ void forwardSearchingExit() {
     }
 }
 
-void reverseSearchingExit() {
-    int acceptanceCriterion = (j - e);
-
+void exactReverseSearchingExit(int acceptanceCriterion) {
     int i;
-    //#pragma omp parallel for reduction(+:numAcceptedSeeds)
+    #pragma omp parallel for reduction(+:numAcceptedSeeds)
     for (i = 0; i < reads.size(); i++) {
-        string reverseRead(reverseComplement(reads[i].readData));
+        string reverseRead = reverseComplement(reads[i].readData);
         vector<unsigned long long int> totalPossibleLocations;
         unsigned int tempAcceptedSeeds = 0;
 
@@ -371,26 +401,20 @@ void reverseSearchingExit() {
 }
 
 void exactSearchingForExit() {
-    forwardSearchingExit();
+    int acceptanceCriterion = (j - e);
+
+    exactForwardSearchingExit(acceptanceCriterion);
 
     if (isReverseAccepted) {
-        reverseSearchingExit();
+        exactReverseSearchingExit(acceptanceCriterion);
     }
 }
 
-void approximateSearchingForExit() {
-    int acceptanceCriterion;
-
-    if (allowableE < q) {
-        acceptanceCriterion = j - floor(e / (allowableE + 1));
-    } else {
-        acceptanceCriterion = j - floor(e / allowableE);
-    }
-
+void approximateForwardSearchingExit(int acceptanceCriterion) {
     int i;
     #pragma omp parallel for reduction(+:numAcceptedSeeds)
     for (i = 0; i < reads.size(); i++) {
-        string forwardRead(reads[i].readData);
+        string forwardRead = reads[i].readData;
         vector<unsigned long long int> totalPossibleLocations;
         unsigned int tempAcceptedSeeds = 0;
 
@@ -441,59 +465,82 @@ void approximateSearchingForExit() {
             }
         }
 
-        if (tempAcceptedSeeds < acceptanceCriterion && isReverseAccepted) {
-            tempAcceptedSeeds = 0;
-            string reverseRead(reverseComplement(forwardRead));
+        numAcceptedSeeds += tempAcceptedSeeds;
+    }
+}
 
-            int k;
-            for (k = 0; k < j; k++) {
-                int startPosition = k * q;
-                int adjustmentValue = startPosition;
+void approximateReverseSearchingExit(int acceptanceCriterion) {
+    int i;
+    #pragma omp parallel for reduction(+:numAcceptedSeeds)
+    for (i = 0; i < reads.size(); i++) {
+        string reverseRead = reverseComplement(reads[i].readData);
+        vector<unsigned long long int> totalPossibleLocations;
+        unsigned int tempAcceptedSeeds = 0;
 
-                string seed;
+        int k;
+        for (k = 0; k < j; k++) {
+            int startPosition = k * q;
+            int adjustmentValue = startPosition;
 
-                if (mode.compare("min") == 0) {
+            string seed;
+
+            if (mode.compare("min") == 0) {
+                seed = reverseRead.substr(startPosition, w);
+
+                if (seed.length() < w) {
+                    adjustmentValue = startPosition - (w - seed.length());
+                    startPosition += seed.length() - w;
                     seed = reverseRead.substr(startPosition, w);
-
-                    if (seed.length() < w) {
-                        adjustmentValue = startPosition - (w - seed.length());
-                        startPosition += seed.length() - w;
-                        seed = reverseRead.substr(startPosition, w);
-                    }
-                } else {
-                    seed = reverseRead.substr(startPosition, q);
-
-                    if (seed.length() < q) {
-                        adjustmentValue = startPosition - (q - seed.length());
-                        startPosition += seed.length() - q;
-                        seed = reverseRead.substr(startPosition, q);
-                    }
                 }
+            } else {
+                seed = reverseRead.substr(startPosition, q);
 
-                vector<unsigned long long int> reverse;
+                if (seed.length() < q) {
+                    adjustmentValue = startPosition - (q - seed.length());
+                    startPosition += seed.length() - q;
+                    seed = reverseRead.substr(startPosition, q);
+                }
+            }
 
-                approximateSearchingPosition(seed, mode, adjustmentValue, k, reverse);
+            vector<unsigned long long int> reverse;
 
-                if (reverse.size() > 0) {
-                    tempAcceptedSeeds++;
-                    totalPossibleLocations.insert(totalPossibleLocations.end(), reverse.begin(), reverse.end());
+            approximateSearchingPosition(seed, mode, adjustmentValue, k, reverse);
 
-                    if (tempAcceptedSeeds >= acceptanceCriterion) {
-                        sort(totalPossibleLocations.begin(), totalPossibleLocations.end());
-                        totalPossibleLocations.erase(unique(totalPossibleLocations.begin(), totalPossibleLocations.end()), totalPossibleLocations.end());
+            if (reverse.size() > 0) {
+                tempAcceptedSeeds++;
+                totalPossibleLocations.insert(totalPossibleLocations.end(), reverse.begin(), reverse.end());
 
-                        #pragma omp critical
-                        {
-                            numPossibleReadLocations += totalPossibleLocations.size();
-                            reads[i].reverseLocations = vector<unsigned long long int>(totalPossibleLocations);
-                        };
-                        break;
-                    }
+                if (tempAcceptedSeeds >= acceptanceCriterion) {
+                    sort(totalPossibleLocations.begin(), totalPossibleLocations.end());
+                    totalPossibleLocations.erase(unique(totalPossibleLocations.begin(), totalPossibleLocations.end()), totalPossibleLocations.end());
+
+                    #pragma omp critical
+                    {
+                        numPossibleReadLocations += totalPossibleLocations.size();
+                        reads[i].reverseLocations = vector<unsigned long long int>(totalPossibleLocations);
+                    };
+                    break;
                 }
             }
         }
 
         numAcceptedSeeds += tempAcceptedSeeds;
+    }
+}
+
+void approximateSearchingForExit() {
+    int acceptanceCriterion;
+
+    if (allowableE < q) {
+        acceptanceCriterion = j - floor(e / (allowableE + 1));
+    } else {
+        acceptanceCriterion = j - floor(e / allowableE);
+    }
+
+    approximateForwardSearchingExit(acceptanceCriterion);
+
+    if (isReverseAccepted) {
+        approximateReverseSearchingExit(acceptanceCriterion);
     }
 }
 

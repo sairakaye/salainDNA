@@ -89,7 +89,7 @@ void outputSAMFile() {
 
     for (int i = 0; i < reads.size(); i++) {
         if (reads[i].forwardLocations.size() > 0) {
-            string read(reads[i].readData);
+            string read = reads[i].readData;
             vector<unsigned long long int>& locations = reads[i].forwardLocations;
 
             for (int j = 0; j < locations.size(); j++) {
@@ -106,7 +106,7 @@ void outputSAMFile() {
         }
 
         if (reads[i].reverseLocations.size() > 0) {
-            string read(reverseComplement(reads[i].readData));
+            string read = reverseComplement(reads[i].readData);
             vector<unsigned long long int>& locations = reads[i].reverseLocations;
 
             for (int j = 0; j < locations.size(); j++) {

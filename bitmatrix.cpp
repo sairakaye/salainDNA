@@ -590,7 +590,7 @@ void bitMatrixFilterProcess() {
     int i;
     #pragma omp parallel for reduction(+:notNeeded, alignmentNeeded)
     for (i = 0; i < reads.size(); i++) {
-        string read(reads[i].readData);
+        string read = reads[i].readData;
         //vector<unsigned long long int> tempAcceptedLocations;
 
         if (reads[i].forwardLocations.size() > 0) {
@@ -624,7 +624,7 @@ void bitMatrixFilterProcess() {
 
         if (reads[i].reverseLocations.size() > 0) {
             //vector<unsigned long long int> &locations = reads[i].reverseLocations;
-            string reverseRead(reverseComplement(read));
+            string reverseRead = reverseComplement(read);
 
             int j;
             for (j = 0; j < reads[i].reverseLocations.size(); j++) {
@@ -708,7 +708,7 @@ void verifyWithEdlib() {
     auto start = std::chrono::high_resolution_clock::now();
     int i;
     for (i = 0; i < reads.size(); i++) {
-        string read(reads[i].readData);
+        string read = reads[i].readData;
         //vector<unsigned long long int> tempAcceptedLocations;
 
         if (reads[i].forwardLocations.size() > 0) {
@@ -718,8 +718,8 @@ void verifyWithEdlib() {
             for (j = 0; j < reads[i].forwardLocations.size(); j++) {
                 if (refGenome.genomeData.substr(reads[i].forwardLocations[j], m).size() == m) {
                     EdlibAlignResult resultEdlib;
-                    string c = refGenome.genomeData.substr(reads[i].forwardLocations[j], m);
-                    const char* const pRef = c.c_str();
+                    string refGenomeRead = refGenome.genomeData.substr(reads[i].forwardLocations[j], m);
+                    const char* const pRef = refGenomeRead.c_str();
                     const char* const pRead = read.c_str();
                     resultEdlib = edlibAlign(pRef, m, pRead, m,
                                              edlibNewAlignConfig(e, EDLIB_MODE_NW, EDLIB_TASK_PATH, NULL, 0));
@@ -747,13 +747,14 @@ void verifyWithEdlib() {
 
         if (reads[i].reverseLocations.size() > 0) {
             //vector<unsigned long long int> &locations = reads[i].reverseLocations;
-            string reverseRead(reverseComplement(read));
+            string reverseRead = reverseComplement(read);
 
             int j;
             for (j = 0; j < reads[i].reverseLocations.size(); j++) {
                 if (refGenome.genomeData.substr(reads[i].reverseLocations[j], m).size() == m) {
                     EdlibAlignResult resultEdlib;
-                    const char* const pRef = refGenome.genomeData.substr(reads[i].reverseLocations[j], m).c_str();
+                    string refGenomeRead = refGenome.genomeData.substr(reads[i].reverseLocations[j], m);
+                    const char* const pRef = refGenomeRead.c_str();
                     const char* const pRead = reverseRead.c_str();
                     resultEdlib = edlibAlign(pRef, m, pRead, m,
                                              edlibNewAlignConfig(e, EDLIB_MODE_NW, EDLIB_TASK_PATH, NULL, 0));
@@ -798,7 +799,7 @@ void preCheckWithEdlib() {
     auto start = std::chrono::high_resolution_clock::now();
     int i;
     for (i = 0; i < reads.size(); i++) {
-        string read(reads[i].readData);
+        string read = reads[i].readData;
         //vector<unsigned long long int> tempAcceptedLocations;
 
         if (reads[i].forwardLocations.size() > 0) {
