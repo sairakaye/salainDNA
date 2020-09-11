@@ -28,7 +28,7 @@ void outputPairReads(string& mainName) {
 
 void outputRunTimeResults(string& mainName, double indexTimeTaken, double ssTimeTaken, double bmTimeTaken, double totalTimeTaken) {
     ofstream runTimeFile;
-    string runTimeFileName(mode + "_end2end_" + mainName + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + to_string(e) + searchMode + ".txt");
+    string runTimeFileName(mode + "_end2end_" + mainName + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + to_string(e) + "_" + searchMode + ".txt");
     runTimeFile.open(runTimeFileName.c_str(), ios::out);
 
     runTimeFile << "Indexing: " << to_string(indexTimeTaken) + " sec" << endl;
@@ -53,7 +53,7 @@ void outputSeedSelectorResults(string& mainName, double timeTaken) {
 
 void outputFileSeedSelectorResults(string& mainName, double timeTaken) {
     ofstream infoFile;
-    string infoFileName(mode + "_info_" + mainName + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + to_string(e) + searchMode + ".txt");
+    string infoFileName(mode + "_info_" + mainName + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + to_string(e) + "_" + searchMode + ".txt");
     infoFile.open(infoFileName.c_str(), ios::out);
 
     infoFile << "Time taken by the pigeonhole process is : " << to_string(timeTaken) << " sec" << endl << endl;

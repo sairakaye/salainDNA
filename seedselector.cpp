@@ -68,7 +68,7 @@ void exactForwardSearchingAll(int acceptanceCriterion) {
 
 void exactReverseSearchingAll(int acceptanceCriterion) {
     int i;
-#pragma omp parallel for reduction(+:numAcceptedSeeds)
+    #pragma omp parallel for reduction(+:numAcceptedSeeds)
     for (i = 0; i < reads.size(); i++) {
         string reverseRead = reverseComplement(reads[i].readData);
         vector<unsigned long long int> totalPossibleLocations;
@@ -196,7 +196,7 @@ void approximateForwardSearchingAll(int acceptanceCriterion) {
 
 void approximateReverseSearchingAll(int acceptanceCriterion) {
     int i;
-#pragma omp parallel for reduction(+:numAcceptedSeeds)
+    #pragma omp parallel for reduction(+:numAcceptedSeeds)
     for (i = 0; i < reads.size(); i++) {
         string reverseRead = reverseComplement(reads[i].readData);
         vector<unsigned long long int> totalPossibleLocations;
