@@ -459,7 +459,9 @@ void approximateForwardSearchingExit(int acceptanceCriterion) {
                     {
                         numPossibleReadLocations += totalPossibleLocations.size();
                         reads[i].forwardLocations = vector<unsigned long long int>(totalPossibleLocations);
+                        numAcceptedReads++;
                     };
+
                     break;
                 }
             }
@@ -518,6 +520,7 @@ void approximateReverseSearchingExit(int acceptanceCriterion) {
                     {
                         numPossibleReadLocations += totalPossibleLocations.size();
                         reads[i].reverseLocations = vector<unsigned long long int>(totalPossibleLocations);
+                        numAcceptedReads++;
                     };
                     break;
                 }

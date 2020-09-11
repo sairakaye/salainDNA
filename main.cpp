@@ -129,7 +129,7 @@ int main(int argc, char *argv[]) {
     numSeeds = numReads * ceil(m / (double) q);
 
     if (isReverseAccepted) {
-        numAcceptedReads *= 2;
+        numReads *= 2;
         numSeeds *= 2;
     }
 
