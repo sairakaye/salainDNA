@@ -85,11 +85,15 @@ void buildOpenAddressingTables(string stringDNA, string mainName, unsigned int m
 
         if (*currIt != -1) {
             outfile << (unsigned long long int)*currIt << " " << i << endl;
-            codeTable[i] = (unsigned long long int)*currIt;
+            //codeTable[i] = (unsigned long long int)*currIt;
+
+            codeTable.insert(pair<long long, unsigned long long int>(*currIt, i));
         } else {
             outfile << *currIt << " " << i << endl;
-            codeTable[i] = *currIt;
+            //codeTable[i] = *currIt;
         }
+
+
 
 //        initCodeTable.erase(currIt);
         i++;
