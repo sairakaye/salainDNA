@@ -79,37 +79,18 @@ void buildOpenAddressingTables(string stringDNA, string mainName, unsigned int m
     outfile << "code" << endl;
     i = 0;
     auto it = initCodeTable.begin();
-    while (it != initCodeTable.end())
-    {
+    while (it != initCodeTable.end()) {
         auto currIt = it++;
 
         if (*currIt != -1) {
             outfile << (unsigned long long int)*currIt << " " << i << endl;
-            //codeTable[i] = (unsigned long long int)*currIt;
-
             codeTable.insert(pair<long long, unsigned long long int>(*currIt, i));
         } else {
             outfile << *currIt << " " << i << endl;
-            //codeTable[i] = *currIt;
         }
 
-
-
-//        initCodeTable.erase(currIt);
         i++;
     }
-
-    /*
-    for (int i = 0; i < initCodeTable.size(); i++) {
-        if (initCodeTable.at(i) != -1) {
-            outfile << (unsigned long long int)initCodeTable.at(i) << " " << i << endl;
-        } else {
-            outfile << initCodeTable.at(i) << " " << i << endl;
-        }
-
-        //codeTable[i] = (unsigned long long int)initCodeTable.at(i);
-    }
-    */
 
     outfile << endl << "dir" << endl;
     for (int i = 0; i < dirTable.size(); i++) {
