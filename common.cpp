@@ -233,28 +233,28 @@ void getOpenAddressing(string filename, map<long long, unsigned long long int>& 
                 continue;
             } else {
                 if (isGettingCode) {
-                    long long getThis;
-                    unsigned long long int num;
+                    long long codeRank;
+                    unsigned long long int codeIndex;
                     int i = 0;
 
                     while(getline(ss, tok, ' ')) {
                         if (tok.length() > 0 && tok.compare("") != 0) {
                             if (i == 0) {
-                                getThis = strtoll(tok.c_str(), nullptr, 10);
+                                codeRank = strtoll(tok.c_str(), nullptr, 10);
 
-                                if (getThis == -1) {
+                                if (codeRank == -1) {
                                     break;
                                 }
                             } else if (i == 1) {
-                                num = strtoull(tok.c_str(), nullptr, 10);
+                                codeIndex = strtoull(tok.c_str(), nullptr, 10);
                             }
                         }
 
                         i++;
                     }
 
-                    if (getThis != -1) {
-                        codeTable.insert(pair<long long, unsigned long long int>(getThis, num));
+                    if (codeRank != -1) {
+                        codeTable.insert(pair<long long, unsigned long long int>(codeRank, codeIndex));
                     }
                 } else if (isGettingDir) {
                     while(getline(ss, tok, ' ')) {
