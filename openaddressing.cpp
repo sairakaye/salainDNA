@@ -91,7 +91,7 @@ void buildOpenAddressingTables(string stringDNA, string mainName, unsigned int m
             codeTable[i] = *currIt;
         }
 
-        initCodeTable.erase(currIt);
+//        initCodeTable.erase(currIt);
         i++;
     }
 
