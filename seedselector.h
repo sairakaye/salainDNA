@@ -6,6 +6,8 @@
 #define SALAINDNA_PIGEONHOLE_H
 
 #include "common.h"
+#include "searchall.h"
+#include "searchexit.h"
 #include "searching.h"
 
 extern int j;
