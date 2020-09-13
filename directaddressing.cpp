@@ -4,7 +4,7 @@
 
 #include "directaddressing.h"
 
-void buildDirectAddressingTables(string stringDNA, string mainName, unsigned int m, unsigned int q, unsigned long long int dirTableSize, unsigned long long int posTableSize)
+void buildDirectAddressingTables(string stringDNA, string mainName, unsigned int n, unsigned int q, unsigned long long int dirTableSize, unsigned long long int posTableSize)
 {
     ofstream outfile;
     outfile.open("dir_" + mainName + "_" + to_string(q) + ".txt", ios::out);
@@ -23,11 +23,11 @@ void buildDirectAddressingTables(string stringDNA, string mainName, unsigned int
     int i;
 
     #pragma omp parallel for
-    for (i = 0; i < (m - q + 1); i++) {
-        unsigned long long int tempIndex = extractRanking(stringDNA.substr(i, q));
+    for (i = 0; i < n - q + 1; i++) {
+        unsigned long long int rank = extractRanking(stringDNA.substr(i, q));
 
         #pragma omp atomic
-        dirTable.at(tempIndex)++;
+        dirTable.at(rank)++;
     }
 
     for (i = 1; i < dirTable.size(); i++) {
@@ -35,14 +35,14 @@ void buildDirectAddressingTables(string stringDNA, string mainName, unsigned int
     }
 
     #pragma omp parallel for
-    for (i = m - q; i >= 0; i--) {
-        unsigned long long int tempIndex = extractRanking(stringDNA.substr(i, q));
+    for (i = n - q; i >= 0; i--) {
+        unsigned long long int rank = extractRanking(stringDNA.substr(i, q));
         unsigned long long int index = 0;
 
         #pragma omp critical
         {
-            dirTable.at(tempIndex)--;
-            index = dirTable.at(tempIndex);
+            dirTable.at(rank)--;
+            index = dirTable.at(rank);
         }
         posTable.at(index) = i;
     }
