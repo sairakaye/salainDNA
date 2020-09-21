@@ -73,8 +73,8 @@ Genome readGenomeFile(string filename) {
     return genome;
 }
 
-void readReadsFile(string filename) {
-    //vector<string> readList;
+vector<Read> readReadsFile(string filename) {
+    vector<Read> readList;
     ifstream fileRead(filename);
     string line;
     string read;
@@ -88,7 +88,7 @@ void readReadsFile(string filename) {
                     readStruct.readName = readName;
                     readStruct.readData = read;
                     //readMap[read] = readStruct;
-                    reads.push_back(readStruct);
+                    readList.push_back(readStruct);
                     read = "";
                     //numReads++;
                 }
@@ -114,7 +114,7 @@ void readReadsFile(string filename) {
             readStruct.readName = readName;
             readStruct.readData = read;
             //readMap[read] = readStruct;
-            reads.push_back(readStruct);
+            readList.push_back(readStruct);
         }
 
         fileRead.close();
@@ -124,7 +124,7 @@ void readReadsFile(string filename) {
         exit(EXIT_FAILURE);
     }
 
-    //return readList;
+    return readList;
 }
 
 string reverseComplement(string read) {

@@ -107,7 +107,7 @@ int main(int argc, char *argv[]) {
     }
 
     cout << "Reading the reads... " << endl << readsFilePath << endl << endl;
-    readReadsFile(readsFilePath);
+    reads = readReadsFile(readsFilePath);
 
     w = q + q - 1;
     m = reads[0].readData.size();

@@ -70,7 +70,7 @@ extern double verificationRunTime;
 unsigned long long int extractRanking(string kMer);
 uint64_t inthash_64(uint64_t key, uint64_t mask);
 Genome readGenomeFile(string filename);
-void readReadsFile(string filename);
+vector<Read> readReadsFile(string filename);
 string reverseComplement(string read);
 void getDirectAddressing(string filename, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable);
 void getOpenAddressing(string filename, map<long long, unsigned long long int>& codeTable, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable);
