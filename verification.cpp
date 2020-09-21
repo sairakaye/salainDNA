@@ -87,7 +87,8 @@ void verifyWithEdlib() {
     chrono::duration<double> diff = end - start;
     //cout << diff.count() << "\t" << e << "\t" << truePos << "\t" << trueNeg << endl << endl;
 
-    cout << "Time taken by Edlib is: " << to_string(diff.count()) << " sec" << endl;
+    verificationRunTime = diff.count();
+    cout << "Time taken by Edlib is: " << to_string(verificationRunTime) << " sec" << endl;
     cout << "Number of accepted locations: " << to_string(truePos) << endl;
     cout << "Number of rejected locations: " << to_string(trueNeg) << endl << endl;
 }
@@ -173,5 +174,6 @@ void preCheckWithEdlib() {
 
     auto end = std::chrono::high_resolution_clock::now();
     chrono::duration<double> diff = end - start;
-    cout << diff.count() << "\t" << e << "\t" << pos << "\t" << neg << endl << endl;
+    verificationRunTime = diff.count();
+    cout << verificationRunTime << "\t" << e << "\t" << pos << "\t" << neg << endl << endl;
 }

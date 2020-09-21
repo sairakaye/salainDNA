@@ -148,7 +148,7 @@ int main(int argc, char *argv[]) {
     auto filterTimeEnd = omp_get_wtime();
 
     double totalFilterTime = double(filterTimeEnd - filterTimeStart);
-    outputRunTimeResults(mainName, indexRunTime, ssRunTime, bmRunTime, totalFilterTime);
+    outputRunTimeResults(mainName, indexRunTime, ssRunTime, bmRunTime, verificationRunTime, totalFilterTime);
 
     cout << "Starting Edlib..." << endl;
     verifyWithEdlib();

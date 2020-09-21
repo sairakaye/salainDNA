@@ -25,8 +25,7 @@ using namespace std::chrono;
 typedef struct {
     string genomeName;
     string genomeData;
-} Genome;
-
+} Genome
 typedef struct {
     string readName;
     string readData;
@@ -89,6 +88,7 @@ extern unsigned int numVerifiedReadLocations;
 extern double indexRunTime;
 extern double ssRunTime;
 extern double bmRunTime;
+extern double verificationRunTime;
 
 unsigned long long int extractRanking(string kMer);
 uint64_t inthash_64(uint64_t key, uint64_t mask);
