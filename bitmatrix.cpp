@@ -1,13 +1,8 @@
 #include "bitmatrix.h"
-#include "edlib.h"
 
 //#pragma clang diagnostic push
 //#pragma ide diagnostic ignored "openmp-use-default-none"
 //#include <unistd.h>
-
-
-
-using namespace std;
 
 /*
 int TruePos = 0;
