@@ -16,7 +16,7 @@ void readIndexFile(string indexFile,
                    vector<unsigned long long int>& dirTable,
                    vector<unsigned long long int>& posTable);
 
-void buildIndex(string mainName, string indexFile,
+void buildIndex(string genomeName, string indexFile,
                 map<unsigned long long int, vector<unsigned long long int>>& minimizers,
                 map<long long, unsigned long long int>& codeTable,
                 vector<unsigned long long int>& dirTable,

@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
     string genomeFilePath;
     string readsFilePath;
     string indexFilePath;
-    string mainName;
+    string genomeName;
 
     mode = "open";
     searchMode = "exit";
@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
     numAcceptedReads = 0;
     numPossibleReadLocations = 0;
 
-    processingArguments(argc, argv, genomeFilePath, readsFilePath, indexFilePath, mainName);
+    processingArguments(argc, argv, genomeFilePath, readsFilePath, indexFilePath, genomeName);
 
     cout << "Doing indexing process..." << endl << endl;
     auto start = omp_get_wtime();
@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
     refGenome = readGenomeFile(genomeFilePath);
 
     if (indexFilePath.length() == 0) {
-        string indexDefaultFile = mode + "_" + mainName + "_" + to_string(q) + ".txt";
+        string indexDefaultFile = mode + "_" + genomeName + "_" + to_string(q) + ".txt";
 
         ifstream indexFile(indexDefaultFile);
 
@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
             cout << "Index with the same file name was found by the system. ";
             readIndexFile(indexDefaultFile, minimizers, codeTable, dirTable, posTable);
         } else {
-            buildIndex(mainName, indexDefaultFile, minimizers, codeTable, dirTable, posTable, loadFactor);
+            buildIndex(genomeName, indexDefaultFile, minimizers, codeTable, dirTable, posTable, loadFactor);
         }
     } else {
         ifstream indexFile(indexFilePath);
@@ -92,7 +92,7 @@ int main(int argc, char *argv[]) {
             readIndexFile(indexFilePath, minimizers, codeTable, dirTable, posTable);
         } else {
             cout << "Index file specified was not found by the system. ";
-            buildIndex(mainName, indexFilePath, minimizers, codeTable, dirTable, posTable, loadFactor);
+            buildIndex(genomeName, indexFilePath, minimizers, codeTable, dirTable, posTable, loadFactor);
         }
     }
 
@@ -137,11 +137,11 @@ int main(int argc, char *argv[]) {
     timeTaken = double(end - start);
     ssRunTime = timeTaken;
 
-    outputSeedSelectorResults(mainName, timeTaken);
-    //outputFileSeedSelectorResults(mainName, timeTaken);
+    outputSeedSelectorResults(genomeName, timeTaken);
+    //outputFileSeedSelectorResults(genomeName, timeTaken);
 
     /* Uncomment the line below for the pair reads output. */
-    //outputPairReads(mainName);
+    //outputPairReads(genomeName);
     /* Uncomment the line below to check seed selector reads with Edlib. */
     //preCheckWithEdlib();
     cout << "Starting Bit Matrix..." << endl;
@@ -149,7 +149,7 @@ int main(int argc, char *argv[]) {
     auto filterTimeEnd = omp_get_wtime();
 
     double totalFilterTime = double(filterTimeEnd - filterTimeStart);
-    outputRunTimeResults(mainName, indexRunTime, ssRunTime, bmRunTime, verificationRunTime, totalFilterTime);
+    outputRunTimeResults(genomeName, indexRunTime, ssRunTime, bmRunTime, verificationRunTime, totalFilterTime);
 
     cout << "Starting Edlib..." << endl;
     verifyWithEdlib();
