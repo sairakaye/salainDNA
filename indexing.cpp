@@ -33,7 +33,7 @@ void readIndexFile(string indexFile,
     }
 }
 
-void buildIndex(string genomeName, string indexFile,
+void buildIndex(string genomeFileName, string indexFile,
                 map<unsigned long long int, vector<unsigned long long int>>& minimizers,
                 map<long long, unsigned long long int>& codeTable,
                 vector<unsigned long long int>& dirTable,
@@ -42,11 +42,11 @@ void buildIndex(string genomeName, string indexFile,
     cout << "Generating the index file... " << endl << indexFile << endl << endl;
 
     if (mode.compare("min") == 0) {
-        buildMinimizersIndexing(refGenome.genomeData, genomeName);
+        buildMinimizersIndexing(refGenome.genomeData, genomeFileName);
     } else if (mode.compare("dir") == 0) {
-        buildDirectAddressingIndexing(refGenome.genomeData, genomeName);
+        buildDirectAddressingIndexing(refGenome.genomeData, genomeFileName);
     } else if (mode.compare("open") == 0) {
-        buildOpenAddressingIndexing(refGenome.genomeData, genomeName, loadFactor);
+        buildOpenAddressingIndexing(refGenome.genomeData, genomeFileName, loadFactor);
     } else {
         cout << "Mode not valid...";
         exit(EXIT_FAILURE);
