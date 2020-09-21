@@ -78,6 +78,7 @@ int main(int argc, char *argv[]) {
 
         if (indexFile) {
             indexFile.close();
+            cout << "Index with the same file name was found by the system. ";
             readIndexFile(indexDefaultFile, minimizers, codeTable, dirTable, posTable);
         } else {
             buildIndex(mainName, indexDefaultFile, minimizers, codeTable, dirTable, posTable, loadFactor);
@@ -87,24 +88,9 @@ int main(int argc, char *argv[]) {
 
         if (indexFile) {
             indexFile.close();
-            smatch m;
-            regex indexRegex("([min|dir|open]+)_([a-zA-z0-9_]*)_([0-9]*).txt");
-
-            if (regex_search(indexFilePath, m, indexRegex)) {
-                if (mode == m.str(1) && to_string(q) == m.str(3)) {
-                    mainName = m.str(2);
-                    readIndexFile(indexFilePath, minimizers, codeTable, dirTable, posTable);
-                } else {
-                    cout << "File does not match mode and q set..." << endl;
-                    exit(EXIT_FAILURE);
-                }
-            } else {
-                cout << "Index file name did not match system defined file name..." << endl;
-                exit(EXIT_FAILURE);
-            }
+            readIndexFile(indexFilePath, minimizers, codeTable, dirTable, posTable);
         } else {
-            cout << "File does not exist." << endl;
-            cout << "File name: " << indexFilePath << endl << endl;
+            cout << "Index file specified was not found by the system. ";
             buildIndex(mainName, indexFilePath, minimizers, codeTable, dirTable, posTable, loadFactor);
         }
     }
