@@ -78,7 +78,7 @@ void exactSearchingForAll() {
 
             vector<unsigned long long int> forward;
 
-            exactSearchingPosition(fwdSeed, mode, adjustmentValue, k, forward);
+            forward = exactSearchingPosition(fwdSeed, mode, adjustmentValue);
 
             if (forward.size() > 0) {
                 tempAcceptedFwdSeeds++;
@@ -88,7 +88,7 @@ void exactSearchingForAll() {
             if (isReverseAccepted) {
                 vector<unsigned long long int> reverse;
 
-                exactSearchingPosition(revSeed, mode, adjustmentValue, k, reverse);
+                reverse = exactSearchingPosition(revSeed, mode, adjustmentValue);
 
                 if (reverse.size() > 0) {
                     tempAcceptedRevSeeds++;
@@ -207,7 +207,7 @@ void approximateSearchingForAll() {
 
             vector<unsigned long long int> forward;
 
-            approximateSearchingPosition(fwdSeed, mode, adjustmentValue, k, forward);
+            forward = approximateSearchingPosition(fwdSeed, mode, adjustmentValue);
 
             if (forward.size() > 0) {
                 tempAcceptedFwdSeeds++;
@@ -217,7 +217,7 @@ void approximateSearchingForAll() {
             if (isReverseAccepted) {
                 vector<unsigned long long int> reverse;
 
-                approximateSearchingPosition(revSeed, mode, adjustmentValue, k, reverse);
+                reverse = approximateSearchingPosition(revSeed, mode, adjustmentValue);
 
                 if (reverse.size() > 0) {
                     tempAcceptedRevSeeds++;

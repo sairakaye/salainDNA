@@ -8,7 +8,7 @@
 #include "common.h"
 #include "minimizers.h"
 
-void exactSearchingPosition(string seed, string mode, int adjustmentValue, int k, vector<unsigned long long int>& foundLocations);
-void approximateSearchingPosition(string seed, string mode, int adjustmentValue, int k, vector<unsigned long long int>& foundLocations);
+vector<unsigned long long int> exactSearchingPosition(string seed, string mode, int adjustmentValue);
+vector<unsigned long long int> approximateSearchingPosition(string seed, string mode, int adjustmentValue);
 
 #endif //SALAINDNA_SEARCHING_H

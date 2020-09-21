@@ -39,7 +39,7 @@ void exactForwardSearchingExit(int acceptanceCriterion) {
 
             vector<unsigned long long int> forward;
 
-            exactSearchingPosition(seed, mode, adjustmentValue, k, forward);
+            forward = exactSearchingPosition(seed, mode, adjustmentValue);
 
             if (forward.size() > 0) {
                 tempAcceptedSeeds++;
@@ -99,7 +99,7 @@ void exactReverseSearchingExit(int acceptanceCriterion) {
 
             vector<unsigned long long int> reverse;
 
-            exactSearchingPosition(seed, mode, adjustmentValue, k, reverse);
+            reverse = exactSearchingPosition(seed, mode, adjustmentValue);
 
             if (reverse.size() > 0) {
                 tempAcceptedSeeds++;
@@ -169,7 +169,7 @@ void approximateForwardSearchingExit(int acceptanceCriterion) {
 
             vector<unsigned long long int> forward;
 
-            approximateSearchingPosition(seed, mode, adjustmentValue, k, forward);
+            forward = approximateSearchingPosition(seed, mode, adjustmentValue);
 
             if (forward.size() > 0) {
                 tempAcceptedSeeds++;
@@ -230,7 +230,7 @@ void approximateReverseSearchingExit(int acceptanceCriterion) {
 
             vector<unsigned long long int> reverse;
 
-            approximateSearchingPosition(seed, mode, adjustmentValue, k, reverse);
+            reverse = approximateSearchingPosition(seed, mode, adjustmentValue);
 
             if (reverse.size() > 0) {
                 tempAcceptedSeeds++;

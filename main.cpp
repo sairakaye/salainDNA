@@ -36,6 +36,7 @@ double loadFactor;
 double indexRunTime;
 double ssRunTime;
 double bmRunTime;
+double verificationRunTime;
 
 int main(int argc, char *argv[]) {
     string genomeFilePath;

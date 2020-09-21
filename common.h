@@ -16,7 +16,6 @@
 #include <bits/stdc++.h>
 #include <chrono>
 #include <omp.h>
-
 #include "edlib.h"
 
 using namespace std;
@@ -25,7 +24,8 @@ using namespace std::chrono;
 typedef struct {
     string genomeName;
     string genomeData;
-} Genome
+} Genome;
+
 typedef struct {
     string readName;
     string readData;
@@ -33,19 +33,14 @@ typedef struct {
     vector<unsigned long long int> reverseLocations;
 } Read;
 
-extern Genome refGenome;
-//extern map<string, Read> readMap;
-extern vector<Read> reads;
 
-/*
-extern string refGenome;
-extern string genomeName;
-extern vector<string> reads;
-extern map<string, string> readsLabelMap;
-*/
+extern vector<pair<string, int>> alphabetRef;
+extern Genome refGenome;
+extern vector<Read> reads;
 
 extern string mode;
 extern string searchMode;
+extern bool isReverseAccepted;
 extern unsigned int q;
 extern unsigned int w;
 extern unsigned int m;
@@ -54,28 +49,10 @@ extern double loadFactor;
 
 extern string SAMFileName;
 
-extern vector<pair<string, int>> alphabetRef;
-
 extern map<unsigned long long int, vector<unsigned long long int>> minimizers;
 extern map<long long, unsigned long long int> codeTable;
 extern vector<unsigned long long int> dirTable;
 extern vector<unsigned long long int> posTable;
-
-//extern map<string, vector<unsigned long long int>> forwardReadsMap;
-//extern map<string, vector<unsigned long long int>> reverseReadsMap;
-//extern map<string, vector<unsigned long long int>> possibleReadsMap;
-//extern map<string, vector<unsigned long long int>> filteredReadsMap;
-
-
-//typedef struct {
-//    string *read;
-//    unsigned long long int *location;
-//} PossibleRead;
-//
-//extern vector<PossibleRead *> possibleReadsVector;
-//extern vector<PossibleRead *> filteredReadsVector;
-
-extern bool isReverseAccepted;
 
 extern unsigned int numSeeds;
 extern unsigned int numReads;
@@ -98,6 +75,5 @@ string reverseComplement(string read);
 void getDirectAddressing(string filename, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable);
 void getOpenAddressing(string filename, map<long long, unsigned long long int>& codeTable, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable);
 map<unsigned long long int, vector<unsigned long long int>> getMinimizers(string filename);
-//void processingPossibleReadsForBitmatrix();
 
 #endif //SALAINDNA_COMMON_H
