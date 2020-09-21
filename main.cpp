@@ -125,9 +125,9 @@ int main(int argc, char *argv[]) {
     start = omp_get_wtime();
 
     if (searchMode.compare("all") == 0) {
-        searchingReadSearchAllProcess();
+        seedSelectorSearchAllProcess();
     } else if (searchMode.compare("exit") == 0) {
-        searchingReadExitProcess();
+        seedSelectorExitProcess();
     } else {
         cout << "Invalid searching mode..." << endl;
         exit(EXIT_FAILURE);
