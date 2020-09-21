@@ -7,7 +7,7 @@
 int j;
 int allowableE;
 
-void searchingReadProcess() {
+void searchingReadSearchAllProcess() {
     j = ceil(m / (double) q);
     allowableE = floor(e / (double) j);
 
@@ -18,7 +18,7 @@ void searchingReadProcess() {
     }
 }
 
-void searchingReadFoundExitProcess() {
+void searchingReadExitProcess() {
     j = ceil(m / (double) q);
     allowableE = floor(e / (double) j);
 

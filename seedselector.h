@@ -13,7 +13,7 @@
 extern int j;
 extern int allowableE;
 
-void searchingReadProcess();
-void searchingReadFoundExitProcess();
+void searchingReadSearchAllProcess();
+void searchingReadExitProcess();
 
 #endif //SALAINDNA_PIGEONHOLE_H
