@@ -42,11 +42,11 @@ void buildIndex(string genomeFileName, string indexFile,
     cout << "Generating the index file... " << endl << indexFile << endl << endl;
 
     if (mode.compare("min") == 0) {
-        buildMinimizersIndexing(refGenome.genomeData, genomeFileName);
+        buildMinimizersIndexingFile(refGenome.genomeData, genomeFileName);
     } else if (mode.compare("dir") == 0) {
-        buildDirectAddressingIndexing(refGenome.genomeData, genomeFileName);
+        buildDirectAddressingIndexingFile(refGenome.genomeData, genomeFileName);
     } else if (mode.compare("open") == 0) {
-        buildOpenAddressingIndexing(refGenome.genomeData, genomeFileName, loadFactor);
+        buildOpenAddressingIndexingFile(refGenome.genomeData, genomeFileName, loadFactor);
     } else {
         cout << "Mode not valid...";
         exit(EXIT_FAILURE);

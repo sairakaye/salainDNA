@@ -4,10 +4,10 @@
 
 #include "directaddressing.h"
 
-void buildDirectAddressingTables(string stringDNA, string mainName, unsigned int n, unsigned int q, unsigned long long int dirTableSize, unsigned long long int posTableSize)
+void buildDirectAddressingTables(string genome, string genomeFileName, unsigned int n, unsigned int q, unsigned long long int dirTableSize, unsigned long long int posTableSize)
 {
     ofstream outfile;
-    outfile.open("dir_" + mainName + "_" + to_string(q) + ".txt", ios::out);
+    outfile.open("dir_" + genomeFileName + "_" + to_string(q) + ".txt", ios::out);
 
     vector<unsigned long long int> initDirTable(dirTableSize);
     vector<unsigned long long int> initPosTable(posTableSize);
@@ -24,7 +24,7 @@ void buildDirectAddressingTables(string stringDNA, string mainName, unsigned int
 
     #pragma omp parallel for
     for (i = 0; i < n - q + 1; i++) {
-        unsigned long long int rank = extractRanking(stringDNA.substr(i, q));
+        unsigned long long int rank = extractRanking(genome.substr(i, q));
 
         #pragma omp atomic
         dirTable.at(rank)++;
@@ -36,7 +36,7 @@ void buildDirectAddressingTables(string stringDNA, string mainName, unsigned int
 
     #pragma omp parallel for
     for (i = n - q; i >= 0; i--) {
-        unsigned long long int rank = extractRanking(stringDNA.substr(i, q));
+        unsigned long long int rank = extractRanking(genome.substr(i, q));
         unsigned long long int index = 0;
 
         #pragma omp critical
@@ -59,10 +59,10 @@ void buildDirectAddressingTables(string stringDNA, string mainName, unsigned int
     outfile.close();
 }
 
-void buildDirectAddressingIndexing(string& genome, string& mainName) {
+void buildDirectAddressingIndexingFile(string& genome, string& genomeFileName) {
     unsigned long long int dirTableSize = pow(4, q) + 1;
     unsigned long long int posTableSize = genome.size() - q + 1;
 
     cout << "Direct Addressing for q = " << q << endl << endl;
-    buildDirectAddressingTables(genome, mainName, genome.length(), q, dirTableSize, posTableSize);
+    buildDirectAddressingTables(genome, genomeFileName, genome.length(), q, dirTableSize, posTableSize);
 }

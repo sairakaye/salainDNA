@@ -4,10 +4,10 @@
 
 #include "openaddressing.h"
 
-void buildOpenAddressingTables(string stringDNA, string mainName, unsigned int n, unsigned int q, unsigned long long int codeTableSize, unsigned long long int dirTableSize, unsigned long long int posTableSize)
+void buildOpenAddressingTables(string genome, string genomeFileName, unsigned int n, unsigned int q, unsigned long long int codeTableSize, unsigned long long int dirTableSize, unsigned long long int posTableSize)
 {
     ofstream outfile;
-    outfile.open( "open_" + mainName + "_" + to_string(q) + ".txt", ios::out);
+    outfile.open("open_" + genomeFileName + "_" + to_string(q) + ".txt", ios::out);
 
     vector<long long int> initCodeTable(codeTableSize);
     vector<unsigned long long int> initDirTable(dirTableSize);
@@ -30,7 +30,7 @@ void buildOpenAddressingTables(string stringDNA, string mainName, unsigned int n
 
     #pragma omp parallel for
     for (i = 0; i < n - q + 1; i++) {
-        unsigned long long int rank = extractRanking(stringDNA.substr(i, q));
+        unsigned long long int rank = extractRanking(genome.substr(i, q));
         unsigned long long int hashValue = rank % (unsigned long long int)codeTableSize;
 
         omp_set_lock(&codeLock);
@@ -105,11 +105,11 @@ void buildOpenAddressingTables(string stringDNA, string mainName, unsigned int n
     outfile.close();
 }
 
-void buildOpenAddressingIndexing(string& genome, string& mainName, double loadFactor) {
+void buildOpenAddressingIndexingFile(string& genome, string& genomeFileName, double loadFactor) {
     unsigned long long int codeTableSize = floor(( pow(loadFactor, -1)) * genome.length());
     unsigned long long int dirTableSize = codeTableSize + 1;
     unsigned long long int posTableSize = genome.size() - q + 1;
 
     cout << "Open Addressing for q = " << q  << endl << endl;
-    buildOpenAddressingTables(genome, mainName, genome.length(), q, codeTableSize, dirTableSize, posTableSize);
+    buildOpenAddressingTables(genome, genomeFileName, genome.length(), q, codeTableSize, dirTableSize, posTableSize);
 }

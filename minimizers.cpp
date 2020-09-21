@@ -36,10 +36,10 @@ unsigned long long int getMinimizerRankWithoutWindow(string windowSeed, int q) {
     return finalMinHash;
 }
 
-multimap<vector<unsigned long long int>, unsigned long long int> generateMinimizers(string stringDNA, string mainName, unsigned int q, unsigned int w, unsigned int n)
+multimap<vector<unsigned long long int>, unsigned long long int> generateMinimizers(string genome, string genomeFileName, unsigned int q, unsigned int w, unsigned int n)
 {
     ofstream outfile;
-    string filename ("min_" + mainName + "_" + to_string(q) + ".txt");
+    string filename ("min_" + genomeFileName + "_" + to_string(q) + ".txt");
     outfile.open(filename.c_str(), ios::out);
 
     unsigned long int windowSize = w + q - 1;
@@ -53,7 +53,7 @@ multimap<vector<unsigned long long int>, unsigned long long int> generateMinimiz
     for (i = 0; i < n - windowSize + 1; i++) {
         string minimizer;
 
-        string window = stringDNA.substr(i, windowSize);
+        string window = genome.substr(i, windowSize);
         unsigned long long int min = 1ULL << (2 * q + 1);
 
         for (unsigned int j = 0; j < windowSize - q + 1; j++){
@@ -79,7 +79,7 @@ multimap<vector<unsigned long long int>, unsigned long long int> generateMinimiz
     for (i = 0; i < w - 1; i++) {
         string minimizer;
 
-        string window = stringDNA.substr(n - (w + i), windowSize);
+        string window = genome.substr(n - (w + i), windowSize);
         unsigned long long int min = 1ULL << (2 * q + 1);
 
         for (unsigned int j = 0; j < window.length() - q + 1; j++){
@@ -120,10 +120,10 @@ multimap<vector<unsigned long long int>, unsigned long long int> generateMinimiz
     return finalMinimizers;
 }
 
-void buildMinimizersIndexing(string& genome, string& mainName) {
+void buildMinimizersIndexingFile(string& genome, string& genomeFileName) {
     unsigned long long int qIndexing = (unsigned long long int)q;
     unsigned long long int wIndexing = qIndexing;
 
     cout << "Minimizer-based for q = " << qIndexing << endl << endl;
-    multimap<vector<unsigned long long int>, unsigned long long int> minimizers = generateMinimizers(genome, mainName, qIndexing, wIndexing, genome.length());
+    multimap<vector<unsigned long long int>, unsigned long long int> minimizers = generateMinimizers(genome, genomeFileName, qIndexing, wIndexing, genome.length());
 }

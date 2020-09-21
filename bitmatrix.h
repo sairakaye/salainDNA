@@ -23,7 +23,5 @@ extern unsigned int notNeeded;
 
 //void bitMatrixFilterProcess(map<string, vector<unsigned long long int>>& forwardReadsMap, map<string, vector<unsigned long long int>>& reverseReadsMap);
 void bitMatrixFilterProcess();
-void verifyWithEdlib();
-void preCheckWithEdlib();
 
 #endif //SALAINDNA_BITMATRIX_H

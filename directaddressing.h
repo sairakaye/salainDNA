@@ -7,6 +7,6 @@
 
 #include "common.h"
 
-void buildDirectAddressingIndexing(string& genome, string& mainName);
+void buildDirectAddressingIndexingFile(string& genome, string& genomeFileName);
 
 #endif //SALAINDNA_DIRECTADDRESSING_H
