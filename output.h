@@ -8,7 +8,7 @@
 #include "common.h"
 
 void outputPairReads(string& genomeFileName);
-void outputRunTimeResults(string& mainName, double indexTimeTaken, double ssTimeTaken, double bmTimeTaken,
+void outputRunTimeResults(string& genomeFileName, double indexTimeTaken, double ssTimeTaken, double bmTimeTaken,
                           double verificationTimeTaken, double totalTimeTaken);
 void outputSeedSelectorResults(string& mainName, double timeTaken);
 void outputFileSeedSelectorResults(string& mainName, double timeTaken);

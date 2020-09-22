@@ -26,10 +26,10 @@ void outputPairReads(string& genomeFileName) {
     pairReadsFile.close();
 }
 
-void outputRunTimeResults(string& mainName, double indexTimeTaken, double ssTimeTaken, double bmTimeTaken,
+void outputRunTimeResults(string& genomeFileName, double indexTimeTaken, double ssTimeTaken, double bmTimeTaken,
                           double verificationTimeTaken, double totalTimeTaken) {
     ofstream runTimeFile;
-    string runTimeFileName(mode + "_end2end_" + mainName + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + to_string(e) + "_" + searchMode + ".txt");
+    string runTimeFileName(mode + "_end2end_" + genomeFileName + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + to_string(e) + "_" + searchMode + ".txt");
     runTimeFile.open(runTimeFileName.c_str(), ios::out);
 
     runTimeFile << "Indexing: " << to_string(indexTimeTaken) + " sec" << endl;
