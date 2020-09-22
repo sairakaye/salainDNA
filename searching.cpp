@@ -5,14 +5,14 @@
 #include "searching.h"
 #include "seedselector.h"
 
-vector<unsigned long long int> searchingUsingMinimizers(string seed, int adjustmentValue, vector<unsigned long long int>& location) {
+vector<unsigned long long int> exactSearchingUsingMinimizers(string seed, int adjustmentValue, vector<unsigned long long int>& minRankLocations) {
     vector<unsigned long long int> foundLocations;
 
     int i;
-    for (i = 0; i < location.size(); i++) {
-        if (seed.compare(refGenome.genomeData.substr(location[i], q)) == 0) {
-            if ((location[i] - adjustmentValue) >= 0 && (location[i] - adjustmentValue) < refGenome.genomeData.size()) {
-                    foundLocations.push_back(location[i] - adjustmentValue);
+    for (i = 0; i < minRankLocations.size(); i++) {
+        if (seed.compare(refGenome.genomeData.substr(minRankLocations[i], q)) == 0) {
+            if ((minRankLocations[i] - adjustmentValue) >= 0 && (minRankLocations[i] - adjustmentValue) < refGenome.genomeData.size()) {
+                    foundLocations.push_back(minRankLocations[i] - adjustmentValue);
             }
         }
     }
@@ -20,16 +20,16 @@ vector<unsigned long long int> searchingUsingMinimizers(string seed, int adjustm
     return foundLocations;
 }
 
-vector<unsigned long long int> approximateSearchingUsingMinimizers(string seed, int adjustmentValue, vector<unsigned long long int>& location) {
+vector<unsigned long long int> approximateSearchingUsingMinimizers(string seed, int adjustmentValue, vector<unsigned long long int>& minRankLocations) {
     vector<unsigned long long int> foundLocations;
     int i;
-    for (i = 0; i < location.size(); i++) {
-        EdlibAlignResult result = edlibAlign(refGenome.genomeData.substr(location[i], q).c_str(), q,
-                seed.c_str(), seed.length(), edlibDefaultAlignConfig());
+    for (i = 0; i < minRankLocations.size(); i++) {
+        EdlibAlignResult result = edlibAlign(refGenome.genomeData.substr(minRankLocations[i], q).c_str(), q,
+                                             seed.c_str(), seed.length(), edlibDefaultAlignConfig());
 
         if (result.editDistance <= allowableE) {
-            if ((location[i] - adjustmentValue) >= 0 && (location[i] - adjustmentValue) < refGenome.genomeData.size()) {
-                foundLocations.push_back(location[i] - adjustmentValue);
+            if ((minRankLocations[i] - adjustmentValue) >= 0 && (minRankLocations[i] - adjustmentValue) < refGenome.genomeData.size()) {
+                foundLocations.push_back(minRankLocations[i] - adjustmentValue);
             }
         }
 
@@ -39,7 +39,7 @@ vector<unsigned long long int> approximateSearchingUsingMinimizers(string seed, 
     return foundLocations;
 }
 
-vector<unsigned long long int> searchingUsingDirectOrOpen(string seed, unsigned long long int index, int adjustmentValue, vector<unsigned long long int>& location) {
+vector<unsigned long long int> exactSearchingUsingDirectOrOpen(string seed, unsigned long long int index, int adjustmentValue) {
     vector<unsigned long long int> foundLocations;
 
     while (seed.compare(refGenome.genomeData.substr(posTable[index], q)) == 0) {
@@ -53,7 +53,7 @@ vector<unsigned long long int> searchingUsingDirectOrOpen(string seed, unsigned 
     return foundLocations;
 }
 
-vector<unsigned long long int> approximateSearchingUsingDirectOrOpen(string seed, unsigned long long int index, int adjustmentValue, vector<unsigned long long int>& location) {
+vector<unsigned long long int> approximateSearchingUsingDirectOrOpen(string seed, unsigned long long int index, int adjustmentValue) {
     vector<unsigned long long int> foundLocations;
     bool continueCompare = true;
 
@@ -82,7 +82,6 @@ vector<unsigned long long int> approximateSearchingUsingDirectOrOpen(string seed
 }
 
 vector<unsigned long long int> exactSearchingPosition(string seed, string mode, int adjustmentValue) {
-    vector<unsigned long long int> location;
     vector<unsigned long long int> foundLocations;
 
     unsigned long long int rank;
@@ -90,10 +89,12 @@ vector<unsigned long long int> exactSearchingPosition(string seed, string mode, 
 
     if (mode.compare("min") == 0) {
         rank = getMinimizerRank(seed, q, w);
-        location = minimizers[rank];
 
-        if (location.size() > 0) {
-            foundLocations = searchingUsingMinimizers(seed.substr(0, q), adjustmentValue, location);
+        vector<unsigned long long int> minRankLocations;
+        minRankLocations = minimizers[rank];
+
+        if (minRankLocations.size() > 0) {
+            foundLocations = exactSearchingUsingMinimizers(seed.substr(0, q), adjustmentValue, minRankLocations);
         }
     } else if (mode.compare("dir") == 0 || mode.compare("open") == 0) {
         if (mode.compare("dir") == 0) {
@@ -103,7 +104,7 @@ vector<unsigned long long int> exactSearchingPosition(string seed, string mode, 
                 index = dirTable[rank];
 
                 if (index < posTable.size()) {
-                    foundLocations = searchingUsingDirectOrOpen(seed, index, adjustmentValue, location);
+                    foundLocations = exactSearchingUsingDirectOrOpen(seed, index, adjustmentValue);
                 }
             }
         } else {
@@ -112,7 +113,7 @@ vector<unsigned long long int> exactSearchingPosition(string seed, string mode, 
             try {
                 index = dirTable[codeTable[rank]];
 
-                foundLocations = searchingUsingDirectOrOpen(seed, index, adjustmentValue, location);
+                foundLocations = exactSearchingUsingDirectOrOpen(seed, index, adjustmentValue);
             } catch (exception& e) { }
         }
     }
@@ -121,7 +122,6 @@ vector<unsigned long long int> exactSearchingPosition(string seed, string mode, 
 }
 
 vector<unsigned long long int> approximateSearchingPosition(string seed, string mode, int adjustmentValue) {
-    vector<unsigned long long int> location;
     vector<unsigned long long int> foundLocations;
 
     unsigned long long int rank;
@@ -129,10 +129,11 @@ vector<unsigned long long int> approximateSearchingPosition(string seed, string 
 
     if (mode.compare("min") == 0) {
         rank = getMinimizerRank(seed, q, w);
-        location = minimizers[rank];
+        vector<unsigned long long int> minRankLocations;
+        minRankLocations = minimizers[rank];
 
-        if (location.size() > 0) {
-            foundLocations = approximateSearchingUsingMinimizers(seed.substr(0, q), adjustmentValue, location);
+        if (minRankLocations.size() > 0) {
+            foundLocations = approximateSearchingUsingMinimizers(seed.substr(0, q), adjustmentValue, minRankLocations);
         }
     } else if (mode.compare("dir") == 0 || mode.compare("open") == 0) {
         if (mode.compare("dir") == 0) {
@@ -142,7 +143,7 @@ vector<unsigned long long int> approximateSearchingPosition(string seed, string 
                 index = dirTable[rank];
 
                 if (index < posTable.size()) {
-                    foundLocations = approximateSearchingUsingDirectOrOpen(seed, index, adjustmentValue, location);
+                    foundLocations = approximateSearchingUsingDirectOrOpen(seed, index, adjustmentValue);
                 }
             }
         } else {
@@ -151,7 +152,7 @@ vector<unsigned long long int> approximateSearchingPosition(string seed, string 
             try {
                 index = dirTable[codeTable[rank]];
 
-                foundLocations = approximateSearchingUsingDirectOrOpen(seed, index, adjustmentValue, location);
+                foundLocations = approximateSearchingUsingDirectOrOpen(seed, index, adjustmentValue);
             } catch (exception& e) { }
         }
     }

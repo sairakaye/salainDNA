@@ -8,4 +8,6 @@
 #include "common.h"
 #include "bitmatrix.h"
 
+void verifyWithEdlib();
+
 #endif //SALAINDNA_VERIFICATION_H

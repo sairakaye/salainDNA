@@ -1,7 +1,8 @@
 #include "command.h"
+#include "indexing.h"
 #include "seedselector.h"
 #include "bitmatrix.h"
-#include "indexing.h"
+#include "verification.h"
 #include "output.h"
 
 Genome refGenome;
