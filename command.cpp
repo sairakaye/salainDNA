@@ -46,7 +46,7 @@ void helpCommands() {
     cout << "\t -out - output file for the SAM file" << endl;
 }
 
-void processingArguments(int argc, char *argv[], string &genomeFilePath, string &readsFilePath, string &indexFilePath, string &mainName) {
+void processingArguments(int argc, char *argv[], string &genomeFilePath, string &readsFilePath, string &indexFilePath, string &genomeFileName) {
     if (argc == 1) {
         generalDetails();
         cout << endl;
@@ -69,8 +69,8 @@ void processingArguments(int argc, char *argv[], string &genomeFilePath, string 
                 }
             } else if (string(argv[i]) == "-g") {
                 genomeFilePath = string(argv[i + 1]);
-                mainName = getFileName(genomeFilePath);
-                mainName = mainName.substr(0, mainName.find_last_of("."));
+                genomeFileName = getFileName(genomeFilePath);
+                genomeFileName = genomeFileName.substr(0, genomeFileName.find_last_of("."));
             } else if (string(argv[i]) == "-ir") {
                 readsFilePath = string(argv[i + 1]);
             } else if (string(argv[i]) == "-i") {

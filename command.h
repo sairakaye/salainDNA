@@ -7,6 +7,6 @@
 
 #include "common.h"
 
-void processingArguments(int argc, char *argv[], string &genomeFilePath, string &readsFilePath, string &indexFilePath, string &mainName);
+void processingArguments(int argc, char *argv[], string &genomeFilePath, string &readsFilePath, string &indexFilePath, string &genomeFileName);
 
 #endif //SALAINDNA_COMMAND_H

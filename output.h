@@ -8,10 +8,9 @@
 #include "common.h"
 
 void outputPairReads(string& genomeFileName);
-void outputRunTimeResults(string& genomeFileName, double indexTimeTaken, double ssTimeTaken, double bmTimeTaken,
-                          double verificationTimeTaken, double totalTimeTaken);
-void outputSeedSelectorResults(string& mainName, double timeTaken);
-void outputFileSeedSelectorResults(string& mainName, double timeTaken);
+void outputRunTimeResults(string& genomeFileName, double indexRunTime, double ssRunTime, double bmRunTime,
+                          double verificationRunTime, double totalRunTime);
+void outputSeedSelectorResults(string& genomeFileName, double timeTaken);
 void outputPrealignmentResults();
 void outputSAMFile();
 void outputEdlibResults();

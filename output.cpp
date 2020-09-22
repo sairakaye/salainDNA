@@ -26,21 +26,22 @@ void outputPairReads(string& genomeFileName) {
     pairReadsFile.close();
 }
 
-void outputRunTimeResults(string& genomeFileName, double indexTimeTaken, double ssTimeTaken, double bmTimeTaken,
-                          double verificationTimeTaken, double totalTimeTaken) {
+void outputRunTimeResults(string& genomeFileName, double indexRunTime, double ssRunTime, double bmRunTime,
+                          double verificationRunTime, double totalRunTime) {
     ofstream runTimeFile;
     string runTimeFileName(mode + "_end2end_" + genomeFileName + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + to_string(e) + "_" + searchMode + ".txt");
     runTimeFile.open(runTimeFileName.c_str(), ios::out);
 
-    runTimeFile << "Indexing: " << to_string(indexTimeTaken) + " sec" << endl;
-    runTimeFile << "Seed Selector: " << to_string(ssTimeTaken) + " sec" << endl;
-    runTimeFile << "Bit Matrix: " << to_string(bmTimeTaken) + " sec" << endl;
-    runTimeFile << "Total time (start to bottom): " << to_string(totalTimeTaken) + " sec" << endl;
+    runTimeFile << "Indexing: " << to_string(indexRunTime) + " sec" << endl;
+    runTimeFile << "Seed Selector: " << to_string(ssRunTime) + " sec" << endl;
+    runTimeFile << "Bit Matrix: " << to_string(bmRunTime) + " sec" << endl;
+    runTimeFile << "Verification: " << to_string(verificationRunTime) + " sec" << endl;
+    runTimeFile << "Total time (start to bottom): " << to_string(totalRunTime) + " sec" << endl;
 
     runTimeFile.close();
 }
 
-void outputSeedSelectorResults(string& mainName, double timeTaken) {
+void outputSeedSelectorResults(string& genomeFileName, double timeTaken) {
     cout << "Time taken by the Seed Selector process is: " << to_string(timeTaken) << " sec" << endl << endl;
 
     cout << "Number of seeds checked: " << to_string(numSeeds) << endl;
@@ -50,24 +51,6 @@ void outputSeedSelectorResults(string& mainName, double timeTaken) {
     cout << "Number of accepted reads: " << to_string(numAcceptedReads) << endl << endl;
 
     cout << "Number of possible read locations found: " + to_string(numPossibleReadLocations) << endl << endl;
-}
-
-void outputFileSeedSelectorResults(string& mainName, double timeTaken) {
-    ofstream infoFile;
-    string infoFileName(mode + "_info_" + mainName + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + to_string(e) + "_" + searchMode + ".txt");
-    infoFile.open(infoFileName.c_str(), ios::out);
-
-    infoFile << "Time taken by the pigeonhole process is : " << to_string(timeTaken) << " sec" << endl << endl;
-
-    infoFile << "Number of seeds checked: " << to_string(numSeeds) << endl;
-    infoFile << "Number of reads checked: " << to_string(numReads) << endl << endl;
-
-    infoFile << "Number of accepted seeds: " << to_string(numAcceptedSeeds) << endl;
-    infoFile << "Number of accepted reads: " << to_string(numAcceptedReads) << endl << endl;
-
-    infoFile << "Number of possible read locations found from forward: " + to_string(numPossibleReadLocations) << endl;
-
-    infoFile.close();
 }
 
 void outputPrealignmentResults() {
