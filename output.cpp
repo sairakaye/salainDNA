@@ -4,9 +4,9 @@
 
 #include "output.h"
 
-void outputPairReads(string& mainName) {
+void outputPairReads(string& genomeFileName) {
     ofstream pairReadsFile;
-    string pairReadsFileName(mode + "_pair_reads_" + mainName + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + searchMode + ".txt");
+    string pairReadsFileName(mode + "_pair_reads_" + genomeFileName + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + searchMode + ".txt");
     pairReadsFile.open(pairReadsFileName.c_str(), ios::out);
 
     for (int i = 0; i < reads.size(); i++) {
