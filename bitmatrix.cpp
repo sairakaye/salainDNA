@@ -347,12 +347,12 @@ vector<int> slidingWindow(int E, vector<int> &locations, string P, string T) {
 
 }
 
-vector<int> bitMatrixAlgorithm(int E, string read, string reference) {
+vector<int> bitMatrixAlgorithm(int E, string read, string genome) {
 
     vector<int> locations(2 * E + 1);
     int windowSize = 4;
     vector<int> finalVector(m);
-    int m = reference.size();
+    int m = genome.size();
     int n = read.size();
 /*    char t[m];
     char p[n];*/
@@ -381,8 +381,8 @@ vector<int> bitMatrixAlgorithm(int E, string read, string reference) {
         jE = 0;
         for (int j = i - E; j < i + E + 1; j++) {
             if (jE <= 2 * E) {
-                if ((reference[j] == 'A' || reference[j] == 'C' || reference[j] == 'G' || reference[j] == 'T') &&
-                    read[i] == reference[j]) {
+                if ((genome[j] == 'A' || genome[j] == 'C' || genome[j] == 'G' || genome[j] == 'T') &&
+                    read[i] == genome[j]) {
                     //NMap.insert(NMap.begin() + locations[jE], 0);
                     NMap[movingLocation[jE] + 1] = 0;
 
@@ -395,8 +395,8 @@ vector<int> bitMatrixAlgorithm(int E, string read, string reference) {
                         locations[j]++;
                     }*/
                     jE++;
-                } else if ((reference[j] == 'A' || reference[j] == 'C' || reference[j] == 'G' || reference[j] == 'T') &&
-                           read[i] != reference[j]) {
+                } else if ((genome[j] == 'A' || genome[j] == 'C' || genome[j] == 'G' || genome[j] == 'T') &&
+                           read[i] != genome[j]) {
                     //NMap.insert(NMap.begin() + locations[jE], 1);
                     NMap[movingLocation[jE] + 1] = 1;
 
