@@ -347,7 +347,7 @@ vector<int> slidingWindow(int E, vector<int> &locations, string P, string T) {
 
 }
 
-vector<int> BitMatrixAlgorithm(int E, string read, string reference) {
+vector<int> bitMatrixAlgorithm(int E, string read, string reference) {
 
     vector<int> locations(2 * E + 1);
     int windowSize = 4;
@@ -567,8 +567,6 @@ void bitMatrixFilterProcess() {
     FalseNeg = 0;
     */
 
-    int E = e;
-
     //vector<int> location(2*e+1);
 /*    ofstream pairReadsFile;
     string pairReadsFileName(to_string(e));
@@ -577,7 +575,7 @@ void bitMatrixFilterProcess() {
     alignmentNeeded = 0;
     notNeeded = 0;
     //ofstream pairReadsFile;
-    //string pairReadsFileName(to_string(E));
+    //string pairReadsFileName(to_string(e));
     //pairReadsFile.open(pairReadsFileName.c_str(), ios::out);
 
     auto start = std::chrono::high_resolution_clock::now();
@@ -594,7 +592,8 @@ void bitMatrixFilterProcess() {
             int j;
             for (j = 0; j < reads[i].forwardLocations.size(); j++) {
                 if (refGenome.genomeData.substr(reads[i].forwardLocations[j], m).size() == m) {
-                    if (countOnes(BitMatrixAlgorithm(E, read, refGenome.genomeData.substr(reads[i].forwardLocations[j], m)), E) <= E) {
+                    if (countOnes(
+                            bitMatrixAlgorithm(e, read, refGenome.genomeData.substr(reads[i].forwardLocations[j], m)), e) <= e) {
                         //pairReadsFile << read << "\t" << refGenome.genomeData.substr(locations[j], m) << endl;
 
                         alignmentNeeded++;
@@ -624,8 +623,9 @@ void bitMatrixFilterProcess() {
             int j;
             for (j = 0; j < reads[i].reverseLocations.size(); j++) {
                 if (refGenome.genomeData.substr(reads[i].reverseLocations[j], m).size() == m) {
-                    if (countOnes(BitMatrixAlgorithm(E, reverseRead, refGenome.genomeData.substr(reads[i].reverseLocations[j], m)), E) <=
-                        E) {
+                    if (countOnes(bitMatrixAlgorithm(e, reverseRead,
+                                                     refGenome.genomeData.substr(reads[i].reverseLocations[j], m)), e) <=
+                        e) {
                         #pragma omp critical
                         //tempAcceptedLocations.push_back(locations[j]);
                         alignmentNeeded++;
@@ -689,7 +689,7 @@ void bitMatrixFilterProcess() {
     bmRunTime = diff.count();
 
     numFilteredReadLocations = alignmentNeeded;
-    //cout << diff.count() << "\t" << E << "\t" << alignmentNeeded << "\t" << notNeeded << endl;
+    //cout << diff.count() << "\t" << e << "\t" << alignmentNeeded << "\t" << notNeeded << endl;
 
     cout << "Time taken by the Bit Matrix is: " << to_string(bmRunTime) << " sec" << endl;
     cout << "Number of needed locations: " << to_string(alignmentNeeded) << endl;
