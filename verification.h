@@ -1,6 +1,8 @@
-//
-// Created by saimanalili on 21/09/2020.
-//
+/**
+ * @file verification.h
+ * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
+ * @brief Header file for the Verification stage, containing function declarations to be used by the program.
+ */
 
 #ifndef SALAINDNA_VERIFICATION_H
 #define SALAINDNA_VERIFICATION_H
@@ -10,4 +12,4 @@
 
 void verifyWithEdlib();
 
-#endif //SALAINDNA_VERIFICATION_H
+#endif

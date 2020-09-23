@@ -1,6 +1,8 @@
-//
-// Created by saimanalili on 17/04/2020.
-//
+/**
+ * @file output.h
+ * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
+ * @brief Header file for output of the results, containing function declarations to be used by the program.
+ */
 
 #ifndef SALAINDNA_OUTPUT_H
 #define SALAINDNA_OUTPUT_H
@@ -15,4 +17,4 @@ void outputPrealignmentResults();
 void outputSAMFile();
 void outputEdlibResults();
 
-#endif //SALAINDNA_OUTPUT_H
+#endif

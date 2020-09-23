@@ -1,6 +1,8 @@
-//
-// Created by saimanalili on 16/04/2020.
-//
+/**
+ * @file bitmatrix.h
+ * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
+ * @brief Header file for Direct Addressing, containing function declaration to be used by the program.
+ */
 
 #ifndef SALAINDNA_DIRECTADDRESSING_H
 #define SALAINDNA_DIRECTADDRESSING_H
@@ -9,4 +11,4 @@
 
 void buildDirectAddressingIndexingFile(string& genome, string& genomeFileName);
 
-#endif //SALAINDNA_DIRECTADDRESSING_H
+#endif

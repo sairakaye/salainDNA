@@ -1,6 +1,8 @@
-//
-// Created by saimanalili on 13/04/2020.
-//
+/**
+ * @file indexing.h
+ * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
+ * @brief Header file for the Hash-based Indexer, containing function declarations to be used by the program.
+ */
 
 #ifndef SALAINDNA_INDEXING_H
 #define SALAINDNA_INDEXING_H
@@ -23,4 +25,4 @@ void buildIndex(string genomeFileName, string indexFile,
                 vector<unsigned long long int>& posTable,
                 double loadFactor);
 
-#endif //SALAINDNA_INDEXING_H
+#endif

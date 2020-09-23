@@ -1,6 +1,8 @@
-//
-// Created by saimanalili on 16/04/2020.
-//
+/**
+ * @file openaddressing.h
+ * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
+ * @brief Header file for Open Addressing, containing function declaration to be used by the program.
+ */
 
 #ifndef SALAINDNA_OPENADDRESSING_H
 #define SALAINDNA_OPENADDRESSING_H
@@ -9,4 +11,4 @@
 
 void buildOpenAddressingIndexingFile(string& genome, string& genomeFileName, double loadFactor);
 
-#endif //MULTICORE_RM_OPENADDRESSING_H
+#endif

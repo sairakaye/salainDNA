@@ -1,6 +1,8 @@
-//
-// Created by saimanalili on 25/02/2020.
-//
+/**
+ * @file output.h
+ * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
+ * @brief Header file for location searching of Seed Selector, containing function declarations to be used by the program.
+ */
 
 #ifndef SALAINDNA_SEARCHING_H
 #define SALAINDNA_SEARCHING_H
