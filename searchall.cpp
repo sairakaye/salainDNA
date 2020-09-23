@@ -11,7 +11,7 @@
  *
  */
 void exactSearchingForAll() {
-    int acceptanceCriterion = (j - e);
+    int acceptanceCriterion = (j - e); // The value of acceptance criterion set to accept the read.
 
     int i;
     #pragma omp parallel for reduction(+:numAcceptedSeeds)
@@ -130,7 +130,7 @@ void exactSearchingForAll() {
  *
  */
 void approximateSearchingForAll() {
-    int acceptanceCriterion;
+    int acceptanceCriterion; // The value of acceptance criterion set to accept the read.
 
     if (allowableE < q) {
         acceptanceCriterion = j - floor(e / (allowableE + 1));
