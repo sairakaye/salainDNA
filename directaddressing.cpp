@@ -6,6 +6,16 @@
 
 #include "directaddressing.h"
 
+/**
+ * It builds the direct addressing index.
+ *
+ * @param genome - The reference genome data.
+ * @param genomeFileName - The filename of the reference genome.
+ * @param n - The length of the reference genome.
+ * @param q - The value of the q-gram.
+ * @param dirTableSize - The length or size of the directory table.
+ * @param posTableSize - The length or size of the position table.
+ */
 void buildDirectAddressingTables(string genome, string genomeFileName, unsigned int n, unsigned int q, unsigned long long int dirTableSize, unsigned long long int posTableSize)
 {
     ofstream outfile;
@@ -61,6 +71,12 @@ void buildDirectAddressingTables(string genome, string genomeFileName, unsigned 
     outfile.close();
 }
 
+/**
+ * It initializes the table sizes and calls the building of the direct addressing index.
+ *
+ * @param genome - The reference genome data.
+ * @param genomeFileName - The filename of the reference genome.
+ */
 void buildDirectAddressingIndexingFile(string& genome, string& genomeFileName) {
     unsigned long long int dirTableSize = pow(4, q) + 1;
     unsigned long long int posTableSize = genome.size() - q + 1;

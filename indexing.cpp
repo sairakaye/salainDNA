@@ -6,6 +6,15 @@
 
 #include "indexing.h"
 
+/**
+ * It reads the index file indicated in the program.
+ *
+ * @param indexFile - The filename of the index file.
+ * @param minimizers - It is a map containing locations of each minimizer rank.
+ * @param codeTable - It is where q-gram ranks are hashed into.
+ * @param dirTable - It contains the starting location of q-grams in the position table.
+ * @param posTable - It is a list containing the positions of q-grams in the reference genome.
+ */
 void readIndexFile(string indexFile,
                    map<unsigned long long int, vector<unsigned long long int>>& minimizers,
                    map<long long, unsigned long long int>& codeTable,
@@ -35,6 +44,17 @@ void readIndexFile(string indexFile,
     }
 }
 
+/**
+ * It builds the hash-based index specified in the read mapper.
+ *
+ * @param genomeFileName - The filename of the reference genome.
+ * @param indexFile - The filename of the index file.
+ * @param minimizers - It is a map containing locations of each minimizer rank.
+ * @param codeTable - It is where q-gram ranks are hashed into.
+ * @param dirTable - It contains the starting location of q-grams in the position table.
+ * @param posTable - It is a list containing the positions of q-grams in the reference genome.
+ * @param loadFactor - The value of load factor used by the code table from the open addressing hash-based indexer.
+ */
 void buildIndex(string genomeFileName, string indexFile,
                 map<unsigned long long int, vector<unsigned long long int>>& minimizers,
                 map<long long, unsigned long long int>& codeTable,

@@ -6,6 +6,17 @@
 
 #include "openaddressing.h"
 
+/**
+ * It builds the open addressing index.
+ *
+ * @param genome - The reference genome data.
+ * @param genomeFileName - The filename of the reference genome.
+ * @param n - The length of the reference genome.
+ * @param q - The value of the q-gram.
+ * @param codeTableSize - The length or size of the code table.
+ * @param dirTableSize - The length or size of the directory table.
+ * @param posTableSize - The length or size of the position table.
+ */
 void buildOpenAddressingTables(string genome, string genomeFileName, unsigned int n, unsigned int q, unsigned long long int codeTableSize, unsigned long long int dirTableSize, unsigned long long int posTableSize)
 {
     ofstream outfile;
@@ -107,6 +118,13 @@ void buildOpenAddressingTables(string genome, string genomeFileName, unsigned in
     outfile.close();
 }
 
+/**
+ * It initializes the table sizes and calls the building of the open addressing index.
+ *
+ * @param genome - The reference genome data.
+ * @param genomeFileName - The filename of the reference genome.
+ * @param loadFactor - The value of load factor that will be used for initializing the size of the code table.
+ */
 void buildOpenAddressingIndexingFile(string& genome, string& genomeFileName, double loadFactor) {
     unsigned long long int codeTableSize = floor(( pow(loadFactor, -1)) * genome.length());
     unsigned long long int dirTableSize = codeTableSize + 1;

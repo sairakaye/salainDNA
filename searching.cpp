@@ -7,6 +7,14 @@
 #include "searching.h"
 #include "seedselector.h"
 
+/**
+* It is used for minimizers to search for the locations of the seed using exact searching.
+*
+* @param seed - The seed that will be used for determining its locations in the reference genome.
+* @param adjustmentValue - The value for the alignment of the locations found of the seed to the read.
+* @param minRankLocations - A list of locations found from the minimizer rank.
+* @return found locations of the seed
+*/
 vector<unsigned long long int> exactSearchingUsingMinimizers(string seed, int adjustmentValue, vector<unsigned long long int>& minRankLocations) {
     vector<unsigned long long int> foundLocations;
 
@@ -22,6 +30,14 @@ vector<unsigned long long int> exactSearchingUsingMinimizers(string seed, int ad
     return foundLocations;
 }
 
+/**
+* It is used for minimizers to search for the locations of the seed using approximate searching.
+*
+* @param seed - The seed that will be used for determining its locations in the reference genome.
+* @param adjustmentValue - The value for the alignment of the locations found of the seed to the read.
+* @param minRankLocations - A list of locations found from the minimizer rank.
+* @return found locations of the seed
+*/
 vector<unsigned long long int> approximateSearchingUsingMinimizers(string seed, int adjustmentValue, vector<unsigned long long int>& minRankLocations) {
     vector<unsigned long long int> foundLocations;
     int i;
@@ -41,6 +57,14 @@ vector<unsigned long long int> approximateSearchingUsingMinimizers(string seed, 
     return foundLocations;
 }
 
+/**
+* It is used for direct addressing or open addressing to search for the locations of the seed using exact searching.
+*
+* @param seed - The seed that will be used for determining its locations in the reference genome.
+* @param index - The starting index from the position table to start the searching.
+* @param adjustmentValue - The value for the alignment of the locations found of the seed to the read.
+* @return found locations of the seed
+*/
 vector<unsigned long long int> exactSearchingUsingDirectOrOpen(string seed, unsigned long long int index, int adjustmentValue) {
     vector<unsigned long long int> foundLocations;
 
@@ -55,6 +79,14 @@ vector<unsigned long long int> exactSearchingUsingDirectOrOpen(string seed, unsi
     return foundLocations;
 }
 
+/**
+* It is used for direct addressing or open addressing to search for the locations of the seed using approximate searching.
+*
+* @param seed - The seed that will be used for determining its locations in the reference genome.
+* @param index - The starting index from the position table to start the searching.
+* @param adjustmentValue - The value for the alignment of the locations found of the seed to the read.
+* @return found locations of the seed
+*/
 vector<unsigned long long int> approximateSearchingUsingDirectOrOpen(string seed, unsigned long long int index, int adjustmentValue) {
     vector<unsigned long long int> foundLocations;
     bool continueCompare = true;
@@ -83,6 +115,14 @@ vector<unsigned long long int> approximateSearchingUsingDirectOrOpen(string seed
     return foundLocations;
 }
 
+/**
+* It gives the locations of the seed using exact searching.
+*
+* @param seed - The seed that will be used for determining its locations in the reference genome.
+* @param mode - It indicates what mode of hash-based indexer will be used.
+* @param adjustmentValue - The value for the alignment of the locations found of the seed to the read.
+* @return found locations of the seed
+*/
 vector<unsigned long long int> exactSearchingPosition(string seed, string mode, int adjustmentValue) {
     vector<unsigned long long int> foundLocations;
 
@@ -123,6 +163,14 @@ vector<unsigned long long int> exactSearchingPosition(string seed, string mode, 
     return foundLocations;
 }
 
+/**
+* It gives the locations of the seed using approximate searching.
+*
+* @param seed - The seed that will be used for determining its locations in the reference genome.
+* @param mode - It indicates what mode of hash-based indexer will be used.
+* @param adjustmentValue - The value for the alignment of the locations found of the seed to the read.
+* @return found locations of the seed
+*/
 vector<unsigned long long int> approximateSearchingPosition(string seed, string mode, int adjustmentValue) {
     vector<unsigned long long int> foundLocations;
 

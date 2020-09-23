@@ -6,6 +6,10 @@
 
 #include "verification.h"
 
+/**
+ * It starts the verification process.
+ *
+ */
 void verifyWithEdlib() {
     //cout << "Edlib:\nTime\tE\tAccepted\tRejected" << endl;
 

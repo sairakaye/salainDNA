@@ -6,6 +6,11 @@
 
 #include "output.h"
 
+/**
+ * It writes a file that outputs a pair of reads from the seed selector. T
+ *
+ * @param genomeFileName - The filename of the reference genome.
+ */
 void outputPairReads(string& genomeFileName) {
     ofstream pairReadsFile;
     string pairReadsFileName(mode + "_pair_reads_" + genomeFileName + "_" + to_string(reads.size()) + "_" + to_string(m) + "R_" + to_string(q) + "_" + searchMode + ".txt");
@@ -28,6 +33,16 @@ void outputPairReads(string& genomeFileName) {
     pairReadsFile.close();
 }
 
+/**
+ * It writes a file that outputs the time of each process in SalainDNA.
+ *
+ * @param genomeFileName - The filename of the reference genome.
+ * @param indexRunTime - The runtime of the Hash-based Indexer.
+ * @param ssRunTime - The runtime of Seed Selector.
+ * @param bmRunTime - The runtime of the Bit Matrix.
+ * @param verificationRunTime - The runtime of Edlib.
+ * @param totalRunTime - The total run time of SalainDNA.
+ */
 void outputRunTimeResults(string& genomeFileName, double indexRunTime, double ssRunTime, double bmRunTime,
                           double verificationRunTime, double totalRunTime) {
     ofstream runTimeFile;
@@ -43,6 +58,12 @@ void outputRunTimeResults(string& genomeFileName, double indexRunTime, double ss
     runTimeFile.close();
 }
 
+/**
+ * It outputs the results of the seed selector process.
+ *
+ * @param genomeFileName - The filename of the reference genome.
+ * @param timeTaken - The run time taken by the Seed Selector.
+ */
 void outputSeedSelectorResults(string& genomeFileName, double timeTaken) {
     cout << "Time taken by the Seed Selector process is: " << to_string(timeTaken) << " sec" << endl << endl;
 
@@ -55,6 +76,10 @@ void outputSeedSelectorResults(string& genomeFileName, double timeTaken) {
     cout << "Number of possible read locations found: " + to_string(numPossibleReadLocations) << endl << endl;
 }
 
+/**
+ * It outputs the results of the pre-alignment filtering stage.
+ *
+ */
 void outputPrealignmentResults() {
     cout << "There are " << numReads << " reads. " << numAcceptedReads << " are accepted for e = " + to_string(e) << "." << endl;
     cout << "Sequence Name: " << refGenome.genomeName << endl;
@@ -62,10 +87,18 @@ void outputPrealignmentResults() {
     cout << "Locations accepted by Bit Matrix: " << numFilteredReadLocations << endl;
 }
 
+/**
+ * It outputs the results of the verification stage using Edlib.
+ *
+ */
 void outputEdlibResults() {
     cout << "Locations accepted by Edlib: " << numVerifiedReadLocations << endl;
 }
 
+/**
+ * It outputs the SAM file of the SalainDNA read mapping process.
+ *
+ */
 void outputSAMFile() {
     ofstream SAMFile;
     SAMFile.open(SAMFileName.c_str(), ios::out);

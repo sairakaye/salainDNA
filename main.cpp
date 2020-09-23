@@ -1,7 +1,7 @@
 /**
  * @file main.cpp
  * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
- * @brief The starting point of the program.
+ * @brief It contains the starting point of the program.
  */
 
 #include "command.h"
@@ -45,6 +45,13 @@ double ssRunTime;
 double bmRunTime;
 double verificationRunTime;
 
+/**
+ * The starting point of the program.
+ *
+ * @param argc - The number of input arguments in the program.
+ * @param argv - A list of input arguments in the program.
+ * @return exit code
+ */
 int main(int argc, char *argv[]) {
     string genomeFilePath;
     string readsFilePath;

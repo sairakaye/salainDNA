@@ -6,6 +6,11 @@
 
 #include "searchexit.h"
 
+/**
+ * It searches using the forward strand of the read using exact searching for exit mode.
+ *
+ * @param acceptanceCriterion - The value of acceptance criterion set to accept the read.
+ */
 void exactForwardSearchingExit(int acceptanceCriterion) {
     int i;
     #pragma omp parallel for reduction(+:numAcceptedSeeds)
@@ -66,6 +71,11 @@ void exactForwardSearchingExit(int acceptanceCriterion) {
     }
 }
 
+/**
+ * It searches using the reverse strand of the read using exact searching for exit mode.
+ *
+ * @param acceptanceCriterion - The value of acceptance criterion set to accept the read.
+ */
 void exactReverseSearchingExit(int acceptanceCriterion) {
     int i;
     #pragma omp parallel for reduction(+:numAcceptedSeeds)
@@ -126,6 +136,10 @@ void exactReverseSearchingExit(int acceptanceCriterion) {
     }
 }
 
+/**
+ * It starts the searching for the position of each seed using exact searching for exit mode.
+ *
+ */
 void exactSearchingForExit() {
     int acceptanceCriterion = (j - e);
 
@@ -136,6 +150,11 @@ void exactSearchingForExit() {
     }
 }
 
+/**
+ * It searches using the forward strand of the read using approximate searching for exit mode.
+ *
+ * @param acceptanceCriterion - The value of acceptance criterion set to accept the read.
+ */
 void approximateForwardSearchingExit(int acceptanceCriterion) {
     int i;
     #pragma omp parallel for reduction(+:numAcceptedSeeds)
@@ -197,6 +216,11 @@ void approximateForwardSearchingExit(int acceptanceCriterion) {
     }
 }
 
+/**
+ * It searches using the reverse strand of the read using approximate searching for exit mode.
+ *
+ * @param acceptanceCriterion - The value of acceptance criterion set to accept the read.
+ */
 void approximateReverseSearchingExit(int acceptanceCriterion) {
     int i;
     #pragma omp parallel for reduction(+:numAcceptedSeeds)
@@ -257,6 +281,10 @@ void approximateReverseSearchingExit(int acceptanceCriterion) {
     }
 }
 
+/**
+ * It starts the searching for the position of each seed using approximate searching for exit mode.
+ *
+ */
 void approximateSearchingForExit() {
     int acceptanceCriterion;
 

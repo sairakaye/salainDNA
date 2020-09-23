@@ -6,8 +6,15 @@
 
 #include "common.h"
 
+// It contains the equivalent numerical value of each DNA alphabet code.
 vector<pair<string, int>> alphabetRef = { {"A", 0}, {"C",1}, {"G",2}, {"T", 3} };
 
+/**
+ * It extracts the ranking of a given q-gram.
+ *
+ * @param seed - The q-gram that will be used for the ranking extraction.
+ * @return the ranking of the seed
+ */
 unsigned long long int extractRanking(string seed) {
     string binary;
     int rankValue;
@@ -25,6 +32,13 @@ unsigned long long int extractRanking(string seed) {
     return decimal;
 }
 
+/**
+ * It hashes the given key using Integer Hash.
+ *
+ * @param key - The key to be hashed.
+ * @param mask - The mask used for hashing.
+ * @return the hashed key
+ */
 uint64_t inthash_64(uint64_t key, uint64_t mask) {
     key = (~key + (key << 21)) & mask;
     key = key ^ key >> 24;
@@ -36,6 +50,12 @@ uint64_t inthash_64(uint64_t key, uint64_t mask) {
     return key;
 }
 
+/**
+ * It reads the reference genome file given in the read mapping system. The reference genome should be a FASTA (.fa) file.
+ *
+ * @param filename - The filename of the reference genome file.
+ * @return the reference genome data to be used in the program
+ */
 Genome readGenomeFile(string filename) {
     Genome genome;
     string genomeData;
@@ -75,6 +95,12 @@ Genome readGenomeFile(string filename) {
     return genome;
 }
 
+/**
+ * It reads the input reads file given in the read mapping system. The input reads file should be a FASTA (.fa) file.
+ *
+ * @param filename - The filename of the input reads file.
+ * @return list of reads to be used in the program
+ */
 vector<Read> readReadsFile(string filename) {
     vector<Read> readList;
     ifstream fileRead(filename);
@@ -89,10 +115,8 @@ vector<Read> readReadsFile(string filename) {
                     Read readStruct;
                     readStruct.readName = readName;
                     readStruct.readData = read;
-                    //readMap[read] = readStruct;
                     readList.push_back(readStruct);
                     read = "";
-                    //numReads++;
                 }
 
                 readName = line.substr(1, line.find(' ') - 1);
@@ -104,18 +128,12 @@ vector<Read> readReadsFile(string filename) {
             }
 
             read.append(line);
-
-            /*
-            readList.push_back(line);
-            readsLabelMap[line] = readName;
-            */
         }
 
         if (read.size() > 0 && readName.size() > 0) {
             Read readStruct;
             readStruct.readName = readName;
             readStruct.readData = read;
-            //readMap[read] = readStruct;
             readList.push_back(readStruct);
         }
 
@@ -129,6 +147,12 @@ vector<Read> readReadsFile(string filename) {
     return readList;
 }
 
+/**
+ * It gives the reverse strand of the given read.
+ *
+ * @param read - The read to be converted into its reverse complement.
+ * @return the reverse strand of the read
+ */
 string reverseComplement(string read) {
     string reverseRead = read;
     reverse(reverseRead.begin(), reverseRead.end());
@@ -152,7 +176,13 @@ string reverseComplement(string read) {
 
     return reverseRead;
 }
-
+/**
+ * It converts the index file to a direct addressing index.
+ *
+ * @param filename - The filename of the index.
+ * @param dirTable - It contains the starting location of q-grams in the position table.
+ * @param posTable - It is a list containing the positions of q-grams in the reference genome.
+ */
 void getDirectAddressing(string filename, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable) {
     ifstream directAddrFile(filename);
     string line;
@@ -202,6 +232,14 @@ void getDirectAddressing(string filename, vector<unsigned long long int>& dirTab
     }
 }
 
+/**
+ * It converts the index file to an open addressing index.
+ *
+ * @param filename - The filename of the index.
+ * @param codeTable - It is where q-gram ranks are hashed into.
+ * @param dirTable - It contains the starting location of q-grams in the position table.
+ * @param posTable - It is a list containing the positions of q-grams in the reference genome.
+ */
 void getOpenAddressing(string filename, map<long long, unsigned long long int>& codeTable, vector<unsigned long long int>& dirTable, vector<unsigned long long int>& posTable) {
     ifstream openAddrFile(filename);
     string line;
@@ -282,20 +320,33 @@ void getOpenAddressing(string filename, map<long long, unsigned long long int>& 
     }
 }
 
-vector<unsigned long long int> splitToInt(string str, char delimiter) {
-    vector<unsigned long long int> internal;
-    stringstream ss(str); // Turn the string into a stream.
-    string tok;
+/**
+ * It processes the string by splitting it and converting each number found in the string to integer.
+ *
+ * @param str - The string to be processed.
+ * @param delimiter - The determinant for splitting the string.
+ * @return list of numbers parsed from the string
+ */
+vector<unsigned long long int> splitAndConvertToInt(string str, char delimiter) {
+    vector<unsigned long long int> values;
+    stringstream ss(str);
+    string token;
 
-    while(getline(ss, tok, delimiter)) {
-        if (tok.length() > 0) {
-            internal.push_back(strtoull(tok.c_str(), nullptr, 10));
+    while(getline(ss, token, delimiter)) {
+        if (token.length() > 0) {
+            values.push_back(strtoull(token.c_str(), nullptr, 10));
         }
     }
 
-    return internal;
+    return values;
 }
 
+/**
+ * It converts the index file to an open addressing index.
+ *
+ * @param filename - The filename of the index.
+ * @return the Minimizers index
+ */
 map<unsigned long long int, vector<unsigned long long int>> getMinimizers(string filename) {
     ifstream fileMinimizer(filename);
     string line;
@@ -310,7 +361,7 @@ map<unsigned long long int, vector<unsigned long long int>> getMinimizers(string
             unsigned long long int minimizerHashRank = strtoull(line.substr(0, line.find(':')).c_str(), nullptr, 10);
             string locations = line.substr(line.find(':') + 1, line.length() - line.find(":"));
 
-            minimizers[minimizerHashRank] = splitToInt(locations, ' ');
+            minimizers[minimizerHashRank] = splitAndConvertToInt(locations, ' ');
         }
 
         fileMinimizer.close();
@@ -322,23 +373,3 @@ map<unsigned long long int, vector<unsigned long long int>> getMinimizers(string
 
     return minimizers;
 }
-
-/*
-void processingPossibleReadsForBitmatrix() {
-    for (pair<string, vector<unsigned long long int>> readPair : possibleReadsMap) {
-        vector<unsigned long long int> &temp = readPair.second;
-
-        unordered_set<unsigned long long int> locationSet;
-        for (unsigned long long int location : readPair.second) {
-            if (refGenome.substr(location, m).size() == m) {
-                locationSet.insert(location);
-            }
-        }
-
-        temp.assign(locationSet.begin(), locationSet.end());
-        possibleReadsMap[readPair.first] = temp;
-
-        numLocations += temp.size();
-    }
-}
-*/

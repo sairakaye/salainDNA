@@ -6,6 +6,12 @@
 
 #include "command.h"
 
+/**
+ * It extracts the file name from the given file path.
+ *
+ * @param filePath - The file path where the file name will be extracted.
+ * @return the file name
+ */
 string getFileName(string filePath) {
     char separator = '/';
 
@@ -22,6 +28,10 @@ string getFileName(string filePath) {
     return ("");
 }
 
+/**
+ * It prints the general details of SalainDNA. The details contain the name of the program and its features.
+ *
+ */
 void generalDetails() {
     cout << "SalainDNA: A Pre-alignment Filter for DNA Read Mapping on a Multi-core Environment" << endl << endl;
 
@@ -32,6 +42,10 @@ void generalDetails() {
     cout << "\t - Edlib for Verification" << endl;
 }
 
+/**
+ * It prints the commands or arguments that the user can use to run the program.
+ *
+ */
 void helpCommands() {
     cout << "Arguments:" << endl;
     cout << "\t -h - view the commands" << endl;
@@ -48,6 +62,16 @@ void helpCommands() {
     cout << "\t -out - output file for the SAM file" << endl;
 }
 
+/**
+ * It processes the command or arguments input in the program by the user.
+ *
+ * @param argc - The number of input arguments in the program.
+ * @param argv - A list of input arguments in the program.
+ * @param genomeFilePath - The file path of the reference genome.
+ * @param readsFilePath - The file path of the reads to be mapped by SalainDNA.
+ * @param indexFilePath - The file path of the index.
+ * @param genomeFileName - The filename of the reference genome.
+ */
 void processingArguments(int argc, char *argv[], string &genomeFilePath, string &readsFilePath, string &indexFilePath, string &genomeFileName) {
     if (argc == 1) {
         generalDetails();

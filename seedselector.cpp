@@ -7,9 +7,13 @@
 
 #include "seedselector.h"
 
-int j;
-int allowableE;
+int j; // The number of partitions in each read.
+int allowableE; // The value of allowable error threshold in each seed.
 
+/**
+* Starts the seed selector process using the search all mode.
+*
+*/
 void seedSelectorSearchAllProcess() {
     j = ceil(m / (double) q);
     allowableE = floor(e / (double) j);
@@ -21,6 +25,10 @@ void seedSelectorSearchAllProcess() {
     }
 }
 
+/**
+* Starts the seed selector process using the exit mode.
+*
+*/
 void seedSelectorExitProcess() {
     j = ceil(m / (double) q);
     allowableE = floor(e / (double) j);

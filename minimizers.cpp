@@ -6,6 +6,14 @@
 
 #include "minimizers.h"
 
+/**
+ * It gets the minimizer rank of the given window seed.
+ *
+ * @param windowSeed - The window seed that will be used for the minimizers.
+ * @param q - The value of the q-gram.
+ * @param windowSize - The value of the window size.
+ * @return the minimizer rank
+ */
 unsigned long long int getMinimizerRank(string windowSeed, int q, int windowSize) {
     unsigned long long int mask = pow(4, q);
     string finalMin;
@@ -29,6 +37,13 @@ unsigned long long int getMinimizerRank(string windowSeed, int q, int windowSize
     return finalMinHash;
 }
 
+/**
+ * It gets the minimizer rank of the seed without using the window size.
+ *
+ * @param windowSeed - The window seed that will be used for the minimizers.
+ * @param q - The value of the q-gram.
+ * @return the minimizer rank
+ */
 unsigned long long int getMinimizerRankWithoutWindow(string windowSeed, int q) {
     unsigned long long int mask = pow(4, q);
 
@@ -38,6 +53,16 @@ unsigned long long int getMinimizerRankWithoutWindow(string windowSeed, int q) {
     return finalMinHash;
 }
 
+/**
+ * It generates the minimizers index.
+ *
+ * @param genome - The reference genome data.
+ * @param genomeFileName - The filename of the reference genome.
+ * @param q - The value of the q-gram.
+ * @param w - The window value to be used in the calculation of the window size.
+ * @param n - The length of the reference genome.
+ * @return the Minimizers indek
+ */
 multimap<vector<unsigned long long int>, unsigned long long int> generateMinimizers(string genome, string genomeFileName, unsigned int q, unsigned int w, unsigned int n)
 {
     ofstream outfile;
@@ -122,6 +147,12 @@ multimap<vector<unsigned long long int>, unsigned long long int> generateMinimiz
     return finalMinimizers;
 }
 
+/**
+ * It builds the minimizers index.
+ *
+ * @param genome - The reference genome data.
+ * @param genomeFileName - The filename of the reference genome.
+ */
 void buildMinimizersIndexingFile(string& genome, string& genomeFileName) {
     unsigned long long int qIndexing = (unsigned long long int)q;
     unsigned long long int wIndexing = qIndexing;

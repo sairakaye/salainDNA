@@ -6,23 +6,18 @@
 
 #include "bitmatrix.h"
 
-//#pragma clang diagnostic push
-//#pragma ide diagnostic ignored "openmp-use-default-none"
-//#include <unistd.h>
+int truePos; // The number  of True Positive locations filtered.
+int trueNeg; // The number of True Negative locations filtered.
 
-/*
-int TruePos = 0;
-int TrueNeg = 0;
-int FalsePos = 0;
-int FalseNeg = 0;
-*/
+unsigned int alignmentNeeded = 0; // The number of accepted filtered locations.
+unsigned int notNeeded = 0; // The number of rejected filtered locations.
 
-int truePos;
-int trueNeg;
-
-unsigned int alignmentNeeded = 0;
-unsigned int notNeeded = 0;
-
+/**
+ * It increments the value of the position.
+ *
+ * @param i - The starting index of the list of locations.
+ * @param locations - A list of locations.
+ */
 void increment(int i, vector<int> &locations) {
     for (int j = i; j < locations.size(); j++) {
         locations[j]++;
@@ -140,7 +135,13 @@ int countZeroes(vector<int> toCount) {
 
 }
 
-
+/**
+ * It counts the number of ones.
+ *
+ * @param toCount - A list of numbers to count.
+ * @param E - The value of error threshold.
+ * @return count of ones
+ */
 int countOnes(vector<int> toCount, unsigned int E) {
     int ctr = 0;
 
@@ -353,6 +354,14 @@ vector<int> slidingWindow(int E, vector<int> &locations, string P, string T) {
 
 }
 
+/**
+ * It does the bit matrix algorithm.
+ *
+ * @param E - The value of error threshold.
+ * @param read - The read to be used for checking.
+ * @param genome - The data of the reference genome.
+ * @return the processed read with values 0 or 1.
+ */
 vector<int> bitMatrixAlgorithm(int E, string read, string genome) {
 
     vector<int> locations(2 * E + 1);
@@ -535,7 +544,10 @@ vector<int> bitMatrixAlgorithm(int E, string read, string genome) {
 
 }
 
-
+/**
+ * It starts the bit matrix filter process.
+ *
+ */
 void bitMatrixFilterProcess() {
 
     // string readString, referenceString;
@@ -701,123 +713,3 @@ void bitMatrixFilterProcess() {
     cout << "Number of needed locations: " << to_string(alignmentNeeded) << endl;
     cout << "Number of not needed locations: " << to_string(notNeeded) << endl << endl;
 }
-
-/*
-void checkResultswithEdlib(){
-
-
-    string readString, referenceString;
-    vector<string> read;
-    vector<string> reference;
-
-
-
-    int ctr = 0;
-
-    //ifstream infile("/home/aaron/Desktop/ERR240727_1_E2_30million.txt");
-    ifstream infile("/home/aaron/Desktop/Shouji-master/Datasets/ERR240727_1_E2_30million.txt");
-    //ifstream infile("/home/aaron/Desktop/Shouji-master/Datasets/Test");
-    //ifstream infile("F0.txt");
-    while (infile >> readString >> referenceString) {
-        read.push_back(readString);
-        reference.push_back(referenceString);
-    }
-
-    cout << "Time\tE\tTruePos\tTrueNeg\tFalsePos\tFalseNeg";
-
-    for (int E = 0; E < 11; E++) {
-        double finalTime;
-        clock_t start, end;
-        TruePos = 0;
-        TrueNeg = 0;
-        FalsePos = 0;
-        FalseNeg = 0;
-
-        bool EdlibAccept;
-        bool ShoujiAccept;
-
-        int m = reference[0].length();
-
-        start = clock();
-        for (int i = 0; i < reference.size(); i++) {
-
-            ctr++;
-            vector<int> shouji(m);
-
-
-            start = clock();
-
-            //if (E == 4) {
-
-            shouji = slidingWindow(createMap(read[i], reference[i], E), m, E);
-
-            //PRINTTTT
-            /* cout << "\n" << "Final bit vector : ";
-             for (int i = 0; i < shouji.size(); i++) {
-                 cout << shouji[i];
-             }
-             cout << "\n" << "NUMBER OF ONES: ";
-             cout << countOnes(shouji);
-             cout << "\n" << "Size: ";
-             cout << shouji.size();*/
-
-/*
-if (countOnes(shouji, E) <= E) {
-    ShoujiAccept = true;
-} else {
-    ShoujiAccept = false;
-}
-
-
-
-
-const char* const edlibRead = read[i].c_str();
-
-
-EdlibAlignResult resultEdlib = edlibAlign(reference[i].c_str(), m, edlibRead, m, edlibNewAlignConfig(E, EDLIB_MODE_NW, EDLIB_TASK_PATH, NULL, 0));
-edlibFreeAlignResult(resultEdlib);
-if (resultEdlib.editDistance!= -1)
-    EdlibAccept = true;
-else
-    EdlibAccept =false;
-
-
-if(ShoujiAccept && EdlibAccept){
-    TruePos++;
-}
-else if(!ShoujiAccept && !EdlibAccept){
-    TrueNeg++;
-}
-else if(ShoujiAccept && !EdlibAccept){
-    FalsePos++;
-}
-else if(!ShoujiAccept && EdlibAccept){
-    FalseNeg++;
-}
-
-//}
-
-//}
-end = clock();
-
-finalTime += double(end - start) / double(CLOCKS_PER_SEC);
-}
-cout << "\n";
-cout << finalTime << "\t" <<E<<"\t"<<TruePos<<"\t"<<TrueNeg<<"\t"<<FalsePos<<"\t"<<FalseNeg;
-}
-}
-
-
-int main(void){
-//fixedInputMain();
-//multipleInputMain();
-
-bitMatrixFilterProcess();
-
-//checkResultswithEdlib();
-
-return 0;
-}
-*/
-
-//#pragma clang diagnostic pop
