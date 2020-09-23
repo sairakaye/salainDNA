@@ -1,3 +1,9 @@
+/**
+ * @file main.cpp
+ * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
+ * @brief The starting point of the program.
+ */
+
 #include "command.h"
 #include "indexing.h"
 #include "seedselector.h"
