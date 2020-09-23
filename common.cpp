@@ -148,7 +148,7 @@ vector<Read> readReadsFile(string filename) {
 }
 
 /**
- * It gives the reverse strand of the given read.
+ * It converts the read to its reverse strand.
  *
  * @param read - The read to be converted into its reverse complement.
  * @return the reverse strand of the read
