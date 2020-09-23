@@ -179,6 +179,9 @@ int main(int argc, char *argv[]) {
 
     outputSeedSelectorResults(genomeFileName, timeTaken);
 
+    // Uncomment the line below for the pair reads output.
+    //outputPairReads(genomeFileName);
+
     cout << "Starting Bit Matrix..." << endl;
     bitMatrixFilterProcess();
     auto filterTimeEnd = omp_get_wtime();
