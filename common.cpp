@@ -6,13 +6,13 @@
 
 vector<pair<string, int>> alphabetRef = { {"A", 0}, {"C",1}, {"G",2}, {"T", 3} };
 
-unsigned long long int extractRanking(string kMer) {
+unsigned long long int extractRanking(string seed) {
     string binary;
     int rankValue;
 
-    for (int i = 0; i<kMer.length(); i++){
+    for (int i = 0; i<seed.length(); i++){
         for (int j = 0; j< alphabetRef.size(); j++){
-            if (kMer.at(i) + string() == alphabetRef.at(j).first){
+            if (seed.at(i) + string() == alphabetRef.at(j).first){
                 rankValue = alphabetRef.at(j).second;
                 binary.append(bitset<2>(rankValue).to_string());
             }
