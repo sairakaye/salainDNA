@@ -1,6 +1,8 @@
-//
-// Created by saimanalili on 13/04/2020.
-//
+/**
+ * @file indexing.cpp
+ * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
+ * @brief It contains the implementation of the Hash-based indexer.
+ */
 
 #include "indexing.h"
 

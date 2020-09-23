@@ -1,6 +1,9 @@
-//
-// Created by saimanalili on 25/02/2020.
-//
+/**
+ * @file seedselector.cpp
+ * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
+ * @brief It contains the Seed Selector implementation.
+ */
+
 
 #include "seedselector.h"
 

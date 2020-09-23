@@ -1,6 +1,8 @@
-//
-// Created by saimanalili on 11/09/2020.
-//
+/**
+ * @file searchexit.cpp
+ * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
+ * @brief It contains the exit mode implementation of the Seed Selector.
+ */
 
 #include "searchexit.h"
 

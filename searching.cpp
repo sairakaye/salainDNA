@@ -1,6 +1,8 @@
-//
-// Created by saimanalili on 25/02/2020.
-//
+/**
+ * @file searching.cpp
+ * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
+ * @brief It contains the location searching implementation of the Seed Selector.
+ */
 
 #include "searching.h"
 #include "seedselector.h"

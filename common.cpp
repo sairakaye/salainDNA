@@ -1,6 +1,8 @@
-//
-// Created by saimanalili on 25/02/2020.
-//
+/**
+ * @file common.cpp
+ * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
+ * @brief It contains the implementation of the functions needed by the read mapper all throughout the program.
+ */
 
 #include "common.h"
 

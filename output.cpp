@@ -1,6 +1,8 @@
-//
-// Created by saimanalili on 17/04/2020.
-//
+/**
+ * @file output.cpp
+ * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
+ * @brief It contains the implementation of the output results.
+ */
 
 #include "output.h"
 

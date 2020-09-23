@@ -1,6 +1,8 @@
-//
-// Created by saimanalili on 16/04/2020.
-//
+/**
+ * @file openaddressing.cpp
+ * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
+ * @brief It contains the implementation of the Minimizers mode of Hash-based Indexer.
+ */
 
 #include "openaddressing.h"
 

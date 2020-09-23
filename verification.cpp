@@ -1,6 +1,8 @@
-//
-// Created by saimanalili on 21/09/2020.
-//
+/**
+ * @file verification.cpp
+ * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
+ * @brief It contains the implementation of the verification stage.
+ */
 
 #include "verification.h"
 

@@ -1,3 +1,9 @@
+/**
+ * @file bitmatrix.cpp
+ * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
+ * @brief It contains the Bit Matrix Filter Process implementation.
+ */
+
 #include "bitmatrix.h"
 
 //#pragma clang diagnostic push

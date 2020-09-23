@@ -1,6 +1,8 @@
-//
-// Created by saimanalili on 11/09/2020.
-//
+/**
+ * @file searchall.cpp
+ * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
+ * @brief It contains the search all mode implementation of the Seed Selector.
+ */
 
 #include "searchall.h"
 

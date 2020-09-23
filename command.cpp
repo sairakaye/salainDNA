@@ -1,6 +1,8 @@
-//
-// Created by Sai Manalili on 4/8/2020.
-//
+/**
+ * @file command.cpp
+ * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
+ * @brief It contains the implementation of the processing of the arugments.
+ */
 
 #include "command.h"
 
