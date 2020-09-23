@@ -11,38 +11,64 @@
 #include "verification.h"
 #include "output.h"
 
+// Data of the reference genome.
 Genome refGenome;
+
+// A list of reads to be mapped by SalainDNA.
 vector<Read> reads;
 
+// It indicates if the reverse complement of each read will also be mapped or not.
 bool isReverseAccepted;
 
+// The data structure for minimizer-based indexing.
 map<unsigned long long int, vector<unsigned long long int>> minimizers;
+// It is where q-gram ranks are hashed into.
 map<long long, unsigned long long int> codeTable;
+// It contains the starting location of q-grams in the position table.
 vector<unsigned long long int> dirTable;
+// It is a list containing the positions of q-grams in the reference genome.
 vector<unsigned long long int> posTable;
 
+// Overall number of seeds checked by SalainDNA.
 unsigned int numSeeds;
+// Overall number of reads checked by SalainDNA.
 unsigned int numReads;
+// Overall number of accepted seeds by SalainDNA.
 unsigned int numAcceptedSeeds;
+// Overall number of accepted reads by SalainDNA.
 unsigned int numAcceptedReads;
+// Number of possible read locations found from Seed Selector.
 unsigned int numPossibleReadLocations;
+// Number of filtered read locations from Bit Matrix.
 unsigned int numFilteredReadLocations;
+// Number of verified read locations from Edlib.
 unsigned int numVerifiedReadLocations;
 
+// It indicates what mode of hash-based indexer will be used.
 string mode;
+// It indicates what searching mode of the seed selector will be used.
 string searchMode;
-
+// The file name of the output SAM file from SalainDNA.
 string SAMFileName;
 
+// The value of the q-gram.
 unsigned int q;
+// The window value to be used in minimizers Hash-based Indexer.
 unsigned int w;
+// The length of each read.
 unsigned int m;
+// The value of error threshold.
 unsigned int e;
+// The value of load factor used by the code table from the open addressing Hash-based Indexer.
 double loadFactor;
 
+// The runtime of the Hash-based Indexer.
 double indexRunTime;
+// The runtime of Seed Selector.
 double ssRunTime;
+// The runtime of the Bit Matrix.
 double bmRunTime;
+// The runtime of Edlib.
 double verificationRunTime;
 
 /**
