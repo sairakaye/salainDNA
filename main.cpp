@@ -178,10 +178,6 @@ int main(int argc, char *argv[]) {
     ssRunTime = timeTaken;
 
     outputSeedSelectorResults(genomeFileName, timeTaken);
-    //outputFileSeedSelectorResults(genomeFileName, timeTaken);
-
-    /* Uncomment the line below for the pair reads output. */
-    //outputPairReads(genomeFileName);
 
     cout << "Starting Bit Matrix..." << endl;
     bitMatrixFilterProcess();
