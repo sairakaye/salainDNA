@@ -58,7 +58,7 @@ void helpCommands() {
     cout << "\t -l - load factor for open addressing indexing mode (default is 0.9)" << endl;
     cout << "\t -e - error threshold (default is 0)" << endl;
     cout << "\t -s - search mode for seed selector (all - find locations in each seed, exit - when a location is found in the seed, immediately exit)" << endl;
-    cout << "\t -rev - find using reverse complement (0 - false, 1 - true) (default is 0)" << endl;
+    cout << "\t -rev - find using reverse complement (0 - false, 1 - true) (default is 1)" << endl;
     cout << "\t -out - output file for the SAM file" << endl;
 }
 
