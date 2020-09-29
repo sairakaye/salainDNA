@@ -1,5 +1,5 @@
 /**
- * @file bitmatrix.h
+ * @file directaddressing.h
  * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
  * @brief Header file for Direct Addressing, containing function declaration to be used by the program.
  */

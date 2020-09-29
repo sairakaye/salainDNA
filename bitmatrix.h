@@ -9,7 +9,7 @@
 
 #include "common.h"
 
-extern int truePos; // The number  of True Positive locations filtered.
+extern int truePos; // The number of True Positive locations filtered.
 extern int trueNeg; // The number of True Negative locations filtered.
 
 extern unsigned int alignmentNeeded; // The number of accepted filtered locations.

@@ -1,5 +1,5 @@
 /**
- * @file output.h
+ * @file searchexit.h
  * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
  * @brief Header file for the Exit Mode of Seed Selector, containing function declarations to be used by the program.
  */

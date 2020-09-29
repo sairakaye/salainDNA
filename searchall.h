@@ -1,5 +1,5 @@
 /**
- * @file output.h
+ * @file searchall.h
  * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
  * @brief Header file for the Search All Mode of Seed Selector, containing function declarations to be used by the program.
  */

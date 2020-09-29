@@ -1,5 +1,5 @@
 /**
- * @file output.h
+ * @file searching.h
  * @author A. Fajardo, S. Manalili, C. Mercado, R. Zapanta
  * @brief Header file for location searching of Seed Selector, containing function declarations to be used by the program.
  */

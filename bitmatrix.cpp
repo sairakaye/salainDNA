@@ -6,7 +6,7 @@
 
 #include "bitmatrix.h"
 
-int truePos; // The number  of True Positive locations filtered.
+int truePos; // The number of True Positive locations filtered.
 int trueNeg; // The number of True Negative locations filtered.
 
 unsigned int alignmentNeeded = 0; // The number of accepted filtered locations.
