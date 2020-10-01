@@ -37,3 +37,5 @@ make
 ```
 
 After executing the last command, the name and steps included in the system as well as the set of arguments should show on the console.
+
+For the usage guide of SalainDNA, please check the [user manual](https://drive.google.com/file/d/1TKyof1n1cIS7cajTPJ6Wn-E3GK7F3IiZ/view?usp=sharing).
