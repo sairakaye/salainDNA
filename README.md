@@ -1,7 +1,5 @@
 # SalainDNA: A Pre-alignment Filter for DNA Read Mapping on a Multi-core Environment
 
------
-
 ## **Prerequisites**
 
 To run the system, make sure that the following packages are installed:
